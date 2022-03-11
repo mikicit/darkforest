@@ -4,27 +4,33 @@ public class Player {
     private final String name;
     private int x = 0;
     private int y = 0;
+    private int speed = 20;
+    public Sprite sprite;
 
-    public Player(int x, int y, String name) {
-        this.x = x;
-        this.y = y;
+    public Player(String name) {
         this.name = name;
+        sprite = new Sprite("images/player.png");
     }
 
     public void moveUp() {
-        y++;
+        y -= speed;
     }
 
     public void moveRight() {
-        x++;
+        x -= speed;
     }
 
     public void moveDown() {
-        y--;
+        y += speed;
     }
 
     public void moveLeft() {
-        x--;
+        x += speed;
+    }
+
+    public void setCoordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
