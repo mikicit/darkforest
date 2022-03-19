@@ -1,17 +1,15 @@
 package dev.mikicit.game;
 
-import java.awt.Image;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import java.util.LinkedList;
 import java.util.Iterator;
 
 public class TileMap {
     private Image[][] tiles;
-    private LinkedList<Sprite> sprites;
-    private Sprite player;
 
     public TileMap(int width, int height) {
         tiles = new Image[width][height];
-        sprites = new LinkedList<Sprite>();
     }
 
     public int getWidth() {
@@ -27,8 +25,7 @@ public class TileMap {
             y < 0 || y >= getHeight())
         {
             return null;
-        }
-        else {
+        } else {
             return tiles[x][y];
         }
     }
@@ -37,23 +34,14 @@ public class TileMap {
         tiles[x][y] = tile;
     }
 
-    public Sprite getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Sprite player) {
-        this.player = player;
-    }
-
-    public void addSprite(Sprite sprite) {
-        sprites.add(sprite);
-    }
-
-    public void removeSprite(Sprite sprite) {
-        sprites.remove(sprite);
-    }
-
-    public Iterator getSprites() {
-        return sprites.iterator();
+    public void render(GraphicsContext gc) {
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
+                Image tile = getTile(i, j);
+                if (tile != null) {
+                    gc.drawImage(tile, j * 64, i * 64);
+                }
+            }
+        }
     }
 }

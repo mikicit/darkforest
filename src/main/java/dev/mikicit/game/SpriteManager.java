@@ -1,11 +1,19 @@
 package dev.mikicit.game;
 
 import javafx.scene.canvas.GraphicsContext;
-
 import java.util.ArrayList;
 
 public class SpriteManager {
-    ArrayList<Sprite> sprites;
+    private ArrayList<Sprite> sprites;
+    private Sprite player;
+
+    public void addPlayer(Sprite sprite) {
+        player = sprite;
+    }
+
+    public Sprite getPlayer() {
+        return player;
+    }
 
     public void addSprite(Sprite sprite) {
         sprites.add(sprite);
@@ -16,14 +24,22 @@ public class SpriteManager {
     }
 
     public void update(double time) {
-        for (Sprite sprite : sprites) {
-            sprite.update(time);
+        if (sprites != null) {
+            for (Sprite sprite : sprites) {
+                sprite.update(time);
+            }
         }
+
+        player.update(time);
     }
 
     public void render(GraphicsContext gc) {
-        for (Sprite sprite : sprites) {
-            sprite.render(gc);
+        if (sprites != null) {
+            for (Sprite sprite : sprites) {
+                sprite.render(gc);
+            }
         }
+
+        player.render(gc);
     }
 }

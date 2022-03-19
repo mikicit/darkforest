@@ -68,4 +68,20 @@ public class Sprite {
         return " Position: [" + positionX + "," + positionY + "]"
                 + " Velocity: [" + velocityX + "," + velocityY + "]";
     }
+
+    public void moveUp() {
+        addVelocity(0, -100);
+    }
+
+    public void moveRight() {
+        addVelocity(100, 0);
+    }
+
+    public void moveDown() {
+        addVelocity(0, 100);
+    }
+
+    public void moveLeft() {
+        addVelocity(-100, 0);
+    }
 }

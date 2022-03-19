@@ -1,4 +1,6 @@
-package dev.mikicit.game;
+package dev.mikicit.game.entity;
+
+import dev.mikicit.game.Sprite;
 
 public class Player {
     private final String name;
@@ -13,19 +15,19 @@ public class Player {
     }
 
     public void moveUp() {
-        sprite.addVelocity(0, -50);
+        sprite.addVelocity(0, -100);
     }
 
     public void moveRight() {
-        sprite.addVelocity(50, 0);
+        sprite.addVelocity(100, 0);
     }
 
     public void moveDown() {
-        sprite.addVelocity(0, 50);
+        sprite.addVelocity(0, 100);
     }
 
     public void moveLeft() {
-        sprite.addVelocity(-50, 0);
+        sprite.addVelocity(-100, 0);
     }
 
     public String getName() {
