@@ -1,20 +1,71 @@
 package dev.mikicit.game;
 
 import javafx.scene.image.Image;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Rectangle2D;
 
 public class Sprite {
     private Image image;
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    private double positionX;
+    private double positionY;
+    private double velocityX;
+    private double velocityY;
+    private double width;
+    private double height;
     private int priority;
 
-    public Sprite(String url) {
-        image = new Image(url);
+    public Sprite() {
+        positionX = 0;
+        positionY = 0;
+        velocityX = 0;
+        velocityY = 0;
     }
 
-    public Image getFrame() {
-        return image;
+    public void setImage(Image image) {
+        this.image = image;
+        width = image.getWidth();
+        height = image.getHeight();
+    }
+
+    public void setImage(String filename) {
+        Image image = new Image(filename);
+        setImage(image);
+    }
+
+    public void setPosition(double x, double y) {
+        positionX = x;
+        positionY = y;
+    }
+
+    public void setVelocity(double x, double y) {
+        velocityX = x;
+        velocityY = y;
+    }
+
+    public void addVelocity(double x, double y) {
+        velocityX += x;
+        velocityY += y;
+    }
+
+    public void update(double time) {
+        positionX += velocityX * time;
+        positionY += velocityY * time;
+    }
+
+    public void render(GraphicsContext gc) {
+        gc.drawImage(image, positionX, positionY);
+    }
+
+    public Rectangle2D getBoundary() {
+        return new Rectangle2D(positionX,positionY,width,height);
+    }
+
+    public boolean intersects(Sprite s) {
+        return s.getBoundary().intersects(this.getBoundary());
+    }
+
+    public String toString() {
+        return " Position: [" + positionX + "," + positionY + "]"
+                + " Velocity: [" + velocityX + "," + velocityY + "]";
     }
 }

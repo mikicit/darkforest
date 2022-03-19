@@ -2,43 +2,30 @@ package dev.mikicit.game;
 
 public class Player {
     private final String name;
-    private int x = 0;
-    private int y = 0;
-    private int speed = 20;
+    private Inventory inventory;
     public Sprite sprite;
 
     public Player(String name) {
         this.name = name;
-        sprite = new Sprite("images/player.png");
+        sprite = new Sprite();
+        sprite.setImage("sprite/player.png");
+        inventory = new Inventory();
     }
 
     public void moveUp() {
-        y -= speed;
+        sprite.addVelocity(0, -50);
     }
 
     public void moveRight() {
-        x -= speed;
+        sprite.addVelocity(50, 0);
     }
 
     public void moveDown() {
-        y += speed;
+        sprite.addVelocity(0, 50);
     }
 
     public void moveLeft() {
-        x += speed;
-    }
-
-    public void setCoordinate(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+        sprite.addVelocity(-50, 0);
     }
 
     public String getName() {
