@@ -64,11 +64,6 @@ public class Sprite {
         return s.getBoundary().intersects(this.getBoundary());
     }
 
-    public String toString() {
-        return " Position: [" + positionX + "," + positionY + "]"
-                + " Velocity: [" + velocityX + "," + velocityY + "]";
-    }
-
     public double getWidth() {
         return width;
     }
@@ -99,5 +94,10 @@ public class Sprite {
 
     public void moveLeft() {
         addVelocity(-100, 0);
+    }
+
+    public String toString() {
+        return " Position: [" + positionX + "," + positionY + "]"
+                + " Velocity: [" + velocityX + "," + velocityY + "]";
     }
 }

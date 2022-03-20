@@ -101,24 +101,38 @@ public class Game extends Application {
                 gc.clearRect(0, 0, mapWidth, mapHeight);
                 playerSprite.setVelocity(0, 0);
 
-                if (input.contains("LEFT"))
+                if (input.contains("LEFT") && playerSprite.getX() - 1 > 0) {
                     playerSprite.moveLeft();
-                if (input.contains("RIGHT"))
+                }
+                if (input.contains("RIGHT") && playerSprite.getX() + playerSprite.getWidth() + 1 < mapWidth) {
                     playerSprite.moveRight();
-                if (input.contains("UP"))
+                }
+                if (input.contains("UP") && playerSprite.getY() - 1 > 0) {
                     playerSprite.moveUp();
-                if (input.contains("DOWN"))
+                }
+                if (input.contains("DOWN") && playerSprite.getY() + playerSprite.getHeight() + 1 < mapHeight) {
                     playerSprite.moveDown();
+                }
 
                 spriteManager.update(elapsedTime);
                 tileMap.render(gc);
                 spriteManager.render(gc);
 
-                double cameraX = ((playerSprite.getX() - windowWidth / 2) + playerSprite.getWidth() / 2) * -1;
-                double cameraY = ((playerSprite.getY() - windowHeight / 2) + playerSprite.getHeight() / 2) * -1;
+                // Camera
+                double cameraX = ((playerSprite.getX() - windowWidth / 2) + playerSprite.getWidth() / 2);
+                double cameraY = ((playerSprite.getY() - windowHeight / 2) + playerSprite.getHeight() / 2);
 
-                pane.setTranslateX(cameraX);
-                pane.setTranslateY(cameraY);
+                if ((playerSprite.getY() + windowHeight / 2 + playerSprite.getHeight() / 2) < mapHeight &&
+                    (playerSprite.getY() - windowHeight / 2 + playerSprite.getHeight() / 2) > 0
+                ) {
+                    pane.setTranslateY(cameraY * -1);
+                }
+
+                if ((playerSprite.getX() + windowWidth / 2 + playerSprite.getWidth() / 2) < mapWidth &&
+                    (playerSprite.getX() - windowWidth / 2 + playerSprite.getWidth() / 2) > 0
+                ) {
+                    pane.setTranslateX(cameraX * -1);
+                }
             }
         }.start();
 

@@ -5,7 +5,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class TileMapManager {
+    private int tileSize;
+
     public TileMap createTileMap(String filename, int tileSize) {
+        this.tileSize = tileSize;
         int width = 0;
         int height = 0;
         ArrayList<String> lines = new ArrayList<String>();
@@ -54,5 +57,13 @@ public class TileMapManager {
         }
 
         return tileMap;
+    }
+
+    public int convertTileXToPixel(int x) {
+        return x * tileSize;
+    }
+
+    public int convertTileYToPixel(int y) {
+        return y * tileSize;
     }
 }

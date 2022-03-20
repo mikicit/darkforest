@@ -2,7 +2,7 @@ package dev.mikicit.game.entity;
 
 public class Player {
     private final String name;
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public Player(String name) {
         this.name = name;
