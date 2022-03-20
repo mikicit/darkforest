@@ -69,6 +69,22 @@ public class Sprite {
                 + " Velocity: [" + velocityX + "," + velocityY + "]";
     }
 
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getX() {
+        return positionX;
+    }
+
+    public double getY() {
+        return positionY;
+    }
+
     public void moveUp() {
         addVelocity(0, -100);
     }

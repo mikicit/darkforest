@@ -5,13 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class TileMapManager {
-//    public static void main(String[] args) throws IOException {
-//        TileMapCreator tmc = new TileMapCreator();
-//
-//        tmc.createTileMap("src/main/resources/map/map.txt");
-//    }
-
-    public TileMap createTileMap(String filename) {
+    public TileMap createTileMap(String filename, int tileSize) {
         int width = 0;
         int height = 0;
         ArrayList<String> lines = new ArrayList<String>();
@@ -36,10 +30,12 @@ public class TileMapManager {
         height = lines.size();
 
         // Tiles
-        TileMap tileMap = new TileMap(width, height);
+        TileMap tileMap = new TileMap(width, height, tileSize);
 
-        System.out.println(tileMap.getHeight());
-
+        /*
+         * TODO
+         * Сделать загрузку по ID
+         */
         Image waterTile = new Image("tile/water.png");
         Image grassTile = new Image("tile/grass.png");
 

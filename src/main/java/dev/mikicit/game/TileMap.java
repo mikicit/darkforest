@@ -2,14 +2,14 @@ package dev.mikicit.game;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import java.util.LinkedList;
-import java.util.Iterator;
 
 public class TileMap {
     private Image[][] tiles;
+    private int tileSize;
 
-    public TileMap(int width, int height) {
+    public TileMap(int width, int height, int tileSize) {
         tiles = new Image[width][height];
+        this.tileSize = tileSize;
     }
 
     public int getWidth() {
@@ -37,9 +37,9 @@ public class TileMap {
     public void render(GraphicsContext gc) {
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
-                Image tile = getTile(i, j);
+                Image tile = getTile(j, i);
                 if (tile != null) {
-                    gc.drawImage(tile, j * 64, i * 64);
+                    gc.drawImage(tile, j * tileSize, i * tileSize);
                 }
             }
         }

@@ -10,10 +10,17 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Game extends Application {
+    private final int tileSize = 64;
+    private final int windowWidth = 1200;
+    private final int windowHeight = 720;
+    private int mapWidth;
+    private int mapHeight;
+
     private SpriteManager spriteManager;
     private TileMap tileMap;
 
@@ -23,17 +30,22 @@ public class Game extends Application {
         spriteManager = new SpriteManager();
         Sprite playerSprite = new Sprite();
         playerSprite.setImage("sprite/player.png");
+        double playerStartX = (windowWidth / 2) - playerSprite.getWidth() / 2;
+        double playerStartY = (windowHeight / 2) - playerSprite.getHeight() / 2;
+        playerSprite.setPosition(playerStartX, playerStartY);
         spriteManager.addPlayer(playerSprite);
 
         // TileMap Init
         TileMapManager tileMapManager = new TileMapManager();
-        tileMap = tileMapManager.createTileMap("src/main/resources/map/map.txt");
+        tileMap = tileMapManager.createTileMap("src/main/resources/map/map.txt", tileSize);
+        mapWidth = tileMap.getWidth() * tileSize;
+        mapHeight = tileMap.getHeight() * tileSize;
 
         // Entity Init
         Player player = new Player("God");
 
         Pane root = new Pane();
-        Canvas canvas = new Canvas(tileMap.getWidth() * 64, tileMap.getHeight() * 64);
+        Canvas canvas = new Canvas(mapWidth, mapHeight);
         Pane pane = new Pane();
 
         pane.getChildren().add(canvas);
@@ -41,7 +53,9 @@ public class Game extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        Scene scene = new Scene(root, 1200, 720);
+        Translate translate = new Translate();
+
+        Scene scene = new Scene(root, windowWidth, windowHeight);
         primaryStage.setScene(scene);
         primaryStage.setTitle("RPG Game");
         primaryStage.setResizable(false);
@@ -84,7 +98,7 @@ public class Game extends Application {
                 double elapsedTime = (now - lastNanoTime.value) / 1000000000.0;
                 lastNanoTime.value = now;
 
-                gc.clearRect(0, 0, tileMap.getWidth() * 64,tileMap.getHeight() * 64);
+                gc.clearRect(0, 0, mapWidth, mapHeight);
                 playerSprite.setVelocity(0, 0);
 
                 if (input.contains("LEFT"))
@@ -99,13 +113,21 @@ public class Game extends Application {
                 spriteManager.update(elapsedTime);
                 tileMap.render(gc);
                 spriteManager.render(gc);
+
+                double cameraX = ((playerSprite.getX() - windowWidth / 2) + playerSprite.getWidth() / 2) * -1;
+                double cameraY = ((playerSprite.getY() - windowHeight / 2) + playerSprite.getHeight() / 2) * -1;
+
+                pane.setTranslateX(cameraX);
+                pane.setTranslateY(cameraY);
             }
         }.start();
 
-        System.out.println(tileMap);
-
         // Open Window
         primaryStage.show();
+    }
+
+    private void initSettings() {
+
     }
 
     public static void main(String[] args) {
