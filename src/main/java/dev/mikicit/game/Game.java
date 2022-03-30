@@ -10,7 +10,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
@@ -36,8 +35,8 @@ public class Game extends Application {
         spriteManager.addPlayer(playerSprite);
 
         // TileMap Init
-        TileMapManager tileMapManager = new TileMapManager();
-        tileMap = tileMapManager.createTileMap("src/main/resources/map/map.txt", tileSize);
+        TileMapReader tileMapReader = new TileMapReader();
+        tileMap = tileMapReader.createTileMap("src/main/resources/map/map.txt", tileSize);
         mapWidth = tileMap.getWidth() * tileSize;
         mapHeight = tileMap.getHeight() * tileSize;
 
@@ -52,8 +51,6 @@ public class Game extends Application {
         root.getChildren().add(pane);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        Translate translate = new Translate();
 
         Scene scene = new Scene(root, windowWidth, windowHeight);
         primaryStage.setScene(scene);
@@ -101,6 +98,11 @@ public class Game extends Application {
                 gc.clearRect(0, 0, mapWidth, mapHeight);
                 playerSprite.setVelocity(0, 0);
 
+                int convertedX = tileMap.convertPixelToTile(playerSprite.getX());
+                int convertedY = tileMap.convertPixelToTile(playerSprite.getY());
+
+                System.out.println("X: " + convertedX + ", Y: " + convertedY + ", TileID: " + tileMap.getTile(convertedX, convertedY).getId());
+
                 if (input.contains("LEFT") && playerSprite.getX() - 1 > 0) {
                     playerSprite.moveLeft();
                 }
@@ -138,10 +140,6 @@ public class Game extends Application {
 
         // Open Window
         primaryStage.show();
-    }
-
-    private void initSettings() {
-
     }
 
     public static void main(String[] args) {

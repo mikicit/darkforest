@@ -56,12 +56,20 @@ public class Sprite {
         gc.drawImage(image, positionX, positionY);
     }
 
-    public Rectangle2D getBoundary() {
-        return new Rectangle2D(positionX,positionY,width,height);
+    public Rectangle2D getCollisionBox() {
+        return new Rectangle2D(positionX, positionY, width, height);
     }
 
-    public boolean intersects(Sprite s) {
-        return s.getBoundary().intersects(this.getBoundary());
+    public Rectangle2D getMoveBox() {
+        return new Rectangle2D(positionX, positionY, width, height);
+    }
+
+    public boolean intersectsCollectionBox(Sprite s) {
+        return s.getCollisionBox().intersects(this.getCollisionBox());
+    }
+
+    public boolean intersectsMoveBox(Sprite s) {
+        return s.getCollisionBox().intersects(this.getMoveBox());
     }
 
     public double getWidth() {

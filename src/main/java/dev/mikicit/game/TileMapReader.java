@@ -1,10 +1,9 @@
 package dev.mikicit.game;
 
-import javafx.scene.image.Image;
 import java.io.*;
 import java.util.ArrayList;
 
-public class TileMapManager {
+public class TileMapReader {
     private int tileSize;
 
     public TileMap createTileMap(String filename, int tileSize) {
@@ -39,8 +38,9 @@ public class TileMapManager {
          * TODO
          * Сделать загрузку по ID
          */
-        Image waterTile = new Image("tile/water.png");
-        Image grassTile = new Image("tile/grass.png");
+
+        Tile waterTile = new Tile("tile/water.png", 1, false);
+        Tile grassTile = new Tile("tile/grass.png", 2, true);
 
         for (int i = 0; i < lines.size(); i++) {
             for (int j = 0; j < lines.get(i).length(); j++) {
@@ -57,13 +57,5 @@ public class TileMapManager {
         }
 
         return tileMap;
-    }
-
-    public int convertTileXToPixel(int x) {
-        return x * tileSize;
-    }
-
-    public int convertTileYToPixel(int y) {
-        return y * tileSize;
     }
 }

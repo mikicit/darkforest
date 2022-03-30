@@ -1,14 +1,13 @@
 package dev.mikicit.game;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 public class TileMap {
-    private Image[][] tiles;
+    private Tile[][] tiles;
     private int tileSize;
 
     public TileMap(int width, int height, int tileSize) {
-        tiles = new Image[width][height];
+        tiles = new Tile[width][height];
         this.tileSize = tileSize;
     }
 
@@ -20,7 +19,7 @@ public class TileMap {
         return tiles[0].length;
     }
 
-    public Image getTile(int x, int y) {
+    public Tile getTile(int x, int y) {
         if (x < 0 || x >= getWidth() ||
             y < 0 || y >= getHeight())
         {
@@ -30,18 +29,27 @@ public class TileMap {
         }
     }
 
-    public void setTile(int x, int y, Image tile) {
+    public void setTile(int x, int y, Tile tile) {
         tiles[x][y] = tile;
     }
 
     public void render(GraphicsContext gc) {
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
-                Image tile = getTile(j, i);
+                Tile tile = getTile(j, i);
                 if (tile != null) {
-                    gc.drawImage(tile, j * tileSize, i * tileSize);
+                    tile.render(gc, convertTileToPixel(j), convertTileToPixel(i));
                 }
             }
         }
     }
+
+    public int convertTileToPixel(int coord) {
+        return coord * tileSize;
+    }
+
+    public int convertPixelToTile(double coord) {
+        return (int) (coord / tileSize);
+    }
+
 }

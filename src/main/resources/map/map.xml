@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+    <meta>
+
+    </meta>
+    <tiles>
+        <tilesRow>
+            <tile id="1" collapsed="true"/>
+        </tilesRow>
+    </tiles>
+</map>
