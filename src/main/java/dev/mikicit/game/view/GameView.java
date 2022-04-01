@@ -2,28 +2,25 @@ package dev.mikicit.game.view;
 
 import dev.mikicit.game.controller.GameController;
 import dev.mikicit.game.core.Config;
-import dev.mikicit.game.core.util.tileEngine.TileMap;
-import dev.mikicit.game.core.util.tileEngine.TileMapReader;
-import dev.mikicit.game.model.Player;
-import dev.mikicit.game.model.Sprite;
-import dev.mikicit.game.model.SpriteManager;
+import dev.mikicit.game.core.tileEngine.TileMap;
+import dev.mikicit.game.core.tileEngine.TileMapReader;
+import dev.mikicit.game.entity.Player;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class GameView {
-    private final GameController gameController;
+public class GameView extends AView {
     private final GraphicsContext gc;
     private final TileMap tileMap;
     private final Scene scene;
 
-    public GameView(GameController gameController) {
-        this.gameController = gameController;
+    public GameView(GameController controller) {
+        this.controller = controller;
 
         // Sprites Init
-        Player player = gameController.getGameModel().getPlayer();
+        Player player = controller.getGameModel().getPlayer();
 //        SpriteManager spriteManager = new SpriteManager();
         double playerStartX = (double) (Config.getWindowWidth() / 2) - player.getWidth() / 2;
         double playerStartY = (double) (Config.getWindowWidth() / 2) - player.getHeight() / 2;
@@ -45,10 +42,6 @@ public class GameView {
         gc = canvas.getGraphicsContext2D();
 
         scene = new Scene(root, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
-    }
-
-    public Scene getScene() {
-        return scene;
     }
 
     public void update(double delta) {
@@ -94,7 +87,7 @@ public class GameView {
 //        }
     }
 
-    public void render(double delta) {
+    public void render() {
         tileMap.render(gc);
     }
 }

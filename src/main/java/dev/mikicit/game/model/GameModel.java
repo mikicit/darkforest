@@ -1,6 +1,8 @@
 package dev.mikicit.game.model;
 
 
+import dev.mikicit.game.entity.Player;
+
 public class GameModel {
     Player player;
 

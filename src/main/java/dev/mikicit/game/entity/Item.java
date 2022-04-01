@@ -1,4 +1,4 @@
-package dev.mikicit.game.model;
+package dev.mikicit.game.entity;
 
 public class Item {
     private int id;

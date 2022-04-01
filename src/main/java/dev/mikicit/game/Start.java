@@ -1,6 +1,8 @@
 package dev.mikicit.game;
 
 import dev.mikicit.game.controller.GameController;
+import dev.mikicit.game.core.Config;
+import dev.mikicit.game.core.StateManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,8 +12,11 @@ public class Start extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        GameController gameController = new GameController(primaryStage);
-        gameController.startGame();
+    public void start(Stage stage) {
+        stage.setTitle(Config.getWindowName());
+        stage.setResizable(false);
+        stage.centerOnScreen();
+
+        StateManager.init(stage);
     }
 }

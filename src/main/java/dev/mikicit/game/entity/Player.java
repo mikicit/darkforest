@@ -1,4 +1,6 @@
-package dev.mikicit.game.model;
+package dev.mikicit.game.entity;
+
+import dev.mikicit.game.model.Sprite;
 
 public class Player extends Sprite {
     private final String name;

@@ -1,4 +1,4 @@
-package dev.mikicit.game.core.util.tileEngine;
+package dev.mikicit.game.core.tileEngine;
 
 import javafx.scene.canvas.GraphicsContext;
 
