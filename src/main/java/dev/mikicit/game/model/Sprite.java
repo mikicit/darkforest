@@ -1,4 +1,4 @@
-package dev.mikicit.game;
+package dev.mikicit.game.model;
 
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;

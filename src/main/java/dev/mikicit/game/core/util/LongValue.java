@@ -1,4 +1,4 @@
-package dev.mikicit.game.util;
+package dev.mikicit.game.core.util;
 
 public class LongValue
 {

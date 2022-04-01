@@ -1,4 +1,4 @@
-package dev.mikicit.game;
+package dev.mikicit.game.core.util.tileEngine;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;

@@ -1,4 +1,4 @@
-package dev.mikicit.game.entity;
+package dev.mikicit.game.model;
 
 import java.util.ArrayList;
 

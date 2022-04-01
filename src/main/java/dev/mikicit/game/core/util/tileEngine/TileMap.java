@@ -1,14 +1,18 @@
-package dev.mikicit.game;
+package dev.mikicit.game.core.util.tileEngine;
 
 import javafx.scene.canvas.GraphicsContext;
 
 public class TileMap {
     private Tile[][] tiles;
     private int tileSize;
+    private int mapWidth;
+    private int mapHeight;
 
     public TileMap(int width, int height, int tileSize) {
-        tiles = new Tile[width][height];
+        this.tiles = new Tile[width][height];
         this.tileSize = tileSize;
+        this.mapWidth = getWidth() * tileSize;
+        this.mapHeight = getHeight() * tileSize;
     }
 
     public int getWidth() {
@@ -52,4 +56,11 @@ public class TileMap {
         return (int) (coord / tileSize);
     }
 
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
 }
