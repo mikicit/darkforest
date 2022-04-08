@@ -4,12 +4,16 @@ import java.util.HashMap;
 import dev.mikicit.game.controller.AController;
 import dev.mikicit.game.controller.GameController;
 import dev.mikicit.game.controller.MainMenuController;
+import dev.mikicit.game.model.AModel;
+import dev.mikicit.game.model.GameModel;
 import javafx.animation.AnimationTimer;
 import javafx.stage.Stage;
 
 public class StateManager {
     private static HashMap<String, AController> states = new HashMap<>();
+    private static HashMap<String, AModel> models = new HashMap<>();
     private static AController currentController;
+    private static AModel currentModel;
     private static Stage stage;
     private static GameLoop gameLoop;
 
@@ -19,11 +23,13 @@ public class StateManager {
         // Init States
         states.put("GAME", new GameController());
         states.put("MENU", new MainMenuController());
-        currentController = states.get("MENU");
+        currentController = states.get("GAME");
+
+        models.put("GAME", new GameModel());
+        currentModel = models.get("GAME");
 
         // Init Game Loop
-        StateManager.gameLoop = new GameLoop(currentController);
-        System.out.println(currentController.getView().getScene());
+        StateManager.gameLoop = new GameLoop(currentController, currentModel);
 
         stage.setScene(currentController.getView().getScene());
 
@@ -55,13 +61,15 @@ public class StateManager {
     }
 }
 
-
+// Game loop
 class GameLoop extends AnimationTimer {
     private long lastNanoTime = System.nanoTime();
-    private AController controller;
+    private final AController controller;
+    private final AModel model;
 
-    public GameLoop(AController controller) {
+    public GameLoop(AController controller, AModel model) {
         this.controller = controller;
+        this.model = model;
     }
 
     @Override
@@ -69,7 +77,7 @@ class GameLoop extends AnimationTimer {
         double delta = (now - lastNanoTime) / 1000000000.0;
         lastNanoTime = now;
 
-        controller.getView().update(delta);
+        model.update(delta);
         controller.getView().render();
     }
 }

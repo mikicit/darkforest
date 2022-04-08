@@ -41,6 +41,8 @@ public class TileMapReader {
 
         Tile waterTile = new Tile("tile/water.png", 1, false);
         Tile grassTile = new Tile("tile/grass.png", 2, true);
+        Tile bushTile = new Tile("tile/bush.png", 3, false);
+        Tile earthTile = new Tile("tile/earth.png", 4, true);
 
         for (int i = 0; i < lines.size(); i++) {
             for (int j = 0; j < lines.get(i).length(); j++) {
@@ -50,6 +52,10 @@ public class TileMapReader {
                     tileMap.setTile(j, i, grassTile);
                 } else if (c == 'B') {
                     tileMap.setTile(j, i, waterTile);
+                } else if (c == 'C') {
+                    tileMap.setTile(j, i, bushTile);
+                } else if (c == 'D') {
+                    tileMap.setTile(j, i, earthTile);
                 } else {
                     tileMap.setTile(j, i, null);
                 }

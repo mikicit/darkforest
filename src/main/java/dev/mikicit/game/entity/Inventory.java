@@ -1,21 +1,21 @@
 package dev.mikicit.game.entity;
 
-import dev.mikicit.game.entity.Item;
+import dev.mikicit.game.entity.item.AItem;
 
 import java.util.ArrayList;
 
 public class Inventory {
-    ArrayList<Item> items;
+    ArrayList<AItem> items;
 
     public Inventory() {
 
     }
 
-    public void addItem(Item item) {
+    public void addItem(AItem item) {
         items.add(item);
     }
 
-    public void removeItem(Item item) {
+    public void removeItem(AItem item) {
         items.remove(item);
     }
 }

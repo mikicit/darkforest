@@ -12,6 +12,4 @@ public class Player extends Sprite {
         this.inventory = new Inventory();
         setImage("sprite/player.png");
     }
-
-
 }

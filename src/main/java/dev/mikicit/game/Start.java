@@ -1,6 +1,5 @@
 package dev.mikicit.game;
 
-import dev.mikicit.game.controller.GameController;
 import dev.mikicit.game.core.Config;
 import dev.mikicit.game.core.StateManager;
 import javafx.application.Application;
