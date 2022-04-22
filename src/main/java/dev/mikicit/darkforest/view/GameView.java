@@ -1,6 +1,8 @@
 package dev.mikicit.darkforest.view;
 
 import dev.mikicit.darkforest.controller.GameController;
+import dev.mikicit.darkforest.core.sprite.Sprite;
+import dev.mikicit.darkforest.core.sprite.SpriteManager;
 import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.core.Config;
@@ -16,11 +18,13 @@ public class GameView extends AView {
     private final TileMap tileMap;
     private final GraphicsContext gc;
     private final Pane canvasRoot;
+    private final SpriteManager spriteManager;
 
     public GameView(GameController controller) {
         this.controller = controller;
         gameModel = GameModel.getInstance();
         tileMap = gameModel.getTileMap();
+        spriteManager = gameModel.getSpriteManager();
 
         // Init main pane and canvas
         Pane root = new Pane();
@@ -47,10 +51,6 @@ public class GameView extends AView {
         gc.clearRect(0, 0, tileMap.getMapWidth(), tileMap.getMapHeight());
         gameModel.getTileMap().render(gc);
 
-        for (Monster monster : gameModel.getMonsters()) {
-            monster.render(gc);
-        }
-
-        gameModel.getPlayer().render(gc);
+        spriteManager.render(gc);
     }
 }

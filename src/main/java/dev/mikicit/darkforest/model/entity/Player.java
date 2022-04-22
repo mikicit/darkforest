@@ -12,8 +12,10 @@ public class Player extends Sprite {
     private final double basicHealth;
     private final double basicDamage;
     private final double basicArmor;
+    private final double basicSpeed;
     private final double damageRadius;
     private double currentHealth;
+    private boolean isBoostedSpeed;
     private boolean isDead;
 
     // Inventory
@@ -29,8 +31,10 @@ public class Player extends Sprite {
         this.currentHealth = health;
         this.basicDamage = damage;
         this.basicArmor = armor;
+        this.basicSpeed = 1;
         this.damageRadius = damageRadius;
         this.inventory = new Inventory();
+        this.isBoostedSpeed = false;
         this.isDead = false;
 
         setImage("player/player.png");

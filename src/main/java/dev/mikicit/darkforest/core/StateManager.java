@@ -36,13 +36,11 @@ public class StateManager {
 
     public static void goToGame() {
         currentController = states.get("GAME");
-        System.out.println(currentController.getView().getScene());
         stage.setScene(currentController.getView().getScene());
     }
 
     public static void goToMainMenu() {
         currentController = states.get("MENU");
-        System.out.println(currentController.getView().getScene());
         stage.setScene(currentController.getView().getScene());
     }
 

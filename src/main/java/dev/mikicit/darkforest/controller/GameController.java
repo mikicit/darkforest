@@ -1,5 +1,6 @@
 package dev.mikicit.darkforest.controller;
 
+import dev.mikicit.darkforest.core.sprite.SpriteManager;
 import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.StateManager;
@@ -7,6 +8,7 @@ import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
 import dev.mikicit.darkforest.view.GameView;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class GameController extends AController {
     private final ArrayList<Monster> monsters;
     private final TileMap tileMap;
     private final Pane canvasRoot;
+    private final SpriteManager spriteManager;
 
     public GameController() {
         gameModel = GameModel.getInstance();
@@ -28,6 +31,7 @@ public class GameController extends AController {
         monsters = gameModel.getMonsters();
         tileMap = gameModel.getTileMap();
         canvasRoot = ((GameView) view).getCanvasRoot();
+        spriteManager = gameModel.getSpriteManager();
     }
 
     // Event Handlers
@@ -37,8 +41,18 @@ public class GameController extends AController {
             input.add(code);
         }
 
+        // Main Menu
         if (code.equals("ESCAPE")) {
             StateManager.goToMainMenu();
+        }
+
+        // Player
+        if (code.equals("J")) {
+            System.out.println("Попытка атаки!");
+        }
+
+        if (code.equals("SPACE")) {
+
         }
     }
 
@@ -47,30 +61,55 @@ public class GameController extends AController {
         input.remove(code);
     }
 
-    @Override
-    public void tick(double delta) {
-        // Update
-
-        // Player moving
-        player.setVelocity(0, 0);
+    private void updatePlayerPosition() {
+        Rectangle2D moveBox = player.getMoveBox();
 
         if (input.contains("A") && player.getX() - 1 > 0) {
-            player.moveLeft();
+            int tileMinX = tileMap.convertPixelToTile(moveBox.getMinX() - 1);
+            int tileMinY = tileMap.convertPixelToTile(moveBox.getMinY());
+            int tileMaxY = tileMap.convertPixelToTile(moveBox.getMaxY());
+
+            if (tileMap.getTile(tileMinX, tileMinY).isPassable() &&
+                    tileMap.getTile(tileMinX, tileMaxY).isPassable()) {
+                player.moveLeft();
+            }
         }
 
         if (input.contains("D") && player.getX() + player.getWidth() + 1 < tileMap.getMapWidth()) {
-            player.moveRight();
+            int tileMinY = tileMap.convertPixelToTile(moveBox.getMinY());
+            int tileMaxY = tileMap.convertPixelToTile(moveBox.getMaxY());
+            int tileMaxX = tileMap.convertPixelToTile(moveBox.getMaxX() + 1);
+
+            if (tileMap.getTile(tileMaxX, tileMinY).isPassable() &&
+                    tileMap.getTile(tileMaxX, tileMaxY).isPassable()) {
+                player.moveRight();
+            }
         }
 
         if (input.contains("W") && player.getY() - 1 > 0) {
-            player.moveUp();
+            int tileMinX = tileMap.convertPixelToTile(moveBox.getMinX());
+            int tileMinY = tileMap.convertPixelToTile(moveBox.getMinY() - 1);
+            int tileMaxX = tileMap.convertPixelToTile(moveBox.getMaxX());
+
+            if (tileMap.getTile(tileMinX, tileMinY).isPassable() &&
+                    tileMap.getTile(tileMaxX, tileMinY).isPassable()) {
+                player.moveUp();
+            }
         }
 
         if (input.contains("S") && player.getY() + player.getHeight() + 1 < tileMap.getMapHeight()) {
-            player.moveDown();
-        }
+            int tileMinX = tileMap.convertPixelToTile(moveBox.getMinX());
+            int tileMaxY = tileMap.convertPixelToTile(moveBox.getMaxY() + 1);
+            int tileMaxX = tileMap.convertPixelToTile(moveBox.getMaxX());
 
-        // Camera
+            if (tileMap.getTile(tileMinX, tileMaxY).isPassable() &&
+                    tileMap.getTile(tileMaxX, tileMaxY).isPassable()) {
+                player.moveDown();
+            }
+        }
+    }
+
+    private void updateCameraPosition() {
         double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
         double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
 
@@ -83,13 +122,25 @@ public class GameController extends AController {
         if (offsetX > 0 && offsetX < tileMap.getMapWidth() - Config.getWindowWidth()) {
             canvasRoot.setTranslateX(offsetX * -1);
         }
+    }
+
+    @Override
+    public void tick(double delta) {
+        // Update
+        updatePlayerPosition();
+
+        // Camera
+        updateCameraPosition();
 
         // Check intersections
+
+        // Monsters
         for (Monster monster : monsters) {
-            System.out.println(player.intersectsCollectionBox(monster));
+//            System.out.println(player.intersectsCollectionBox(monster));
         }
 
-        player.update(delta);
+        // Sprite Update
+        spriteManager.update(delta);
 
         // Render
         view.render();

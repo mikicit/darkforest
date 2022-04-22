@@ -4,27 +4,32 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Sprite {
-    private Image image;
-    private double positionX;
-    private double positionY;
-    private double velocityX;
-    private double velocityY;
-    private double width;
-    private double height;
-    private int priority;
+public abstract class Sprite {
+    enum Direction {
+        TOP,
+        RIGHT,
+        BOTTOM,
+        LEFT
+    }
+
+    protected Image image;
+    protected double positionX;
+    protected double positionY;
+    protected double width;
+    protected double height;
+    protected double speed;
+    protected Direction currentDirection;
 
     public Sprite() {
         positionX = 0;
         positionY = 0;
-        velocityX = 0;
-        velocityY = 0;
     }
 
     public void setImage(Image image) {
         this.image = image;
         width = image.getWidth();
         height = image.getHeight();
+        speed = 1;
     }
 
     public void setImage(String filename) {
@@ -37,31 +42,12 @@ public class Sprite {
         positionY = y;
     }
 
-    public void setVelocity(double x, double y) {
-        velocityX = x;
-        velocityY = y;
-    }
-
-    public void addVelocity(double x, double y) {
-        velocityX += x;
-        velocityY += y;
-    }
-
     public void update(double time) {
-        positionX += velocityX * time;
-        positionY += velocityY * time;
+
     }
 
     public void render(GraphicsContext gc) {
         gc.drawImage(image, positionX, positionY);
-    }
-
-    public Rectangle2D getCollisionBox() {
-        return new Rectangle2D(positionX, positionY, width, height);
-    }
-
-    public Rectangle2D getMoveBox() {
-        return new Rectangle2D(positionX, positionY, width, height);
     }
 
     public boolean intersectsCollectionBox(Sprite s) {
@@ -70,6 +56,16 @@ public class Sprite {
 
     public boolean intersectsMoveBox(Sprite s) {
         return s.getCollisionBox().intersects(this.getMoveBox());
+    }
+
+    // Getters
+
+    public Rectangle2D getCollisionBox() {
+        return new Rectangle2D(positionX, positionY, width, height);
+    }
+
+    public Rectangle2D getMoveBox() {
+        return new Rectangle2D(positionX, positionY + height - 16, width, 16);
     }
 
     public double getWidth() {
@@ -88,25 +84,30 @@ public class Sprite {
         return positionY;
     }
 
+    public Direction getDirection() {
+        return currentDirection;
+    }
+
+    // Moving
+
     public void moveUp() {
-        addVelocity(0, -100);
+        currentDirection = Direction.TOP;
+        positionY -= speed;
     }
 
     public void moveRight() {
-        addVelocity(100, 0);
+        currentDirection = Direction.RIGHT;
+        positionX += speed;
     }
 
     public void moveDown() {
-        addVelocity(0, 100);
+        currentDirection = Direction.BOTTOM;
+        positionY += speed;
     }
 
     public void moveLeft() {
-        addVelocity(-100, 0);
-    }
-
-    public String toString() {
-        return " Position: [" + positionX + "," + positionY + "]"
-                + " Velocity: [" + velocityX + "," + velocityY + "]";
+        currentDirection = Direction.LEFT;
+        positionX -= speed;
     }
 }
 
