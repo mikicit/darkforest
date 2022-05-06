@@ -5,6 +5,7 @@ import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.model.GameModel;
+import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
 import dev.mikicit.darkforest.view.GameView;
@@ -18,6 +19,7 @@ public class GameController extends AController {
     private final GameModel gameModel;
     private final Player player;
     private final ArrayList<Monster> monsters;
+    private final ArrayList<HealthBottle> healthBottles;
     private final TileMap tileMap;
     private final Pane canvasRoot;
     private final SpriteManager spriteManager;
@@ -29,6 +31,8 @@ public class GameController extends AController {
         // Links to game entitles
         player = gameModel.getPlayer();
         monsters = gameModel.getMonsters();
+        healthBottles = gameModel.getHealthBottles();
+
         tileMap = gameModel.getTileMap();
         canvasRoot = ((GameView) view).getCanvasRoot();
         spriteManager = gameModel.getSpriteManager();
@@ -41,18 +45,25 @@ public class GameController extends AController {
             input.add(code);
         }
 
-        // Main Menu
-        if (code.equals("ESCAPE")) {
-            StateManager.goToMainMenu();
-        }
-
         // Player
         if (code.equals("J")) {
             System.out.println("Попытка атаки!");
         }
 
         if (code.equals("SPACE")) {
+            player.getHP().setHealth(player.getHP().getHealth() - 100);
+        }
 
+        // Main Menu
+        if (code.equals("ESCAPE")) {
+            input = new ArrayList<>();
+            StateManager.goToGameMenu();
+        }
+
+        // Go to Inventory
+        if (code.equals("I")) {
+            input = new ArrayList<>();
+            StateManager.goToInventory();
         }
     }
 
@@ -124,6 +135,29 @@ public class GameController extends AController {
         }
     }
 
+    private void checkIntersections() {
+        // Monsters
+        for (Monster monster : monsters) {
+//            System.out.println(player.intersectsCollectionBox(monster));
+        }
+
+        // Bottles
+        ArrayList<HealthBottle> takenHealthBottles = new ArrayList<>();
+
+        for (HealthBottle healthBottle : healthBottles) {
+            if (player.intersectsMoveBox(healthBottle)) {
+                if (healthBottle.take(player)) {
+                    takenHealthBottles.add(healthBottle);
+                }
+            }
+        }
+
+        for (HealthBottle healthBottle : takenHealthBottles) {
+            spriteManager.removeSprite(healthBottle);
+            healthBottles.remove(healthBottle);
+        }
+    }
+
     @Override
     public void tick(double delta) {
         // Update
@@ -133,11 +167,7 @@ public class GameController extends AController {
         updateCameraPosition();
 
         // Check intersections
-
-        // Monsters
-        for (Monster monster : monsters) {
-//            System.out.println(player.intersectsCollectionBox(monster));
-        }
+        checkIntersections();
 
         // Sprite Update
         spriteManager.update(delta);

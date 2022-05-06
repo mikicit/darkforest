@@ -1,15 +1,16 @@
 package dev.mikicit.darkforest.view;
 
 import dev.mikicit.darkforest.controller.GameController;
-import dev.mikicit.darkforest.core.sprite.Sprite;
 import dev.mikicit.darkforest.core.sprite.SpriteManager;
 import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.core.Config;
-import dev.mikicit.darkforest.model.entity.Monster;
+import dev.mikicit.darkforest.model.entity.Player;
+import dev.mikicit.darkforest.view.component.game.HPBox;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -19,22 +20,38 @@ public class GameView extends AView {
     private final GraphicsContext gc;
     private final Pane canvasRoot;
     private final SpriteManager spriteManager;
+    private final Player player;
 
     public GameView(GameController controller) {
         this.controller = controller;
         gameModel = GameModel.getInstance();
         tileMap = gameModel.getTileMap();
         spriteManager = gameModel.getSpriteManager();
+        player = gameModel.getPlayer();
+
+        // Main Pane
+        Pane root = new Pane();
+
+        // Canvas
 
         // Init main pane and canvas
-        Pane root = new Pane();
         canvasRoot = new Pane();
         Canvas canvas = new Canvas(tileMap.getMapWidth(), tileMap.getMapHeight());
-
         canvasRoot.getChildren().add(canvas);
+        gc = canvas.getGraphicsContext2D();
+
         root.getChildren().add(canvasRoot);
 
-        gc = canvas.getGraphicsContext2D();
+        // GUI
+        BorderPane borderPane = new BorderPane();
+        root.getChildren().add(borderPane);
+
+        HPBox health = new HPBox(player.getHP().getHealth());
+        player.getHP().addObserver(health);
+
+        borderPane.getChildren().add(health.getText());
+
+        // Scene Creation
         scene = new Scene(root, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
 
         // Attaching Event Listeners
@@ -42,6 +59,7 @@ public class GameView extends AView {
         scene.setOnKeyReleased(controller::keyReleasedHandler);
     }
 
+    // Getters
     public Pane getCanvasRoot() {
         return canvasRoot;
     }
@@ -49,7 +67,7 @@ public class GameView extends AView {
     @Override
     public void render() {
         gc.clearRect(0, 0, tileMap.getMapWidth(), tileMap.getMapHeight());
-        gameModel.getTileMap().render(gc);
+        tileMap.render(gc);
 
         spriteManager.render(gc);
     }

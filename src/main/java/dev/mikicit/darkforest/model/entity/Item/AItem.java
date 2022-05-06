@@ -1,8 +1,9 @@
 package dev.mikicit.darkforest.model.entity.Item;
 
+import dev.mikicit.darkforest.core.sprite.ASprite;
 import dev.mikicit.darkforest.model.entity.Player;
 
-public abstract class AItem {
+public abstract class AItem extends ASprite {
     protected final String name;
 
     public AItem(String name) {
@@ -13,11 +14,11 @@ public abstract class AItem {
         return name;
     }
 
-    public void take(Player player) {
-        player.getInventory().addItem(this);
+    public boolean take(Player player) {
+        return player.getInventory().addItem(this);
     }
 
-    public void drop(Player player) {
-        player.getInventory().removeItem(this);
+    public boolean drop(Player player) {
+        return player.getInventory().removeItem(this);
     }
 }

@@ -4,7 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public abstract class Sprite {
+public abstract class ASprite {
     enum Direction {
         TOP,
         RIGHT,
@@ -20,7 +20,7 @@ public abstract class Sprite {
     protected double speed;
     protected Direction currentDirection;
 
-    public Sprite() {
+    public ASprite() {
         positionX = 0;
         positionY = 0;
     }
@@ -50,11 +50,11 @@ public abstract class Sprite {
         gc.drawImage(image, positionX, positionY);
     }
 
-    public boolean intersectsCollectionBox(Sprite s) {
+    public boolean intersectsCollectionBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getCollisionBox());
     }
 
-    public boolean intersectsMoveBox(Sprite s) {
+    public boolean intersectsMoveBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getMoveBox());
     }
 
@@ -86,6 +86,10 @@ public abstract class Sprite {
 
     public Direction getDirection() {
         return currentDirection;
+    }
+
+    public Image getImage() {
+        return image;
     }
 
     // Moving

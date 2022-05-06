@@ -6,27 +6,31 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class SpriteManager {
-    private final ArrayList<Sprite> sprites;
+    private final ArrayList<ASprite> ASprites;
 
     public SpriteManager() {
-        sprites = new ArrayList<>();
+        ASprites = new ArrayList<>();
     }
 
     public void update(double delta) {
-        sprites.sort(Comparator.comparing(Sprite::getY));
+        ASprites.sort(Comparator.comparing(ASprite::getY));
 
-        for (Sprite sprite : sprites) {
-            sprite.update(delta);
+        for (ASprite ASprite : ASprites) {
+            ASprite.update(delta);
         }
     }
 
     public void render(GraphicsContext gc) {
-        for (Sprite sprite : sprites) {
-            sprite.render(gc);
+        for (ASprite ASprite : ASprites) {
+            ASprite.render(gc);
         }
     }
 
-    public void addSprite(Sprite sprite) {
-        sprites.add(sprite);
+    public void addSprite(ASprite ASprite) {
+        ASprites.add(ASprite);
+    }
+
+    public void removeSprite(ASprite ASprite) {
+        ASprites.remove(ASprite);
     }
 }

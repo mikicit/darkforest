@@ -1,18 +1,17 @@
 package dev.mikicit.darkforest.view;
 
-import dev.mikicit.darkforest.controller.MainMenuController;
+import dev.mikicit.darkforest.controller.GameMenuController;
 import dev.mikicit.darkforest.core.Config;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
-public class MainMenuView extends AView {
-    public MainMenuView(MainMenuController controller) {
+import java.util.ArrayList;
+
+public class GameMenuView extends AView{
+    public GameMenuView(GameMenuController controller) {
         this.controller = controller;
 
         // JavaFX init
@@ -24,16 +23,19 @@ public class MainMenuView extends AView {
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(16);
 
-        Button startGame = new Button();
+        Button continueGame = new Button();
         Button saveGame = new Button();
+        Button toMainMenu = new Button();
         Button exitGame = new Button();
 
-        buttons.add(startGame);
+        buttons.add(continueGame);
         buttons.add(saveGame);
+        buttons.add(toMainMenu);
         buttons.add(exitGame);
 
-        startGame.setText("Start Game");
+        continueGame.setText("Continue Game");
         saveGame.setText("Save Game");
+        toMainMenu.setText("To Main Menu");
         exitGame.setText("Exit Game");
 
         for (Button button : buttons) {
@@ -52,7 +54,9 @@ public class MainMenuView extends AView {
         scene = new Scene(vBox, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
 
         // Attaching Event Listeners
-        startGame.setOnMouseClicked(controller::gameStartButtonClickHandler);
+        scene.setOnKeyPressed(controller::keyPressedHandler);
+        continueGame.setOnMouseClicked(controller::gameContinueButtonClickHandler);
+        toMainMenu.setOnMouseClicked(controller::toMainMenuButtonClickHandler);
     }
 
     @Override

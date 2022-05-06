@@ -1,8 +1,11 @@
-package dev.mikicit.darkforest.model.entity.Item;
+package dev.mikicit.darkforest.model.component;
+
+import dev.mikicit.darkforest.model.entity.Item.AItem;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Inventory {
+public class Inventory extends Observable {
     private final int maxItems = 2;
     ArrayList<AItem> items = new ArrayList<>();
 
@@ -11,9 +14,13 @@ public class Inventory {
             if (!isInInventory(item)) {
                 items.add(item);
                 System.out.println("Предмет " + item.getName() + " добавлен в инвентарь!");
+                setChanged();
+                notifyObservers();
                 return true;
             } else {
                 System.out.println("Предмет " + item.getName() + " уже в инвентаре!");
+                setChanged();
+                notifyObservers();
                 return false;
             }
         } else {
@@ -22,10 +29,15 @@ public class Inventory {
         }
     }
 
-    public void removeItem(AItem item) {
+    public boolean removeItem(AItem item) {
         if (items.remove(item)) {
+            setChanged();
+            notifyObservers();
             System.out.println("Предмет " + item.getName() + " был удален из инвентаря!");
+            return true;
         };
+
+        return false;
     }
 
     public boolean isInInventory(AItem item) {
@@ -36,10 +48,7 @@ public class Inventory {
         return maxItems == items.size();
     }
 
-    public void printItems() {
-        System.out.println("Премдеты в инвентаре: ");
-        for (AItem item : items) {
-            System.out.println(item.getName());
-        }
+    public ArrayList<AItem> getItems() {
+        return items;
     }
 }

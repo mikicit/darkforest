@@ -1,8 +1,8 @@
 package dev.mikicit.darkforest.model.entity;
 
-import dev.mikicit.darkforest.core.sprite.Sprite;
+import dev.mikicit.darkforest.core.sprite.ASprite;
 
-public class Monster extends Sprite {
+public class Monster extends ASprite {
     private final String name;
     private final double basicHealth;
     private double currentHealth;

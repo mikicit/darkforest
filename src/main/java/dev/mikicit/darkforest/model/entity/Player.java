@@ -1,21 +1,19 @@
 package dev.mikicit.darkforest.model.entity;
 
-import dev.mikicit.darkforest.core.sprite.Sprite;
-import dev.mikicit.darkforest.model.entity.Item.Inventory;
+import dev.mikicit.darkforest.core.sprite.ASprite;
+import dev.mikicit.darkforest.model.component.HP;
+import dev.mikicit.darkforest.model.component.Inventory;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Armor;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
 
-public class Player extends Sprite {
+public class Player extends ASprite {
     private final String name;
-    private final double basicHealth;
+    private final HP health;
     private final double basicDamage;
     private final double basicArmor;
-    private final double basicSpeed;
     private final double damageRadius;
-    private double currentHealth;
-    private boolean isBoostedSpeed;
     private boolean isDead;
 
     // Inventory
@@ -27,14 +25,11 @@ public class Player extends Sprite {
 
     public Player(String name, double health, double damage, double armor, double damageRadius) {
         this.name = name;
-        this.basicHealth = health;
-        this.currentHealth = health;
+        this.health = new HP(health);
         this.basicDamage = damage;
         this.basicArmor = armor;
-        this.basicSpeed = 1;
         this.damageRadius = damageRadius;
         this.inventory = new Inventory();
-        this.isBoostedSpeed = false;
         this.isDead = false;
 
         setImage("player/player.png");
@@ -50,17 +45,17 @@ public class Player extends Sprite {
     }
 
     public void inAttack(Monster monster) {
-        System.out.println("Игрок " + name + " был атакован монстром " + monster.getName() + "!");
-        currentHealth = Math.max(currentHealth - monster.getDamage(), 0);
-        if (currentHealth == 0) {
-            isDead = true;
-            System.out.println("Игрок " + name + " погиб!");
-        }
+//        System.out.println("Игрок " + name + " был атакован монстром " + monster.getName() + "!");
+//        currentHealth = Math.max(currentHealth - monster.getDamage(), 0);
+//        if (currentHealth == 0) {
+//            isDead = true;
+//            System.out.println("Игрок " + name + " погиб!");
+//        }
     }
 
     public void inHealth(HealthBottle healthBottle) {
         if (!inventory.isInInventory(healthBottle)) return;
-        currentHealth = Math.min(currentHealth + healthBottle.getHealth(), basicHealth);
+        health.addHealth(healthBottle.getHealth());
         inventory.removeItem(healthBottle);
 
         System.out.println("Было исползовано зелье " + healthBottle.getName() + "! Актуальное здоровье: " + getHealth() + "!");
@@ -104,7 +99,7 @@ public class Player extends Sprite {
     }
 
     public double getHealth() {
-        return currentHealth;
+        return health.getHealth();
     }
 
     public double getDamage() {
@@ -123,5 +118,9 @@ public class Player extends Sprite {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public HP getHP() {
+        return health;
     }
 }

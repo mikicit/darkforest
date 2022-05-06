@@ -1,8 +1,6 @@
 package dev.mikicit.darkforest.core;
 
-import dev.mikicit.darkforest.controller.AController;
-import dev.mikicit.darkforest.controller.GameController;
-import dev.mikicit.darkforest.controller.MainMenuController;
+import dev.mikicit.darkforest.controller.*;
 import javafx.animation.AnimationTimer;
 import javafx.stage.Stage;
 import java.util.HashMap;
@@ -17,8 +15,10 @@ public class StateManager {
         StateManager.stage = stage;
 
         // Init States
-        states.put("GAME", new GameController());
         states.put("MENU", new MainMenuController());
+        states.put("GAME_MENU", new GameMenuController());
+        states.put("GAME", new GameController());
+        states.put("INVENTORY", new InventoryController());
 
         // Set up current state
         currentController = states.get("MENU");
@@ -41,6 +41,16 @@ public class StateManager {
 
     public static void goToMainMenu() {
         currentController = states.get("MENU");
+        stage.setScene(currentController.getView().getScene());
+    }
+
+    public static void goToGameMenu() {
+        currentController = states.get("GAME_MENU");
+        stage.setScene(currentController.getView().getScene());
+    }
+
+    public static void goToInventory() {
+        currentController = states.get("INVENTORY");
         stage.setScene(currentController.getView().getScene());
     }
 

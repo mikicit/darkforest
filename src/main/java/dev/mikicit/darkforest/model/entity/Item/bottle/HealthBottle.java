@@ -9,6 +9,8 @@ public class HealthBottle extends AItem {
     public HealthBottle(String name, double health) {
         super(name);
         this.health = health;
+
+        setImage("item/bottle/health_bottle.png");
     }
 
     public void use(Player player) {
