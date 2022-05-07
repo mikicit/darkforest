@@ -28,14 +28,13 @@ public class InventoryView extends AView {
         gridPane.setHgap(32);
         gridPane.setVgap(48);
         gridPane.setStyle("-fx-background-color: #232933; -fx-padding: 48px 96px;");
-        gridPane.gridLinesVisibleProperty().set(true);
 
         // Item Info Box
         ItemInfoView itemInfoView = new ItemInfoView();
         gridPane.add(itemInfoView, 0, 0);
 
         // Items Box
-        ItemsView itemsView = new ItemsView();
+        ItemsView itemsView = new ItemsView(inventory, itemInfoView);
 
         gridPane.add(itemsView, 1, 0);
         GridPane.setHgrow(itemsView, Priority.ALWAYS);
@@ -54,7 +53,6 @@ public class InventoryView extends AView {
         // Add observer
         this.inventory.addObserver(itemsView);
     }
-
 
     @Override
     public void render() {

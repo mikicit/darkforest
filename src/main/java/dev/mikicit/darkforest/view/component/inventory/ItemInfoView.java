@@ -1,5 +1,6 @@
 package dev.mikicit.darkforest.view.component.inventory;
 
+import dev.mikicit.darkforest.model.entity.Item.AItem;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -22,10 +23,14 @@ public class ItemInfoView extends VBox {
         setSpacing(24);
 
         // Title
-        Text itemInfoTitle = new Text("Item characteristics:");
+        Text itemInfoTitle = new Text("Item characteristics");
         itemInfoTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         itemInfoTitle.setFill(Color.WHITE);
 
         getChildren().add(itemInfoTitle);
+    }
+
+    public void showItemInfo(AItem item) {
+        System.out.println("Show Item Info test");
     }
 }

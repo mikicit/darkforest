@@ -4,13 +4,19 @@ import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
+import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikicit.darkforest.view.InventoryView;
 import dev.mikicit.darkforest.view.component.inventory.ItemView;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 
 public class InventoryController extends AController {
-    public InventoryController() {
+    private boolean wasInitialized = false;
+
+    public InventoryController() {}
+
+    public void init() {
+        if (wasInitialized) return;
+        wasInitialized = true;
         view = new InventoryView(this);
     }
 
@@ -20,6 +26,16 @@ public class InventoryController extends AController {
 
         if (code.equals("ESCAPE") || code.equals("I")) {
             StateManager.goToGame();
+        }
+
+        if (code.equals("J")) {
+            if (e.getTarget() instanceof ItemView) {
+                AItem item = ((ItemView) e.getTarget()).getItem();
+
+                if (item instanceof AEquipment) {
+                    ((AEquipment) item).equip(GameModel.getInstance().getPlayer());
+                }
+            }
         }
 
         if (code.equals("K")) {
@@ -35,7 +51,11 @@ public class InventoryController extends AController {
         if (code.equals("L")) {
             if (e.getTarget() instanceof ItemView) {
                 AItem item = ((ItemView) e.getTarget()).getItem();
-                item.drop(GameModel.getInstance().getPlayer());
+
+                if (item != null) {
+                    item.drop(GameModel.getInstance().getPlayer());
+                }
+
             }
         }
     }

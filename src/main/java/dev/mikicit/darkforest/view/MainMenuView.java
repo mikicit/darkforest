@@ -33,7 +33,7 @@ public class MainMenuView extends AView {
         buttons.add(exitGame);
 
         startGame.setText("Start Game");
-        saveGame.setText("Save Game");
+        saveGame.setText("Load Game");
         exitGame.setText("Exit Game");
 
         for (Button button : buttons) {
@@ -53,6 +53,7 @@ public class MainMenuView extends AView {
 
         // Attaching Event Listeners
         startGame.setOnMouseClicked(controller::gameStartButtonClickHandler);
+        exitGame.setOnMouseClicked(controller::exitGameButtonClickHandler);
     }
 
     @Override

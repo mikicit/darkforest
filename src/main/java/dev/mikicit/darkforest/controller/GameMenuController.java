@@ -6,7 +6,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class GameMenuController extends AController {
-    public GameMenuController() {
+    private boolean wasInitialized = false;
+
+    public GameMenuController() {}
+
+    public void init() {
+        if (wasInitialized) return;
+        wasInitialized = true;
         view = new GameMenuView(this);
     }
 
@@ -25,6 +31,10 @@ public class GameMenuController extends AController {
 
     public void toMainMenuButtonClickHandler(MouseEvent e) {
         StateManager.goToMainMenu();
+    }
+
+    public void exitGameButtonClickHandler(MouseEvent e) {
+        StateManager.exitGame();
     }
 
     @Override

@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "name": "Dark Essence",
+  "health": 350,
+  "damage": 50,
+  "damageRadius": 20,
+  "viewingRadius": 200
+}

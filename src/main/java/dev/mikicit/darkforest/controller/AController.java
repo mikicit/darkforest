@@ -9,5 +9,6 @@ public abstract class AController {
         return view;
     }
 
+    public abstract void init();
     public abstract void tick(double delta);
 }

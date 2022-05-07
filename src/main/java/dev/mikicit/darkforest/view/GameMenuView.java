@@ -57,6 +57,7 @@ public class GameMenuView extends AView{
         scene.setOnKeyPressed(controller::keyPressedHandler);
         continueGame.setOnMouseClicked(controller::gameContinueButtonClickHandler);
         toMainMenu.setOnMouseClicked(controller::toMainMenuButtonClickHandler);
+        exitGame.setOnMouseClicked(controller::exitGameButtonClickHandler);
     }
 
     @Override

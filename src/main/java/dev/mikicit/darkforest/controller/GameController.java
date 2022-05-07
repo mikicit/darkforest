@@ -5,6 +5,7 @@ import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.model.GameModel;
+import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
@@ -16,22 +17,28 @@ import java.util.ArrayList;
 
 public class GameController extends AController {
     protected ArrayList<String> input = new ArrayList<>();
-    private final GameModel gameModel;
-    private final Player player;
-    private final ArrayList<Monster> monsters;
-    private final ArrayList<HealthBottle> healthBottles;
-    private final TileMap tileMap;
-    private final Pane canvasRoot;
-    private final SpriteManager spriteManager;
+    private GameModel gameModel;
+    private Player player;
+    private ArrayList<Monster> monsters;
+    private ArrayList<AItem> items;
+    private TileMap tileMap;
+    private Pane canvasRoot;
+    private SpriteManager spriteManager;
+    private boolean wasInitialized = false;
 
-    public GameController() {
+    public GameController() {}
+
+    public void init() {
+        if (wasInitialized) return;
+        wasInitialized = true;
         gameModel = GameModel.getInstance();
+        gameModel.init();
         view = new GameView(this);
 
         // Links to game entitles
         player = gameModel.getPlayer();
         monsters = gameModel.getMonsters();
-        healthBottles = gameModel.getHealthBottles();
+        items = gameModel.getItems();
 
         tileMap = gameModel.getTileMap();
         canvasRoot = ((GameView) view).getCanvasRoot();
@@ -141,20 +148,20 @@ public class GameController extends AController {
 //            System.out.println(player.intersectsCollectionBox(monster));
         }
 
-        // Bottles
-        ArrayList<HealthBottle> takenHealthBottles = new ArrayList<>();
+        // Items
+        ArrayList<AItem> takenItems = new ArrayList<>();
 
-        for (HealthBottle healthBottle : healthBottles) {
-            if (player.intersectsMoveBox(healthBottle)) {
-                if (healthBottle.take(player)) {
-                    takenHealthBottles.add(healthBottle);
+        for (AItem item : items) {
+            if (player.intersectsMoveBox(item)) {
+                if (item.take(player)) {
+                    takenItems.add(item);
                 }
             }
         }
 
-        for (HealthBottle healthBottle : takenHealthBottles) {
-            spriteManager.removeSprite(healthBottle);
-            healthBottles.remove(healthBottle);
+        for (AItem item : takenItems) {
+            spriteManager.removeSprite(item);
+            items.remove(item);
         }
     }
 

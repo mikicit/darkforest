@@ -5,12 +5,22 @@ import dev.mikicit.darkforest.view.MainMenuView;
 import javafx.scene.input.MouseEvent;
 
 public class MainMenuController extends AController {
-    public MainMenuController() {
+    private boolean wasInitialized = false;
+
+    public MainMenuController() {}
+
+    public void init() {
+        if (wasInitialized) return;
+        wasInitialized = true;
         view = new MainMenuView(this);
     }
 
     public void gameStartButtonClickHandler(MouseEvent e) {
         StateManager.goToGame();
+    }
+
+    public void exitGameButtonClickHandler(MouseEvent e) {
+        StateManager.exitGame();
     }
 
     @Override

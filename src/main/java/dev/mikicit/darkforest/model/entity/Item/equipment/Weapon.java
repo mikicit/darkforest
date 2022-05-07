@@ -9,7 +9,7 @@ public class Weapon extends AEquipment {
         this.damage = damage;
         this.radius = radius;
 
-        System.out.println("Создано оружие " + name + "!");
+        setImage("item/equipment/weapon/sword.png");
     }
 
     public double getDamage() {

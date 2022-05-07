@@ -4,25 +4,18 @@ import dev.mikicit.darkforest.core.sprite.ASprite;
 
 public class Monster extends ASprite {
     private final String name;
-    private final double basicHealth;
-    private double currentHealth;
-    private final double armor;
     private final double damage;
     private final double damageRadius;
     private final double viewingRadius;
+    private double health;
     private boolean isDead;
 
-    public Monster(String name, double health, double armor, double damage, double damageRadius, double viewingRadius) {
+    public Monster(String name, double health, double damage, double damageRadius, double viewingRadius) {
         this.name = name;
-        this.basicHealth = health;
-        this.currentHealth = health;
-        this.armor = armor;
+        this.health = health;
         this.damage = damage;
         this.damageRadius = damageRadius;
         this.viewingRadius = viewingRadius;
-        this.isDead = false;
-
-        setImage("monster/monster.png");
     }
 
     public void attack(Player player) {
@@ -34,8 +27,8 @@ public class Monster extends ASprite {
 
     public void inAttack(Player player) {
         System.out.println("Монстр " + name + " был атакован игроком " + player.getName() + "!");
-        currentHealth = Math.max(currentHealth - player.getDamage(), 0);
-        if (currentHealth == 0) {
+        health = Math.max(health - player.getDamage(), 0);
+        if (health == 0) {
             isDead = true;
             System.out.println("Монстр " + name + " погиб!");
         }

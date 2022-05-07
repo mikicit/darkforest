@@ -1,0 +1,48 @@
+{
+  "id": 1,
+  "name": "Dark forest",
+  "items": [
+    {
+      "id": 1,
+      "positionX": 9,
+      "positionY": 10
+    },
+    {
+      "id": 2,
+      "positionX": 10,
+      "positionY": 10
+    },
+    {
+      "id": 3,
+      "positionX": 11,
+      "positionY": 9
+    },
+    {
+      "id": 4,
+      "positionX": 14,
+      "positionY": 14
+    }
+  ],
+  "monsters": [
+    {
+      "id": 1,
+      "positionX": 10,
+      "positionY": 12
+    },
+    {
+      "id": 2,
+      "positionX": 8,
+      "positionY": 9
+    },
+    {
+      "id": 1,
+      "positionX": 14,
+      "positionY": 11
+    },
+    {
+      "id": 3,
+      "positionX": 5,
+      "positionY": 7
+    }
+  ]
+}
