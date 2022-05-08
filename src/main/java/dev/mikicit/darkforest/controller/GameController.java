@@ -54,7 +54,7 @@ public class GameController extends AController {
 
         // Player
         if (code.equals("J")) {
-            System.out.println("Attack!");
+            playerAttack();
         }
 
         if (code.equals("SPACE")) {
@@ -79,6 +79,22 @@ public class GameController extends AController {
         input.remove(code);
     }
 
+    // Player Attack handler
+    public void playerAttack() {
+        for (Monster monster : monsters) {
+            if (player.intersectsCollectionBox(monster)) {
+                player.attack(monster);
+
+                if (monster.isDead()) {
+                    monsters.remove(monster);
+                    spriteManager.removeSprite(monster);
+                    break;
+                }
+            }
+        }
+    }
+
+    // Updating Player Position with constraints
     private void updatePlayerPosition() {
         Rectangle2D moveBox = player.getMoveBox();
 
@@ -127,6 +143,7 @@ public class GameController extends AController {
         }
     }
 
+    // Updating Camera Position
     private void updateCameraPosition() {
         double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
         double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
@@ -142,12 +159,8 @@ public class GameController extends AController {
         }
     }
 
+    // Checking Intersections with Items
     private void checkIntersections() {
-        // Monsters
-        for (Monster monster : monsters) {
-//            System.out.println(player.intersectsCollectionBox(monster));
-        }
-
         // Items
         ArrayList<AItem> takenItems = new ArrayList<>();
 
@@ -159,6 +172,7 @@ public class GameController extends AController {
             }
         }
 
+        // Remove Taken Items from game world
         for (AItem item : takenItems) {
             spriteManager.removeSprite(item);
             items.remove(item);

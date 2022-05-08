@@ -36,7 +36,6 @@ public class GameModel {
 
     public static void resetGame() {
         if (isRunning) {
-            System.out.println("test");
             isRunning = false;
             instance = null;
         }

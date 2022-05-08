@@ -21,6 +21,11 @@
       "id": 4,
       "positionX": 14,
       "positionY": 14
+    },
+    {
+      "id": 7,
+      "positionX": 13,
+      "positionY": 11
     }
   ],
   "monsters": [

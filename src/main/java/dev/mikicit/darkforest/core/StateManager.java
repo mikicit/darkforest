@@ -43,7 +43,6 @@ public class StateManager {
     }
 
     public static void goToMainMenu() {
-        GameModel.resetGame();
         currentController = states.get("MENU");
         currentController.init();
         stage.setScene(currentController.getView().getScene());

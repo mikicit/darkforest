@@ -2,6 +2,7 @@ package dev.mikicit.darkforest.core.factory;
 
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
+import dev.mikicit.darkforest.model.entity.Item.equipment.Armor;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
 import org.json.JSONObject;
 
@@ -25,7 +26,7 @@ public class ItemFactory {
                 case "weapon":
                     return createWeapon(config);
                 case "armor":
-                    return null;
+                    return createArmor(config);
             }
 
         } catch (IOException e) {
@@ -47,5 +48,12 @@ public class ItemFactory {
         weapon.setImage("item/" + config.getInt("id") + "/image.png");
 
         return weapon;
+    }
+
+    private static AItem createArmor(JSONObject config) {
+        Armor armor = new Armor(config.getString("name"), config.getDouble("armor"));
+        armor.setImage("item/" + config.getInt("id") + "/image.png");
+
+        return armor;
     }
 }

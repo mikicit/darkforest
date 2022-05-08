@@ -6,8 +6,6 @@ public class Armor extends AEquipment {
     public Armor(String name, double armor) {
         super(name);
         this.armor = armor;
-
-        setImage("item/equipment/armor/armor.png");
     }
 
     public double getArmor() {

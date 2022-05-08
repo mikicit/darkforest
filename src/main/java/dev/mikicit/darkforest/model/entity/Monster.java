@@ -2,6 +2,8 @@ package dev.mikicit.darkforest.model.entity;
 
 import dev.mikicit.darkforest.core.sprite.ASprite;
 
+import java.util.Date;
+
 public class Monster extends ASprite {
     private final String name;
     private final double damage;
@@ -26,11 +28,11 @@ public class Monster extends ASprite {
     }
 
     public void inAttack(Player player) {
-        System.out.println("Монстр " + name + " был атакован игроком " + player.getName() + "!");
+        System.out.println(new Date() + ": Monster \"" + name + "\" was attacked by player " + player.getName() + "!");
         health = Math.max(health - player.getDamage(), 0);
         if (health == 0) {
             isDead = true;
-            System.out.println("Монстр " + name + " погиб!");
+            System.out.println(new Date() + ": Monster \"" + name + "\" is dead!");
         }
     }
 

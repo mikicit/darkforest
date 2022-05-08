@@ -8,8 +8,6 @@ public class Weapon extends AEquipment {
         super(name);
         this.damage = damage;
         this.radius = radius;
-
-        setImage("item/equipment/weapon/sword.png");
     }
 
     public double getDamage() {

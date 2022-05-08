@@ -2,14 +2,23 @@ package dev.mikicit.darkforest;
 
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.StateManager;
-import dev.mikicit.darkforest.core.location.Location;
-import dev.mikicit.darkforest.model.entity.Item.AItem;
-import dev.mikicit.darkforest.model.entity.Monster;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.logging.LogManager;
 
 public class Game extends Application {
     public static void main(String[] args) {
+        // Logging Config
+        try {
+            LogManager.getLogManager().readConfiguration(
+                Game.class.getResourceAsStream("/logger/logging.properties"));
+        } catch (IOException e) {
+            System.err.println("Could not setup logger configuration: " + e);
+        }
+
         launch(args);
     }
 
@@ -20,6 +29,7 @@ public class Game extends Application {
         stage.setTitle(Config.getWindowName());
         stage.setResizable(false);
         stage.centerOnScreen();
+        stage.getIcons().add(new Image("icon/icon_32.png"));
 
         StateManager.init(stage);
     }

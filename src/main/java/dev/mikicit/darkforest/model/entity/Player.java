@@ -10,8 +10,12 @@ import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class Player extends ASprite {
+    // Logger
+    private static Logger log = Logger.getLogger(Player.class.getName());
+
     private enum Direction {
         TOP,
         RIGHT,
@@ -20,14 +24,20 @@ public class Player extends ASprite {
     }
 
     private final HashMap<Direction, Image> images = new HashMap<>();
+
+    // State
     private Direction currentDirection;
+    private boolean isDead;
+    private double lastAttack;
+
+    // Characteristics
     private final String name;
     private final HP health;
     private final double basicDamage;
     private final double basicArmor;
     private final double damageRadius;
     private double speed = 1;
-    private boolean isDead;
+    private double attackSpeed = 1000; // in ms
 
     // Inventory
     private final Inventory inventory;
@@ -46,18 +56,26 @@ public class Player extends ASprite {
         this.inventory = new Inventory();
         this.isDead = false;
 
+        // Setting Up Direction Images
         images.put(Direction.TOP, new Image("player/player_top.png"));
         images.put(Direction.RIGHT, new Image("player/player_right.png"));
         images.put(Direction.BOTTOM, new Image("player/player_bottom.png"));
         images.put(Direction.LEFT, new Image("player/player_left.png"));
 
+        // Setting Up Default Image
         currentDirection = Direction.BOTTOM;
         setImage(images.get(currentDirection));
 
-        System.out.println("Player was created!");
+        log.info("Player was created!");
     }
 
     public void attack(Monster monster) {
+        if ((System.currentTimeMillis() - lastAttack) < attackSpeed) {
+            return;
+        }
+
+        lastAttack = System.currentTimeMillis();
+
         if (!monster.isDead()) {
             System.out.println("Player attacked " + name + " a monster " + monster.getName() + "!");
             monster.inAttack(this);
