@@ -5,20 +5,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public abstract class ASprite {
-    enum Direction {
-        TOP,
-        RIGHT,
-        BOTTOM,
-        LEFT
-    }
-
-    protected Image image;
     protected double positionX;
     protected double positionY;
     protected double width;
     protected double height;
-    protected double speed;
-    protected Direction currentDirection;
+    protected Image image;
 
     public ASprite() {
         positionX = 0;
@@ -29,7 +20,6 @@ public abstract class ASprite {
         this.image = image;
         width = image.getWidth();
         height = image.getHeight();
-        speed = 1;
     }
 
     public void setImage(String filename) {
@@ -50,6 +40,7 @@ public abstract class ASprite {
         gc.drawImage(image, positionX, positionY);
     }
 
+    // Intersections
     public boolean intersectsCollectionBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getCollisionBox());
     }
@@ -59,7 +50,6 @@ public abstract class ASprite {
     }
 
     // Getters
-
     public Rectangle2D getCollisionBox() {
         return new Rectangle2D(positionX, positionY, width, height);
     }
@@ -84,34 +74,8 @@ public abstract class ASprite {
         return positionY;
     }
 
-    public Direction getDirection() {
-        return currentDirection;
-    }
-
     public Image getImage() {
         return image;
-    }
-
-    // Moving
-
-    public void moveUp() {
-        currentDirection = Direction.TOP;
-        positionY -= speed;
-    }
-
-    public void moveRight() {
-        currentDirection = Direction.RIGHT;
-        positionX += speed;
-    }
-
-    public void moveDown() {
-        currentDirection = Direction.BOTTOM;
-        positionY += speed;
-    }
-
-    public void moveLeft() {
-        currentDirection = Direction.LEFT;
-        positionX -= speed;
     }
 }
 

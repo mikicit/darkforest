@@ -17,6 +17,12 @@ public class HP extends Observable {
         notifyObservers(currentHealth);
     }
 
+    public void reduceHealth(double health) {
+        currentHealth = Math.max(currentHealth - health, 0);
+        setChanged();
+        notifyObservers(currentHealth);
+    }
+
     public void setHealth(double health) {
         this.currentHealth = health;
         setChanged();

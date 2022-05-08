@@ -54,7 +54,7 @@ public class GameController extends AController {
 
         // Player
         if (code.equals("J")) {
-            System.out.println("Попытка атаки!");
+            System.out.println("Attack!");
         }
 
         if (code.equals("SPACE")) {

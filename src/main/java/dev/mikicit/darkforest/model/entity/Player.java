@@ -7,13 +7,26 @@ import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Armor;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
+import javafx.scene.image.Image;
+
+import java.util.HashMap;
 
 public class Player extends ASprite {
+    private enum Direction {
+        TOP,
+        RIGHT,
+        BOTTOM,
+        LEFT
+    }
+
+    private final HashMap<Direction, Image> images = new HashMap<>();
+    private Direction currentDirection;
     private final String name;
     private final HP health;
     private final double basicDamage;
     private final double basicArmor;
     private final double damageRadius;
+    private double speed = 1;
     private boolean isDead;
 
     // Inventory
@@ -24,6 +37,7 @@ public class Player extends ASprite {
     private Armor currentArmor = null;
 
     public Player(String name, double health, double damage, double armor, double damageRadius) {
+        super();
         this.name = name;
         this.health = new HP(health);
         this.basicDamage = damage;
@@ -32,25 +46,31 @@ public class Player extends ASprite {
         this.inventory = new Inventory();
         this.isDead = false;
 
-        setImage("player/player.png");
+        images.put(Direction.TOP, new Image("player/player_top.png"));
+        images.put(Direction.RIGHT, new Image("player/player_right.png"));
+        images.put(Direction.BOTTOM, new Image("player/player_bottom.png"));
+        images.put(Direction.LEFT, new Image("player/player_left.png"));
 
-        System.out.println("Создан игрок!");
+        currentDirection = Direction.BOTTOM;
+        setImage(images.get(currentDirection));
+
+        System.out.println("Player was created!");
     }
 
     public void attack(Monster monster) {
         if (!monster.isDead()) {
-            System.out.println("Игрок " + name + " атаковал монстра " + monster.getName() + "!");
+            System.out.println("Player attacked " + name + " a monster " + monster.getName() + "!");
             monster.inAttack(this);
         }
     }
 
     public void inAttack(Monster monster) {
-//        System.out.println("Игрок " + name + " был атакован монстром " + monster.getName() + "!");
-//        currentHealth = Math.max(currentHealth - monster.getDamage(), 0);
-//        if (currentHealth == 0) {
-//            isDead = true;
-//            System.out.println("Игрок " + name + " погиб!");
-//        }
+        System.out.println("Player " + name + " was attacked by monster " + monster.getName() + "!");
+        health.reduceHealth(monster.getDamage());
+        if (health.getHealth() == 0) {
+            isDead = true;
+            System.out.println("Player is " + name + " dead!");
+        }
     }
 
     public void inHealth(HealthBottle healthBottle) {
@@ -98,10 +118,6 @@ public class Player extends ASprite {
         return inventory;
     }
 
-    public double getHealth() {
-        return health.getHealth();
-    }
-
     public double getDamage() {
         if (currentWeapon == null) return basicDamage;
         return basicDamage + currentWeapon.getDamage();
@@ -120,7 +136,44 @@ public class Player extends ASprite {
         return isDead;
     }
 
+    public double getHealth() {
+        return health.getHealth();
+    }
+
     public HP getHP() {
         return health;
+    }
+
+    // Moving
+    public void moveUp() {
+        if (currentDirection != Direction.TOP) {
+            currentDirection = Direction.TOP;
+            setImage(images.get(currentDirection));
+        }
+        positionY -= speed;
+    }
+
+    public void moveRight() {
+        if (currentDirection != Direction.RIGHT) {
+            currentDirection = Direction.RIGHT;
+            setImage(images.get(currentDirection));
+        }
+        positionX += speed;
+    }
+
+    public void moveDown() {
+        if (currentDirection != Direction.BOTTOM) {
+            currentDirection = Direction.BOTTOM;
+            setImage(images.get(currentDirection));
+        }
+        positionY += speed;
+    }
+
+    public void moveLeft() {
+        if (currentDirection != Direction.LEFT) {
+            currentDirection = Direction.LEFT;
+            setImage(images.get(currentDirection));
+        }
+        positionX -= speed;
     }
 }
