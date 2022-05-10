@@ -40,10 +40,6 @@ public class GameModel {
 
         player.getHP().setInitialHealthHealth(playerConfig.getDouble("initialHealth"));
 
-        player.setPosition(
-                TileMap.convertTileToPixel(playerConfig.getInt("positionX")),
-                TileMap.convertTileToPixel(playerConfig.getInt("positionY")));
-
         // Setting Equipped Items
         int equippedWeaponId = playerConfig.getInt("equippedWeaponId");
         if (equippedWeaponId != -1) {
@@ -61,6 +57,10 @@ public class GameModel {
         }
 
         currentLocation.setPlayer(player);
+
+        player.setPosition(
+                TileMap.convertTileToPixel(playerConfig.getInt("positionX")),
+                TileMap.convertTileToPixel(playerConfig.getInt("positionY")));
     }
 
     public static GameModel getInstance() {

@@ -6,6 +6,12 @@
   "damageRadius": 20,
   "viewingRadius": 200,
   "animations": [
-
+    {
+      "name": "inattack",
+      "animationTime": 50,
+      "numberOfFrames": 4,
+      "frameWidth": 49,
+      "frameHeight": 57
+    }
   ]
 }

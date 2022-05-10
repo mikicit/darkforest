@@ -14,6 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
+/**
+ * The type Game controller.
+ */
 public class GameController extends AController {
     protected ArrayList<String> input = new ArrayList<>();
     private GameModel gameModel;
@@ -29,7 +32,6 @@ public class GameController extends AController {
 
     public void init() {
         if (wasInitialized) return;
-        wasInitialized = true;
         gameModel = GameModel.getInstance();
         view = new GameView(this);
 
@@ -41,6 +43,10 @@ public class GameController extends AController {
         tileMap = gameModel.getTileMap();
         canvasRoot = ((GameView) view).getCanvasRoot();
         spriteManager = gameModel.getSpriteManager();
+
+        setCameraPositionOnLoad();
+
+        wasInitialized = true;
     }
 
     // Event Handlers
@@ -97,9 +103,9 @@ public class GameController extends AController {
         Rectangle2D moveBox = player.getMoveBox();
 
         if (input.contains("A") && player.getX() - 1 > 0) {
-            int tileMinX = tileMap.convertPixelToTile(moveBox.getMinX() - 1);
-            int tileMinY = tileMap.convertPixelToTile(moveBox.getMinY());
-            int tileMaxY = tileMap.convertPixelToTile(moveBox.getMaxY());
+            int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX() - 1);
+            int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY());
+            int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY());
 
             if (tileMap.getTile(tileMinX, tileMinY).isPassable() &&
                     tileMap.getTile(tileMinX, tileMaxY).isPassable()) {
@@ -108,9 +114,9 @@ public class GameController extends AController {
         }
 
         if (input.contains("D") && player.getX() + player.getWidth() + 1 < tileMap.getMapWidth()) {
-            int tileMinY = tileMap.convertPixelToTile(moveBox.getMinY());
-            int tileMaxY = tileMap.convertPixelToTile(moveBox.getMaxY());
-            int tileMaxX = tileMap.convertPixelToTile(moveBox.getMaxX() + 1);
+            int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY());
+            int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY());
+            int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX() + 1);
 
             if (tileMap.getTile(tileMaxX, tileMinY).isPassable() &&
                     tileMap.getTile(tileMaxX, tileMaxY).isPassable()) {
@@ -119,9 +125,9 @@ public class GameController extends AController {
         }
 
         if (input.contains("W") && player.getY() - 1 > 0) {
-            int tileMinX = tileMap.convertPixelToTile(moveBox.getMinX());
-            int tileMinY = tileMap.convertPixelToTile(moveBox.getMinY() - 1);
-            int tileMaxX = tileMap.convertPixelToTile(moveBox.getMaxX());
+            int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX());
+            int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY() - 1);
+            int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX());
 
             if (tileMap.getTile(tileMinX, tileMinY).isPassable() &&
                     tileMap.getTile(tileMaxX, tileMinY).isPassable()) {
@@ -130,14 +136,33 @@ public class GameController extends AController {
         }
 
         if (input.contains("S") && player.getY() + player.getHeight() + 1 < tileMap.getMapHeight()) {
-            int tileMinX = tileMap.convertPixelToTile(moveBox.getMinX());
-            int tileMaxY = tileMap.convertPixelToTile(moveBox.getMaxY() + 1);
-            int tileMaxX = tileMap.convertPixelToTile(moveBox.getMaxX());
+            int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX());
+            int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY() + 1);
+            int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX());
 
             if (tileMap.getTile(tileMinX, tileMaxY).isPassable() &&
                     tileMap.getTile(tileMaxX, tileMaxY).isPassable()) {
                 player.moveDown();
             }
+        }
+    }
+
+    private void setCameraPositionOnLoad() {
+        double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
+        double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
+
+        System.out.println(offsetY);
+
+        // X camera
+        if (offsetX > 0 && offsetX > tileMap.getMapWidth() - Config.getWindowWidth()) {
+            System.out.println("X");
+            canvasRoot.setTranslateX((offsetX - (offsetX - (tileMap.getMapWidth() - Config.getWindowWidth()))) * -1);
+        }
+
+        // Y camera
+        if (offsetY > 0 && offsetY > tileMap.getMapHeight() - Config.getWindowHeight()) {
+            System.out.println("Y");
+            canvasRoot.setTranslateY((offsetY - (offsetY - (tileMap.getMapHeight() - Config.getWindowHeight()))) * -1);
         }
     }
 
@@ -147,13 +172,13 @@ public class GameController extends AController {
         double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
 
         // X camera
-        if (offsetY > 0 && offsetY < tileMap.getMapHeight() - Config.getWindowHeight()) {
-            canvasRoot.setTranslateY(offsetY * -1);
+        if (offsetX > 0 && offsetX < tileMap.getMapWidth() - Config.getWindowWidth()) {
+            canvasRoot.setTranslateX(offsetX * -1);
         }
 
         // Y camera
-        if (offsetX > 0 && offsetX < tileMap.getMapWidth() - Config.getWindowWidth()) {
-            canvasRoot.setTranslateX(offsetX * -1);
+        if (offsetY > 0 && offsetY < tileMap.getMapHeight() - Config.getWindowHeight()) {
+            canvasRoot.setTranslateY(offsetY * -1);
         }
     }
 

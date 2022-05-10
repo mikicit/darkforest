@@ -57,8 +57,8 @@ public class Location {
         for (Object monsterConfig : config.getJSONArray("monsters")) {
             Monster monster = MonsterFactory.getMonster(((JSONObject) monsterConfig).getInt("id"));
             monster.setPosition(
-                    tileMap.convertTileToPixel(((JSONObject) monsterConfig).getInt("positionX")),
-                    tileMap.convertTileToPixel(((JSONObject) monsterConfig).getInt("positionY")));
+                    TileMap.convertTileToPixel(((JSONObject) monsterConfig).getInt("positionX")),
+                    TileMap.convertTileToPixel(((JSONObject) monsterConfig).getInt("positionY")));
 
             monsters.add(monster);
             spriteManager.addSprite(monster);
@@ -68,8 +68,8 @@ public class Location {
         for (Object itemConfig : config.getJSONArray("items")) {
             AItem item = ItemFactory.getItem(((JSONObject) itemConfig).getInt("id"));
             item.setPosition(
-                    tileMap.convertTileToPixel(((JSONObject) itemConfig).getInt("positionX")),
-                    tileMap.convertTileToPixel(((JSONObject) itemConfig).getInt("positionY")));
+                    TileMap.convertTileToPixel(((JSONObject) itemConfig).getInt("positionX")),
+                    TileMap.convertTileToPixel(((JSONObject) itemConfig).getInt("positionY")));
 
             items.add(item);
             spriteManager.addSprite(item);
