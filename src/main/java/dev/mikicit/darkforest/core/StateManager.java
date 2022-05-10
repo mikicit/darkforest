@@ -36,8 +36,11 @@ public class StateManager {
         startLoop();
     }
 
-    public static void goToGame() {
+    public static void goToGame(boolean fromSave) {
         currentController = states.get("GAME");
+        // There was not enough time for refactoring, but it works.
+        GameModel gameModel = GameModel.getInstance();
+        gameModel.init(fromSave);
         currentController.init();
         stage.setScene(currentController.getView().getScene());
     }

@@ -1,7 +1,7 @@
 {
   "id": 4,
-  "name": "Orb of Chaos",
+  "name": "Orb of Purity",
   "type": "weapon",
-  "damage": 100,
+  "damage": 50,
   "radius": 50
 }

@@ -3,6 +3,7 @@ package dev.mikicit.darkforest.core.sprite;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import java.util.HashMap;
 
 public abstract class ASprite {
     protected double positionX;
@@ -10,6 +11,7 @@ public abstract class ASprite {
     protected double width;
     protected double height;
     protected Image image;
+    protected HashMap<String, Animation> animations = new HashMap<>();
 
     public ASprite() {
         positionX = 0;
@@ -32,8 +34,21 @@ public abstract class ASprite {
         positionY = y;
     }
 
-    public void update(double time) {
+    public void setAnimation(String name, Animation animation) {
+        animations.put(name, animation);
+    }
 
+    public void playAnimation(String name) {
+        Animation animation = animations.get(name);
+        if (animation != null) {
+            animations.get(name).play(this);
+        }
+    }
+
+    public void update(double time) {
+        animations.forEach((key, value) -> {
+            value.update();
+        });
     }
 
     public void render(GraphicsContext gc) {
@@ -41,21 +56,13 @@ public abstract class ASprite {
     }
 
     // Intersections
-    public boolean intersectsCollectionBox(ASprite s) {
+    public boolean intersectsCollisionBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getCollisionBox());
-    }
-
-    public boolean intersectsMoveBox(ASprite s) {
-        return s.getCollisionBox().intersects(this.getMoveBox());
     }
 
     // Getters
     public Rectangle2D getCollisionBox() {
         return new Rectangle2D(positionX, positionY, width, height);
-    }
-
-    public Rectangle2D getMoveBox() {
-        return new Rectangle2D(positionX, positionY + height - 16, width, 16);
     }
 
     public double getWidth() {

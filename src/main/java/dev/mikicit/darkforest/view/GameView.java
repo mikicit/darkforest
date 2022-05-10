@@ -7,6 +7,7 @@ import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.model.entity.Player;
 import dev.mikicit.darkforest.view.component.game.HPBox;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -58,6 +59,10 @@ public class GameView extends AView {
         scene.setOnKeyPressed(controller::keyPressedHandler);
         scene.setOnKeyReleased(controller::keyReleasedHandler);
     }
+
+//    public void focus() {
+//        scene.setCursor(Cursor.NONE);
+//    }
 
     // Getters
     public Pane getCanvasRoot() {

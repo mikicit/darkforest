@@ -25,7 +25,7 @@ public class InventoryController extends AController {
         String code = e.getCode().toString();
 
         if (code.equals("ESCAPE") || code.equals("I")) {
-            StateManager.goToGame();
+            StateManager.goToGame(false);
         }
 
         if (code.equals("J")) {

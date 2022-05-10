@@ -2,6 +2,7 @@ package dev.mikicit.darkforest.view;
 
 import dev.mikicit.darkforest.controller.MainMenuController;
 import dev.mikicit.darkforest.core.Config;
+import dev.mikicit.darkforest.core.PlayerConfig;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,16 +25,23 @@ public class MainMenuView extends AView {
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(16);
 
-        Button startGame = new Button();
-        Button saveGame = new Button();
+        // New Game
+        Button newGame = new Button();
+        newGame.setText("New Game");
+        buttons.add(newGame);
+
+        // Load Game
+        Button loadGame = new Button();
+        loadGame.setText("Load Game");
+        buttons.add(loadGame);
+        if (!PlayerConfig.isExistPlayerSave()) {
+            loadGame.setVisible(false);
+            loadGame.setManaged(false);
+        }
+
+        // Exit Game
         Button exitGame = new Button();
-
-        buttons.add(startGame);
-        buttons.add(saveGame);
         buttons.add(exitGame);
-
-        startGame.setText("Start Game");
-        saveGame.setText("Load Game");
         exitGame.setText("Exit Game");
 
         for (Button button : buttons) {
@@ -43,7 +51,8 @@ public class MainMenuView extends AView {
                     "-fx-background-color: #2b3542; " +
                     "-fx-text-fill: white; " +
                     "-fx-font-size: 16px; " +
-                    "-fx-font-weight: bold; "
+                    "-fx-font-weight: bold; " +
+                    "-fx-cursor: hand;"
             );
 
             vBox.getChildren().add(button);
@@ -52,7 +61,8 @@ public class MainMenuView extends AView {
         scene = new Scene(vBox, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
 
         // Attaching Event Listeners
-        startGame.setOnMouseClicked(controller::gameStartButtonClickHandler);
+        newGame.setOnMouseClicked(controller::gameStartButtonClickHandler);
+        loadGame.setOnMouseClicked(controller::gameLoadButtonClickHandler);
         exitGame.setOnMouseClicked(controller::exitGameButtonClickHandler);
     }
 

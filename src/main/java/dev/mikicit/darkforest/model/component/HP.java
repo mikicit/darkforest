@@ -3,7 +3,7 @@ package dev.mikicit.darkforest.model.component;
 import java.util.Observable;
 
 public class HP extends Observable {
-    private final double initialHealth;
+    private double initialHealth;
     private double currentHealth;
 
     public HP(double health) {
@@ -27,6 +27,14 @@ public class HP extends Observable {
         this.currentHealth = health;
         setChanged();
         notifyObservers(health);
+    }
+
+    public void setInitialHealthHealth(double health) {
+        this.initialHealth = health;
+    }
+
+    public double getInitialHealth() {
+        return initialHealth;
     }
 
     public double getHealth() {

@@ -1,0 +1,14 @@
+{
+  "name": "Mikita",
+  "initialHealth": 500,
+  "health": 500,
+  "damage": 50,
+  "armor": 0,
+  "damageRadius": 10,
+  "locationId": 1,
+  "positionX": 13,
+  "positionY": 4,
+  "equippedWeaponId": 4,
+  "equippedArmorId": -1,
+  "inventory": [1, 5]
+}

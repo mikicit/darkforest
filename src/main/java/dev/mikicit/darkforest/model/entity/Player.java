@@ -3,10 +3,12 @@ package dev.mikicit.darkforest.model.entity;
 import dev.mikicit.darkforest.core.sprite.ASprite;
 import dev.mikicit.darkforest.model.component.HP;
 import dev.mikicit.darkforest.model.component.Inventory;
+import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Armor;
 import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class Player extends ASprite {
     private final double basicArmor;
     private final double damageRadius;
     private double speed = 1;
-    private double attackSpeed = 1000; // in ms
+    private double attackSpeed = 300; // in ms
 
     // Inventory
     private final Inventory inventory;
@@ -74,20 +76,21 @@ public class Player extends ASprite {
             return;
         }
 
-        lastAttack = System.currentTimeMillis();
+        lastAttack = System.currentTimeMillis(); // cooldown
 
         if (!monster.isDead()) {
-            System.out.println("Player attacked " + name + " a monster " + monster.getName() + "!");
             monster.inAttack(this);
         }
     }
 
     public void inAttack(Monster monster) {
-        System.out.println("Player " + name + " was attacked by monster " + monster.getName() + "!");
-        health.reduceHealth(monster.getDamage());
+        double incomingDamage = monster.getDamage() * (100/(100 + getArmor())); // Given the character's armor.
+
+        log.info("Player was attacked by monster \"" + monster.getName() + "\"." + "Incoming damage is " + incomingDamage + ".");
+        health.reduceHealth(incomingDamage);
         if (health.getHealth() == 0) {
             isDead = true;
-            System.out.println("Player is " + name + " dead!");
+            log.info("Player is dead!");
         }
     }
 
@@ -96,11 +99,10 @@ public class Player extends ASprite {
         health.addHealth(healthBottle.getHealth());
         inventory.removeItem(healthBottle);
 
-        System.out.println("Было исползовано зелье " + healthBottle.getName() + "! Актуальное здоровье: " + getHealth() + "!");
+        log.info("The potion \"" + healthBottle.getName() + "\" was used. " + healthBottle.getHealth() + " health has been added.");
     }
 
     public void setEquipment(AEquipment item) {
-        if (!inventory.isInInventory(item)) return;
         inventory.removeItem(item);
 
         if (item instanceof Weapon) {
@@ -109,6 +111,7 @@ public class Player extends ASprite {
             }
 
             currentWeapon = (Weapon) item;
+            log.info("Weapon \"" + item.getName() + "\" was equipped.");
         }
 
         if (item instanceof Armor) {
@@ -117,6 +120,7 @@ public class Player extends ASprite {
             }
 
             currentArmor = (Armor) item;
+            log.info("Armor \"" + item.getName() + "\" was equipped.");
         }
     }
 
@@ -126,9 +130,19 @@ public class Player extends ASprite {
             if (currentWeapon.equals(item)) {
                 if (inventory.addItem(item)) {
                     currentWeapon = null;
-                    System.out.println("Предмте " + item.getName() + " был снят!");
+                    log.info("Weapon \"" + item.getName() + "\" was unequipped.");
                 }
-            };
+            }
+        }
+
+        if (item instanceof Armor) {
+            if (currentArmor == null) return;
+            if (currentArmor.equals(item)) {
+                if (inventory.addItem(item)) {
+                    currentArmor = null;
+                    log.info("Weapon \"" + item.getName() + "\" was unequipped.");
+                }
+            }
         }
     }
 
@@ -141,17 +155,30 @@ public class Player extends ASprite {
         return basicDamage + currentWeapon.getDamage();
     }
 
+    public double getBasicDamage() {
+        return basicDamage;
+    }
+
     public double getArmor() {
         if (currentArmor == null) return basicArmor;
         return basicArmor + currentArmor.getArmor();
     }
 
-    public String getName() {
-        return name;
+    public double getBasicArmor() {
+        return basicArmor;
     }
 
-    public boolean isDead() {
-        return isDead;
+    public double getDamageRadius() {
+        if (currentWeapon == null) return basicDamage;
+        return damageRadius + currentWeapon.getRadius();
+    }
+
+    public double getBasicDamageRadius() {
+        return damageRadius;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public double getHealth() {
@@ -160,6 +187,51 @@ public class Player extends ASprite {
 
     public HP getHP() {
         return health;
+    }
+
+    public AItem getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public AItem getCurrentArmor() {
+        return currentArmor;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    // Intersections
+
+    // Checking the intersection with the attack area.
+    public boolean intersectsAttackBox(ASprite s) {
+        return s.getCollisionBox().intersects(this.getAttackCollisionBox());
+    }
+
+    // Checking the intersection with the legs.
+    public boolean intersectsMoveBox(ASprite s) {
+        return s.getCollisionBox().intersects(this.getMoveBox());
+    }
+
+    // Getting an attack area depending on the direction and damage radius of the character.
+    public Rectangle2D getAttackCollisionBox() {
+        switch (currentDirection) {
+            case TOP:
+                return new Rectangle2D(positionX, positionY - getDamageRadius(), width, getDamageRadius());
+            case RIGHT:
+                return new Rectangle2D(positionX + width, positionY, getDamageRadius(), height);
+            case BOTTOM:
+                return new Rectangle2D(positionX, positionY + height, width, getDamageRadius());
+            case LEFT:
+                return new Rectangle2D(positionX - getDamageRadius(), positionY, getDamageRadius(), height);
+        }
+
+        return new Rectangle2D(positionX, positionY - getDamageRadius(), width, getDamageRadius());
+    }
+
+    // Getting the leg area of the character.
+    public Rectangle2D getMoveBox() {
+        return new Rectangle2D(positionX, positionY + height - 16, width, 16);
     }
 
     // Moving

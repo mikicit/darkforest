@@ -6,7 +6,6 @@ import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
-import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
 import dev.mikicit.darkforest.view.GameView;
@@ -32,7 +31,6 @@ public class GameController extends AController {
         if (wasInitialized) return;
         wasInitialized = true;
         gameModel = GameModel.getInstance();
-        gameModel.init();
         view = new GameView(this);
 
         // Links to game entitles
@@ -82,7 +80,7 @@ public class GameController extends AController {
     // Player Attack handler
     public void playerAttack() {
         for (Monster monster : monsters) {
-            if (player.intersectsCollectionBox(monster)) {
+            if (player.intersectsAttackBox(monster)) {
                 player.attack(monster);
 
                 if (monster.isDead()) {

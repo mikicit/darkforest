@@ -45,7 +45,8 @@ public class GameMenuView extends AView{
                     "-fx-background-color: #2b3542; " +
                     "-fx-text-fill: white; " +
                     "-fx-font-size: 16px; " +
-                    "-fx-font-weight: bold; "
+                    "-fx-font-weight: bold; " +
+                    "-fx-cursor: hand;"
             );
 
             vBox.getChildren().add(button);
@@ -56,6 +57,7 @@ public class GameMenuView extends AView{
         // Attaching Event Listeners
         scene.setOnKeyPressed(controller::keyPressedHandler);
         continueGame.setOnMouseClicked(controller::gameContinueButtonClickHandler);
+        saveGame.setOnMouseClicked(controller::gameSaveButtonClickHandler);
         toMainMenu.setOnMouseClicked(controller::toMainMenuButtonClickHandler);
         exitGame.setOnMouseClicked(controller::exitGameButtonClickHandler);
     }

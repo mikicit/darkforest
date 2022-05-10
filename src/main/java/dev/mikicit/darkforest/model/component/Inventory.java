@@ -1,12 +1,16 @@
 package dev.mikicit.darkforest.model.component;
 
 import dev.mikicit.darkforest.model.entity.Item.AItem;
+import dev.mikicit.darkforest.model.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Observable;
+import java.util.logging.Logger;
 
 public class Inventory extends Observable {
+    // Logger
+    private static Logger log = Logger.getLogger(Player.class.getName());
+
     private final int maxItems = 14;
     ArrayList<AItem> items = new ArrayList<>();
 
@@ -14,18 +18,20 @@ public class Inventory extends Observable {
         if (!isFull()) {
             if (!isInInventory(item)) {
                 items.add(item);
-                System.out.println(new Date() + ": Item \"" + item.getName() + "\" was added to inventory!");
                 setChanged();
                 notifyObservers();
+
+                log.info("Item \"" + item.getName() + "\" was added to inventory!");
                 return true;
             } else {
-                System.out.println(new Date() + ": Item \"" + item.getName() + "\" is already in inventory!");
                 setChanged();
                 notifyObservers();
+
+                log.info("Item \"" + item.getName() + "\" is already in inventory!");
                 return false;
             }
         } else {
-            System.out.println(new Date() + ": Inventory is full!");
+            log.info("Inventory is full!");
             return false;
         }
     }
@@ -34,7 +40,7 @@ public class Inventory extends Observable {
         if (items.remove(item)) {
             setChanged();
             notifyObservers();
-            System.out.println(new Date() + ": Item \"" + item.getName() + "\" was deleted from inventory!");
+            log.info("Item \"" + item.getName() + "\" was deleted from inventory!");
             return true;
         };
 

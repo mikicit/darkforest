@@ -4,8 +4,8 @@ public class Weapon extends AEquipment {
     private final double damage;
     private final double radius;
 
-    public Weapon(String name, double damage, double radius) {
-        super(name);
+    public Weapon(int id, String name, double damage, double radius) {
+        super(id, name);
         this.damage = damage;
         this.radius = radius;
     }

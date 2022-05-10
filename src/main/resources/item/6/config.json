@@ -1,0 +1,7 @@
+{
+  "id": 6,
+  "name": "Sphere of death",
+  "type": "weapon",
+  "damage": 100,
+  "radius": 50
+}

@@ -1,6 +1,8 @@
 package dev.mikicit.darkforest.controller;
 
+import dev.mikicit.darkforest.core.PlayerConfig;
 import dev.mikicit.darkforest.core.StateManager;
+import dev.mikicit.darkforest.model.entity.Player;
 import dev.mikicit.darkforest.view.GameMenuView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,12 +23,16 @@ public class GameMenuController extends AController {
         String code = e.getCode().toString();
 
         if (code.equals("ESCAPE")) {
-            StateManager.goToGame();
+            StateManager.goToGame(false);
         }
     }
 
     public void gameContinueButtonClickHandler(MouseEvent e) {
-        StateManager.goToGame();
+        StateManager.goToGame(false);
+    }
+
+    public void gameSaveButtonClickHandler(MouseEvent e) {
+        PlayerConfig.savePlayerConfig();
     }
 
     public void toMainMenuButtonClickHandler(MouseEvent e) {

@@ -4,8 +4,8 @@ import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Player;
 
 public abstract class AEquipment extends AItem {
-    public AEquipment(String name) {
-        super(name);
+    public AEquipment(int id, String name) {
+        super(id, name);
     }
 
     public void equip(Player player) {

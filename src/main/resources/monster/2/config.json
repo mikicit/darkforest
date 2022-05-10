@@ -4,5 +4,8 @@
   "health": 350,
   "damage": 50,
   "damageRadius": 20,
-  "viewingRadius": 200
+  "viewingRadius": 200,
+  "animations": [
+
+  ]
 }

@@ -15,8 +15,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Location {
+    // Logger
+    private static Logger log = Logger.getLogger(Player.class.getName());
+
     private JSONObject config;
     private final int locationId;
     private final String name;
@@ -38,6 +42,8 @@ public class Location {
         }
 
         this.name = config.getString("name");
+
+        log.info("Location \"" + getName() + "\" was created.");
     }
 
     public void init() {
@@ -68,6 +74,8 @@ public class Location {
             items.add(item);
             spriteManager.addSprite(item);
         }
+
+        log.info("Location \"" + getName() + "\" was initialized.");
     }
 
     public void setPlayer(Player player) {

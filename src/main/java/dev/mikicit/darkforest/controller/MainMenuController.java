@@ -15,8 +15,12 @@ public class MainMenuController extends AController {
         view = new MainMenuView(this);
     }
 
+    public void gameLoadButtonClickHandler(MouseEvent e) {
+        StateManager.goToGame(true);
+    }
+
     public void gameStartButtonClickHandler(MouseEvent e) {
-        StateManager.goToGame();
+        StateManager.goToGame(false);
     }
 
     public void exitGameButtonClickHandler(MouseEvent e) {

@@ -1,5 +1,6 @@
 package dev.mikicit.darkforest.core.tile;
 
+import dev.mikicit.darkforest.core.Config;
 import javafx.scene.canvas.GraphicsContext;
 
 public class TileMap {
@@ -48,12 +49,12 @@ public class TileMap {
         }
     }
 
-    public int convertTileToPixel(int coord) {
-        return coord * tileSize;
+    public static int convertTileToPixel(int coord) {
+        return coord * Config.getTileSize();
     }
 
-    public int convertPixelToTile(double coord) {
-        return (int) (coord / tileSize);
+    public static int convertPixelToTile(double coord) {
+        return (int) (coord / Config.getTileSize());
     }
 
     public int getMapWidth() {

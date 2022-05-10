@@ -37,21 +37,31 @@ public class ItemFactory {
     }
 
     private static AItem createBottle(JSONObject config) {
-        HealthBottle healthBottle = new HealthBottle(config.getString("name"), config.getDouble("health"));
+        HealthBottle healthBottle = new HealthBottle(
+                config.getInt("id"),
+                config.getString("name"),
+                config.getDouble("health"));
         healthBottle.setImage("item/" + config.getInt("id") + "/image.png");
 
         return healthBottle;
     }
 
     private static AItem createWeapon(JSONObject config) {
-        Weapon weapon = new Weapon(config.getString("name"), config.getDouble("damage"), config.getDouble("radius"));
+        Weapon weapon = new Weapon(
+                config.getInt("id"),
+                config.getString("name"),
+                config.getDouble("damage"),
+                config.getDouble("radius"));
         weapon.setImage("item/" + config.getInt("id") + "/image.png");
 
         return weapon;
     }
 
     private static AItem createArmor(JSONObject config) {
-        Armor armor = new Armor(config.getString("name"), config.getDouble("armor"));
+        Armor armor = new Armor(
+                config.getInt("id"),
+                config.getString("name"),
+                config.getDouble("armor"));
         armor.setImage("item/" + config.getInt("id") + "/image.png");
 
         return armor;
