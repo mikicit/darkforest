@@ -33,7 +33,7 @@ public class Monster extends ASprite {
         log.info("Monster \"" + getName() + "\" was attacked by player." + " Incoming damage is " + incomingDamage + ".");
         health = Math.max(health - incomingDamage, 0);
 
-        playAnimation("inattack");
+//        playAnimation("inattack");
 
         if (health == 0) {
             isDead = true;

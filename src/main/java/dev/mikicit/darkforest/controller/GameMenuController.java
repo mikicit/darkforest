@@ -8,14 +8,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class GameMenuController extends AController {
-    private boolean wasInitialized = false;
-
-    public GameMenuController() {}
-
     public void init() {
         if (wasInitialized) return;
         wasInitialized = true;
         view = new GameMenuView(this);
+        view.init();
     }
 
     // Event Handlers
@@ -23,12 +20,12 @@ public class GameMenuController extends AController {
         String code = e.getCode().toString();
 
         if (code.equals("ESCAPE")) {
-            StateManager.goToGame(false);
+            StateManager.continueGame();
         }
     }
 
     public void gameContinueButtonClickHandler(MouseEvent e) {
-        StateManager.goToGame(false);
+        StateManager.continueGame();
     }
 
     public void gameSaveButtonClickHandler(MouseEvent e) {

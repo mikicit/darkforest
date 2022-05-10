@@ -18,40 +18,44 @@ import java.util.ArrayList;
  * The type Game controller.
  */
 public class GameController extends AController {
-    protected ArrayList<String> input = new ArrayList<>();
-    private GameModel gameModel;
+    // Inputs
+    private ArrayList<String> input = new ArrayList<>();
+
+    // Links
     private Player player;
+    private TileMap tileMap;
     private ArrayList<Monster> monsters;
     private ArrayList<AItem> items;
-    private TileMap tileMap;
-    private Pane canvasRoot;
     private SpriteManager spriteManager;
-    private boolean wasInitialized = false;
-
-    public GameController() {}
+    private Pane canvasRoot;
 
     public void init() {
         if (wasInitialized) return;
-        gameModel = GameModel.getInstance();
+
+        // Init View
         view = new GameView(this);
+        view.init();
 
         // Links to game entitles
+        GameModel gameModel = GameModel.getInstance();
         player = gameModel.getPlayer();
         monsters = gameModel.getMonsters();
         items = gameModel.getItems();
-
         tileMap = gameModel.getTileMap();
         canvasRoot = ((GameView) view).getCanvasRoot();
         spriteManager = gameModel.getSpriteManager();
 
+        // Set Initial Camera Position
         setCameraPositionOnLoad();
 
+        // Setting Up State
         wasInitialized = true;
     }
 
     // Event Handlers
     public void keyPressedHandler(KeyEvent e) {
         String code = e.getCode().toString();
+
         if (!input.contains(code)) {
             input.add(code);
         }
@@ -73,8 +77,14 @@ public class GameController extends AController {
 
         // Go to Inventory
         if (code.equals("I")) {
-            input = new ArrayList<>();
+            resetInput();
             StateManager.goToInventory();
+        }
+
+        // Go to Character Info
+        if (code.equals("P")) {
+            resetInput();
+            StateManager.goToCharacterInfo();
         }
     }
 
@@ -99,50 +109,51 @@ public class GameController extends AController {
     }
 
     // Updating Player Position with constraints
-    private void updatePlayerPosition() {
+    private void updatePlayerPosition(double delta) {
         Rectangle2D moveBox = player.getMoveBox();
+        int path = (int) (player.getSpeed() * delta); // real distance traveled in time without reference to frame rate
 
-        if (input.contains("A") && player.getX() - 1 > 0) {
-            int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX() - 1);
+        if (input.contains("A") && player.getX() - path > 0) {
+            int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX() - path);
             int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY());
             int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY());
 
             if (tileMap.getTile(tileMinX, tileMinY).isPassable() &&
                     tileMap.getTile(tileMinX, tileMaxY).isPassable()) {
-                player.moveLeft();
+                player.moveLeft(path);
             }
         }
 
-        if (input.contains("D") && player.getX() + player.getWidth() + 1 < tileMap.getMapWidth()) {
+        if (input.contains("D") && player.getX() + player.getWidth() + path < tileMap.getMapWidth()) {
             int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY());
             int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY());
-            int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX() + 1);
+            int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX() + path);
 
             if (tileMap.getTile(tileMaxX, tileMinY).isPassable() &&
                     tileMap.getTile(tileMaxX, tileMaxY).isPassable()) {
-                player.moveRight();
+                player.moveRight(path);
             }
         }
 
-        if (input.contains("W") && player.getY() - 1 > 0) {
+        if (input.contains("W") && player.getY() - path > 0) {
             int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX());
-            int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY() - 1);
+            int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY() - path);
             int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX());
 
             if (tileMap.getTile(tileMinX, tileMinY).isPassable() &&
                     tileMap.getTile(tileMaxX, tileMinY).isPassable()) {
-                player.moveUp();
+                player.moveUp(path);
             }
         }
 
-        if (input.contains("S") && player.getY() + player.getHeight() + 1 < tileMap.getMapHeight()) {
+        if (input.contains("S") && player.getY() + player.getHeight() + path < tileMap.getMapHeight()) {
             int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX());
-            int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY() + 1);
+            int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY() + path);
             int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX());
 
             if (tileMap.getTile(tileMinX, tileMaxY).isPassable() &&
                     tileMap.getTile(tileMaxX, tileMaxY).isPassable()) {
-                player.moveDown();
+                player.moveDown(path);
             }
         }
     }
@@ -151,17 +162,13 @@ public class GameController extends AController {
         double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
         double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
 
-        System.out.println(offsetY);
-
         // X camera
         if (offsetX > 0 && offsetX > tileMap.getMapWidth() - Config.getWindowWidth()) {
-            System.out.println("X");
             canvasRoot.setTranslateX((offsetX - (offsetX - (tileMap.getMapWidth() - Config.getWindowWidth()))) * -1);
         }
 
         // Y camera
         if (offsetY > 0 && offsetY > tileMap.getMapHeight() - Config.getWindowHeight()) {
-            System.out.println("Y");
             canvasRoot.setTranslateY((offsetY - (offsetY - (tileMap.getMapHeight() - Config.getWindowHeight()))) * -1);
         }
     }
@@ -202,10 +209,14 @@ public class GameController extends AController {
         }
     }
 
+    private void resetInput() {
+        input = new ArrayList<>();
+    }
+
     @Override
     public void tick(double delta) {
         // Update
-        updatePlayerPosition();
+        updatePlayerPosition(delta);
 
         // Camera
         updateCameraPosition();

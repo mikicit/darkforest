@@ -10,14 +10,11 @@ import dev.mikicit.darkforest.view.component.inventory.ItemView;
 import javafx.scene.input.KeyEvent;
 
 public class InventoryController extends AController {
-    private boolean wasInitialized = false;
-
-    public InventoryController() {}
-
     public void init() {
         if (wasInitialized) return;
         wasInitialized = true;
         view = new InventoryView(this);
+        view.init();
     }
 
     // Event Handlers
@@ -25,7 +22,7 @@ public class InventoryController extends AController {
         String code = e.getCode().toString();
 
         if (code.equals("ESCAPE") || code.equals("I")) {
-            StateManager.goToGame(false);
+            StateManager.continueGame();
         }
 
         if (code.equals("J")) {

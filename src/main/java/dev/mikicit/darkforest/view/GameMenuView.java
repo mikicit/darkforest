@@ -13,7 +13,9 @@ import java.util.ArrayList;
 public class GameMenuView extends AView{
     public GameMenuView(GameMenuController controller) {
         this.controller = controller;
+    }
 
+    public void init() {
         // JavaFX init
         VBox vBox = new VBox();
         ArrayList<Button> buttons = new ArrayList<>();
@@ -55,11 +57,11 @@ public class GameMenuView extends AView{
         scene = new Scene(vBox, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
 
         // Attaching Event Listeners
-        scene.setOnKeyPressed(controller::keyPressedHandler);
-        continueGame.setOnMouseClicked(controller::gameContinueButtonClickHandler);
-        saveGame.setOnMouseClicked(controller::gameSaveButtonClickHandler);
-        toMainMenu.setOnMouseClicked(controller::toMainMenuButtonClickHandler);
-        exitGame.setOnMouseClicked(controller::exitGameButtonClickHandler);
+        scene.setOnKeyPressed(((GameMenuController) controller)::keyPressedHandler);
+        continueGame.setOnMouseClicked(((GameMenuController) controller)::gameContinueButtonClickHandler);
+        saveGame.setOnMouseClicked(((GameMenuController) controller)::gameSaveButtonClickHandler);
+        toMainMenu.setOnMouseClicked(((GameMenuController) controller)::toMainMenuButtonClickHandler);
+        exitGame.setOnMouseClicked(((GameMenuController) controller)::exitGameButtonClickHandler);
     }
 
     @Override

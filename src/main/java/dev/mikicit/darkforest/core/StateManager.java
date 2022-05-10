@@ -2,13 +2,17 @@ package dev.mikicit.darkforest.core;
 
 import dev.mikicit.darkforest.controller.*;
 import dev.mikicit.darkforest.model.GameModel;
+import dev.mikicit.darkforest.view.GameView;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.util.HashMap;
 
+/**
+ * The type State manager.
+ */
 public class StateManager {
-    private static final HashMap<String, AController> states = new HashMap<>();
+    private static HashMap<String, AController> states = new HashMap<>();
     private static AController currentController;
     private static Stage stage;
     private static GameLoop gameLoop;
@@ -21,6 +25,7 @@ public class StateManager {
         states.put("GAME_MENU", new GameMenuController());
         states.put("GAME", new GameController());
         states.put("INVENTORY", new InventoryController());
+        states.put("CHARACTER_INFO", new InventoryController());
 
         // Set up current state
         currentController = states.get("MENU");
@@ -36,11 +41,27 @@ public class StateManager {
         startLoop();
     }
 
-    public static void goToGame(boolean fromSave) {
+    public static void startGame(boolean fromSave) {
         currentController = states.get("GAME");
-        // There was not enough time for refactoring, but it works.
+
+        // Reset All Controllers and Views (in case we start a new game after the game has already been played)
+        states.forEach((key, value) -> {
+            value.reset();
+        });
+
+        // Init Game Model
         GameModel gameModel = GameModel.getInstance();
         gameModel.init(fromSave);
+
+        // Init Controller
+        currentController.init();
+
+        // Setting Scene
+        stage.setScene(currentController.getView().getScene());
+    }
+
+    public static void continueGame() {
+        currentController = states.get("GAME");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
     }
@@ -53,6 +74,12 @@ public class StateManager {
 
     public static void goToGameMenu() {
         currentController = states.get("GAME_MENU");
+        currentController.init();
+        stage.setScene(currentController.getView().getScene());
+    }
+
+    public static void goToCharacterInfo() {
+        currentController = states.get("CHARACTER_INFO");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
     }
@@ -88,8 +115,11 @@ class GameLoop extends AnimationTimer {
     @Override
     public void handle(long now) {
         double delta = (now - lastNanoTime) / 1000000000.0;
-        lastNanoTime = now;
 
-        StateManager.getCurrentState().tick(delta);
+        // Frame rate cap
+        if (delta > 1/60.00) {
+            lastNanoTime = now;
+            StateManager.getCurrentState().tick(delta);
+        }
     }
 }

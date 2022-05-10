@@ -19,12 +19,7 @@ public class GameModel {
     private Player player;
     private Location currentLocation;
 
-    private GameModel() {}
-
     public void init(boolean fromSave) {
-        if (isRunning) return;
-        isRunning = true;
-
         // Loading Player Config
         JSONObject playerConfig = PlayerConfig.getPlayerConfig(fromSave);
         currentLocation = new Location(playerConfig.getInt("locationId"));
@@ -68,10 +63,6 @@ public class GameModel {
             instance = new GameModel();
         }
         return instance;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
     }
 
     // Getters

@@ -11,5 +11,6 @@ public abstract class AView {
         return scene;
     }
 
+    abstract public void init();
     abstract public void render();
 }

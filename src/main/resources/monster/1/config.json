@@ -8,7 +8,7 @@
   "animations": [
     {
       "name": "inattack",
-      "animationTime": 50,
+      "animationTime": 100,
       "numberOfFrames": 4,
       "frameWidth": 50,
       "frameHeight": 59

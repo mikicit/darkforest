@@ -1,5 +1,6 @@
 package dev.mikicit.darkforest.view;
 
+import dev.mikicit.darkforest.controller.CharacterInfoController;
 import dev.mikicit.darkforest.controller.InventoryController;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.model.GameModel;
@@ -9,11 +10,12 @@ import dev.mikicit.darkforest.view.component.inventory.HintsView;
 import dev.mikicit.darkforest.view.component.inventory.ItemInfoView;
 import dev.mikicit.darkforest.view.component.inventory.ItemsView;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 
-public class InventoryView extends AView {
-    public InventoryView(InventoryController controller) {
+public class CharacterInfoView extends AView {
+    public CharacterInfoView(CharacterInfoController controller) {
         this.controller = controller;
     }
 
@@ -47,7 +49,7 @@ public class InventoryView extends AView {
         scene = new Scene(gridPane, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
 
         // Attaching Event Listeners
-        scene.setOnKeyPressed(((InventoryController) controller)::keyPressedHandler);
+        scene.setOnKeyPressed(((CharacterInfoController) controller)::keyPressedHandler);
 
         // Add observer
         inventory.addObserver(itemsView);

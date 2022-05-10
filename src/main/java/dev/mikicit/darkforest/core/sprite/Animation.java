@@ -12,6 +12,7 @@ public class Animation {
     private final Image imageSet;
     private Image oldImage;
     private ASprite sprite;
+    private PixelReader pr;
 
     // Config
     private final double animationTime; // in ms
@@ -22,8 +23,9 @@ public class Animation {
 
     // State
     private double lastNanoTime;
-    private int currentFrameIndex = 0;
+    private int currentFrameNumber = 0;
     private boolean isAnimating = false;
+    private double timeFromLastFrame;
 
     public Animation(Image image, double animationTime, int numberOfFrames, double frameWidth, double frameHeight) {
         imageSet = image;
@@ -32,6 +34,7 @@ public class Animation {
         this.frameHeight = frameHeight;
         this.numberOfFrames = numberOfFrames;
         this.animationTimePerFrame = this.animationTime / numberOfFrames;
+        pr = imageSet.getPixelReader();
     }
 
     public Animation(String path, double animationTime, int numberOfFrames, double frameWidth, double frameHeight) {
@@ -41,6 +44,7 @@ public class Animation {
         this.frameHeight = frameHeight;
         this.numberOfFrames = numberOfFrames;
         this.animationTimePerFrame = animationTime / numberOfFrames;
+        pr = imageSet.getPixelReader();
     }
 
     public void play(ASprite sprite) {
@@ -51,27 +55,40 @@ public class Animation {
 
     public void stop() {
         isAnimating = false;
-        currentFrameIndex = 0;
+        currentFrameNumber = 0;
         sprite = null;
+        timeFromLastFrame = 0;
     }
 
     private Image getNextFrame() {
-        if (currentFrameIndex < numberOfFrames) {
-            PixelReader pr = imageSet.getPixelReader();
-            Image frame = new WritableImage(pr, (int) (currentFrameIndex * frameWidth), 0, (int) frameWidth, (int) frameHeight);
-            currentFrameIndex++;
+        if (currentFrameNumber < numberOfFrames) {
+            Image frame = new WritableImage(pr, (int) (currentFrameNumber * frameWidth), 0, (int) frameWidth, (int) frameHeight);
+            currentFrameNumber++;
             return frame;
         }
 
         return null;
     }
 
-    public void update() {
+    public void update(double delta) {
         if (isAnimating) {
-            double currentNanoTime = System.nanoTime();
+//            double currentNanoTime = System.nanoTime();
+//
+//            if ((currentNanoTime - lastNanoTime) / 1000000 > animationTimePerFrame) {
+//                lastNanoTime = currentNanoTime;
+//
+//                Image image;
+//                if ((image = getNextFrame()) != null) {
+//                    sprite.setImage(image);
+//                    return;
+//                }
+//                sprite.setImage(oldImage);
+//                stop();
+//            }
 
-            if ((currentNanoTime - lastNanoTime) / 1000000 > animationTimePerFrame) {
-                lastNanoTime = currentNanoTime;
+            timeFromLastFrame += delta;
+            if (timeFromLastFrame > animationTimePerFrame / 300) {
+                timeFromLastFrame = 0;
 
                 Image image;
                 if ((image = getNextFrame()) != null) {

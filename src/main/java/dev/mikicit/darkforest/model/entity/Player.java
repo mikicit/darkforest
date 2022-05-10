@@ -38,7 +38,7 @@ public class Player extends ASprite {
     private final double basicDamage;
     private final double basicArmor;
     private final double damageRadius;
-    private double speed = 1;
+    private double speed = 160; // px per second
     private double attackSpeed = 300; // in ms
 
     // Inventory
@@ -197,6 +197,10 @@ public class Player extends ASprite {
         return currentArmor;
     }
 
+    public double getSpeed() {
+        return speed;
+    }
+
     public boolean isDead() {
         return isDead;
     }
@@ -235,35 +239,35 @@ public class Player extends ASprite {
     }
 
     // Moving
-    public void moveUp() {
+    public void moveUp(int path) {
         if (currentDirection != Direction.TOP) {
             currentDirection = Direction.TOP;
             setImage(images.get(currentDirection));
         }
-        positionY -= speed;
+        positionY -= path;
     }
 
-    public void moveRight() {
+    public void moveRight(int path) {
         if (currentDirection != Direction.RIGHT) {
             currentDirection = Direction.RIGHT;
             setImage(images.get(currentDirection));
         }
-        positionX += speed;
+        positionX += path;
     }
 
-    public void moveDown() {
+    public void moveDown(int path) {
         if (currentDirection != Direction.BOTTOM) {
             currentDirection = Direction.BOTTOM;
             setImage(images.get(currentDirection));
         }
-        positionY += speed;
+        positionY += path;
     }
 
-    public void moveLeft() {
+    public void moveLeft(int path) {
         if (currentDirection != Direction.LEFT) {
             currentDirection = Direction.LEFT;
             setImage(images.get(currentDirection));
         }
-        positionX -= speed;
+        positionX -= path;
     }
 }

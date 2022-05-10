@@ -34,20 +34,20 @@ public abstract class ASprite {
         positionY = y;
     }
 
-    public void setAnimation(String name, Animation animation) {
-        animations.put(name, animation);
-    }
+//    public void setAnimation(String name, Animation animation) {
+//        animations.put(name, animation);
+//    }
+//
+//    public void playAnimation(String name) {
+//        Animation animation = animations.get(name);
+//        if (animation != null) {
+//            animations.get(name).play(this);
+//        }
+//    }
 
-    public void playAnimation(String name) {
-        Animation animation = animations.get(name);
-        if (animation != null) {
-            animations.get(name).play(this);
-        }
-    }
-
-    public void update(double time) {
+    public void update(double delta) {
         animations.forEach((key, value) -> {
-            value.update();
+            value.update(delta);
         });
     }
 

@@ -1,5 +1,6 @@
 package dev.mikicit.darkforest.view;
 
+import dev.mikicit.darkforest.controller.GameMenuController;
 import dev.mikicit.darkforest.controller.MainMenuController;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.PlayerConfig;
@@ -15,7 +16,9 @@ import java.util.Observer;
 public class MainMenuView extends AView {
     public MainMenuView(MainMenuController controller) {
         this.controller = controller;
+    }
 
+    public void init() {
         // JavaFX init
         VBox vBox = new VBox();
         ArrayList<Button> buttons = new ArrayList<>();
@@ -61,9 +64,9 @@ public class MainMenuView extends AView {
         scene = new Scene(vBox, Config.getWindowWidth(), Config.getWindowHeight(), Color.BLACK);
 
         // Attaching Event Listeners
-        newGame.setOnMouseClicked(controller::gameStartButtonClickHandler);
-        loadGame.setOnMouseClicked(controller::gameLoadButtonClickHandler);
-        exitGame.setOnMouseClicked(controller::exitGameButtonClickHandler);
+        newGame.setOnMouseClicked(((MainMenuController) controller)::gameStartButtonClickHandler);
+        loadGame.setOnMouseClicked(((MainMenuController) controller)::gameLoadButtonClickHandler);
+        exitGame.setOnMouseClicked(((MainMenuController) controller)::exitGameButtonClickHandler);
     }
 
     @Override
