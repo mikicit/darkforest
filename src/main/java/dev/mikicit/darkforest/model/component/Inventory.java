@@ -16,11 +16,20 @@ public class Inventory extends Observable {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
 
-    private final int maxItems = 14;
+    private int capacity;
     /**
      * The Items.
      */
     ArrayList<AItem> items = new ArrayList<>();
+
+    /**
+     * Instantiates a new Inventory.
+     *
+     * @param capacity the capacity
+     */
+    public Inventory(int capacity) {
+        this.capacity = capacity;
+    }
 
     /**
      * Add item boolean.
@@ -80,7 +89,7 @@ public class Inventory extends Observable {
      * @return the boolean
      */
     public boolean isFull() {
-        return maxItems == items.size();
+        return capacity == items.size();
     }
 
     /**
@@ -98,7 +107,7 @@ public class Inventory extends Observable {
      * @return the capacity
      */
     public int getCapacity() {
-        return maxItems;
+        return capacity;
     }
 
     /**

@@ -80,7 +80,7 @@ public class Player extends ASprite {
         this.basicDamage = damage;
         this.basicArmor = armor;
         this.damageRadius = damageRadius;
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(14);
         this.equipment = new Equipment();
         this.isDead = false;
 

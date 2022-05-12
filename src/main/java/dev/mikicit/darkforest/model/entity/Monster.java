@@ -126,6 +126,15 @@ public class Monster extends ASprite {
     }
 
     /**
+     * Gets health.
+     *
+     * @return the health
+     */
+    public double getHealth() {
+        return health;
+    }
+
+    /**
      * Gets damage radius.
      *
      * @return the damage radius
