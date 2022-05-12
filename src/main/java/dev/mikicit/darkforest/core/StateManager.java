@@ -2,10 +2,12 @@ package dev.mikicit.darkforest.core;
 
 import dev.mikicit.darkforest.controller.*;
 import dev.mikicit.darkforest.model.GameModel;
+import dev.mikicit.darkforest.model.entity.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  * The type State manager.
@@ -14,6 +16,9 @@ import java.util.HashMap;
  * (switching between screens, managing a timer, etc.)
  */
 public class StateManager {
+    // Logger
+    private static Logger log = Logger.getLogger(Player.class.getName());
+
     private static HashMap<String, AController> states = new HashMap<>();
     private static AController currentController;
     private static Stage stage;
@@ -82,6 +87,8 @@ public class StateManager {
         currentController = states.get("GAME");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
+
+        log.info("Continue game.");
     }
 
     /**
@@ -93,6 +100,8 @@ public class StateManager {
         currentController = states.get("MENU");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
+
+        log.info("Go to the main menu.");
     }
 
     /**
@@ -104,6 +113,8 @@ public class StateManager {
         currentController = states.get("GAME_MENU");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
+
+        log.info("Go to the game menu.");
     }
 
 
@@ -116,6 +127,8 @@ public class StateManager {
         currentController = states.get("INVENTORY");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
+
+        log.info("Go to the inventory.");
     }
 
     /**
@@ -127,6 +140,8 @@ public class StateManager {
         currentController = states.get("GAME_OVER");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
+
+        log.info("Game Over.");
     }
 
     /**
@@ -145,6 +160,8 @@ public class StateManager {
      * Exit the game (complete closing of the application).
      */
     public static void exitGame() {
+        log.info("Exit Game.");
+
         Platform.exit();
         System.exit(0);
     }
