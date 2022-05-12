@@ -3,27 +3,32 @@ package dev.mikicit.darkforest.model;
 import dev.mikicit.darkforest.core.PlayerConfig;
 import dev.mikicit.darkforest.core.factory.ItemFactory;
 import dev.mikicit.darkforest.core.location.Location;
+import dev.mikicit.darkforest.core.location.LocationManager;
 import dev.mikicit.darkforest.core.sprite.SpriteManager;
 import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
+import dev.mikicit.darkforest.model.entity.Portal;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class GameModel {
+    // Logger
+    private static Logger log = Logger.getLogger(Player.class.getName());
+
     private static GameModel instance;
-    private static boolean isRunning = false;
     private Player player;
     private Location currentLocation;
+    private LocationManager locationManager;
 
     public void init(boolean fromSave) {
         // Loading Player Config
         JSONObject playerConfig = PlayerConfig.getPlayerConfig(fromSave);
-        currentLocation = new Location(playerConfig.getInt("locationId"));
-        currentLocation.init();
+        locationManager = new LocationManager();
 
         // Setting characteristics
         player = new Player(
@@ -51,11 +56,12 @@ public class GameModel {
             player.getInventory().addItem(ItemFactory.getItem((int) item));
         }
 
-        currentLocation.setPlayer(player);
-
         player.setPosition(
                 TileMap.convertTileToPixel(playerConfig.getInt("positionX")),
                 TileMap.convertTileToPixel(playerConfig.getInt("positionY")));
+
+        // Setting Up Location
+        setLocation(playerConfig.getInt("locationId"));
     }
 
     public static GameModel getInstance() {
@@ -63,6 +69,18 @@ public class GameModel {
             instance = new GameModel();
         }
         return instance;
+    }
+
+    public void setLocation(int locationId) {
+        if (currentLocation != null) {
+            currentLocation.unsetPlayer();
+        }
+
+        currentLocation = locationManager.getLocation(locationId);
+        currentLocation.init();
+        currentLocation.setPlayer(player);
+
+        log.info("The location \"" + currentLocation.getName() + "\" was set.");
     }
 
     // Getters
@@ -84,6 +102,10 @@ public class GameModel {
 
     public ArrayList<AItem> getItems() {
         return currentLocation.getItems();
+    }
+
+    public ArrayList<Portal> getPortals() {
+        return currentLocation.getPortals();
     }
 
     public SpriteManager getSpriteManager() {

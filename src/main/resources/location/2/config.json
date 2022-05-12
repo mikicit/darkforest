@@ -1,0 +1,15 @@
+{
+  "id": 2,
+  "name": "Dark forest 2",
+  "portals": [
+    {
+      "id": 2,
+      "positionX": 6,
+      "positionY": 6
+    }
+  ],
+  "items": [
+  ],
+  "monsters": [
+  ]
+}

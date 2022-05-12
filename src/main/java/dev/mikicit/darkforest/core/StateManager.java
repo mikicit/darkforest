@@ -90,6 +90,10 @@ public class StateManager {
         stage.setScene(currentController.getView().getScene());
     }
 
+    public static void resetScene() {
+        stage.setScene(currentController.getView().getScene());
+    }
+
     public static void exitGame() {
         Platform.exit();
         System.exit(0);

@@ -4,14 +4,7 @@
   "health": 350,
   "damage": 50,
   "damageRadius": 20,
-  "viewingRadius": 200,
-  "animations": [
-    {
-      "name": "inattack",
-      "animationTime": 100,
-      "numberOfFrames": 4,
-      "frameWidth": 50,
-      "frameHeight": 59
-    }
-  ]
+  "viewingRadius": 64,
+  "speed": 60,
+  "attackSpeed": 700
 }

@@ -22,26 +22,12 @@ public class MonsterFactory {
             double damage = config.getDouble("damage");
             double damageRadius = config.getDouble("damageRadius");
             double viewingRadius = config.getDouble("viewingRadius");
+            double speed = config.getDouble("speed");
+            double attackSpeed = config.getDouble("attackSpeed");
 
             // Creating Monster
-            Monster monster = new Monster(name, health, damage, damageRadius, viewingRadius);
+            Monster monster = new Monster(name, health, damage, damageRadius, viewingRadius, speed, attackSpeed);
             monster.setImage("monster/" + id + "/image.png");
-
-            // Animation Config
-//            JSONArray animations = config.getJSONArray("animations");
-//
-//            for (Object anim : animations) {
-//                JSONObject animConfig = (JSONObject) anim;
-//                Animation animation = new Animation(
-//                        "monster/" + id + "/" + animConfig.getString("name") + ".png",
-//                        animConfig.getDouble("animationTime"),
-//                        animConfig.getInt("numberOfFrames"),
-//                        animConfig.getDouble("frameWidth"),
-//                        animConfig.getDouble("frameHeight")
-//                        );
-//
-//                monster.setAnimation(animConfig.getString("name"), animation);
-//            }
 
             return monster;
         } catch (IOException e) {

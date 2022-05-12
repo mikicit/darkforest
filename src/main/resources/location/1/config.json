@@ -1,6 +1,13 @@
 {
   "id": 1,
   "name": "Dark forest",
+  "portals": [
+    {
+      "id": 1,
+      "positionX": 12,
+      "positionY": 12
+    }
+  ],
   "items": [
     {
       "id": 1,

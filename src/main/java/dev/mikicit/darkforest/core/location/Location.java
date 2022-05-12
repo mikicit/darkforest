@@ -2,12 +2,14 @@ package dev.mikicit.darkforest.core.location;
 
 import dev.mikicit.darkforest.core.factory.ItemFactory;
 import dev.mikicit.darkforest.core.factory.MonsterFactory;
+import dev.mikicit.darkforest.core.factory.PortalFactory;
 import dev.mikicit.darkforest.core.sprite.SpriteManager;
 import dev.mikicit.darkforest.core.tile.TileMap;
 import dev.mikicit.darkforest.core.tile.TileMapManager;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
+import dev.mikicit.darkforest.model.entity.Portal;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -21,14 +23,21 @@ public class Location {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
 
+    // Data
     private JSONObject config;
     private final int locationId;
     private final String name;
+
+    // Links
     private Player player;
     private ArrayList<Monster> monsters = new ArrayList<>();
     private ArrayList<AItem> items = new ArrayList<>();
+    private ArrayList<Portal> portals = new ArrayList<>();
     private TileMap tileMap;
     private SpriteManager spriteManager;
+
+    // State
+    private boolean wasInitialized;
 
     public Location(int locationId) {
         this.locationId = locationId;
@@ -47,6 +56,8 @@ public class Location {
     }
 
     public void init() {
+        if (wasInitialized) return;
+
         // Sprite Manager Init
         spriteManager = new SpriteManager();
 
@@ -75,12 +86,31 @@ public class Location {
             spriteManager.addSprite(item);
         }
 
+        // Portals Init
+        for (Object portalConfig : config.getJSONArray("portals")) {
+            Portal portal = PortalFactory.getPortal(((JSONObject) portalConfig).getInt("id"));
+
+            portal.setPosition(
+                    TileMap.convertTileToPixel(((JSONObject) portalConfig).getInt("positionX")),
+                    TileMap.convertTileToPixel(((JSONObject) portalConfig).getInt("positionY")));
+
+            portals.add(portal);
+            spriteManager.addSprite(portal);
+        }
+
+        wasInitialized = true;
+
         log.info("Location \"" + getName() + "\" was initialized.");
     }
 
     public void setPlayer(Player player) {
         this.player = player;
         spriteManager.addSprite(player);
+    }
+
+    public void unsetPlayer() {
+        spriteManager.removeSprite(player);
+        this.player = null;
     }
 
     public int getId() {
@@ -101,6 +131,10 @@ public class Location {
 
     public ArrayList<AItem> getItems() {
         return items;
+    }
+
+    public ArrayList<Portal> getPortals() {
+        return portals;
     }
 
     public TileMap getTileMap() {

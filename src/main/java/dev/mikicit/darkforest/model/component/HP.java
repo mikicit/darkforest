@@ -14,19 +14,13 @@ public class HP extends Observable {
     public void addHealth(double health) {
         currentHealth = Math.min(currentHealth + health, initialHealth);
         setChanged();
-        notifyObservers(currentHealth);
+        notifyObservers(Math.round(currentHealth));
     }
 
     public void reduceHealth(double health) {
         currentHealth = Math.max(currentHealth - health, 0);
         setChanged();
-        notifyObservers(currentHealth);
-    }
-
-    public void setHealth(double health) {
-        this.currentHealth = health;
-        setChanged();
-        notifyObservers(health);
+        notifyObservers(Math.round(currentHealth));
     }
 
     public void setInitialHealthHealth(double health) {
@@ -38,6 +32,6 @@ public class HP extends Observable {
     }
 
     public double getHealth() {
-        return currentHealth;
+        return Math.round(currentHealth);
     }
 }

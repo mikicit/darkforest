@@ -1,7 +1,6 @@
 package dev.mikicit.darkforest;
 
 import dev.mikicit.darkforest.core.Config;
-import dev.mikicit.darkforest.core.PlayerConfig;
 import dev.mikicit.darkforest.core.StateManager;
 import javafx.application.Application;
 import javafx.scene.image.Image;

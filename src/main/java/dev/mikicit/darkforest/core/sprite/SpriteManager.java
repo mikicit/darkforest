@@ -14,22 +14,22 @@ public class SpriteManager {
     public void update(double delta) {
         sprites.sort(Comparator.comparing(ASprite::getY));
 
-        for (ASprite ASprite : sprites) {
-            ASprite.update(delta);
+        for (ASprite sprite : sprites) {
+            sprite.update(delta);
         }
     }
 
     public void render(GraphicsContext gc) {
-        for (ASprite ASprite : sprites) {
-            ASprite.render(gc);
+        for (ASprite sprite : sprites) {
+            sprite.render(gc);
         }
     }
 
-    public void addSprite(ASprite ASprite) {
-        sprites.add(ASprite);
+    public void addSprite(ASprite sprite) {
+        sprites.add(sprite);
     }
 
-    public void removeSprite(ASprite ASprite) {
-        sprites.remove(ASprite);
+    public void removeSprite(ASprite sprite) {
+        sprites.remove(sprite);
     }
 }

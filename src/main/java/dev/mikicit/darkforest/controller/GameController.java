@@ -8,6 +8,7 @@ import dev.mikicit.darkforest.model.GameModel;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Monster;
 import dev.mikicit.darkforest.model.entity.Player;
+import dev.mikicit.darkforest.model.entity.Portal;
 import dev.mikicit.darkforest.view.GameView;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyEvent;
@@ -26,6 +27,7 @@ public class GameController extends AController {
     private TileMap tileMap;
     private ArrayList<Monster> monsters;
     private ArrayList<AItem> items;
+    private ArrayList<Portal> portals;
     private SpriteManager spriteManager;
     private Pane canvasRoot;
 
@@ -41,6 +43,7 @@ public class GameController extends AController {
         player = gameModel.getPlayer();
         monsters = gameModel.getMonsters();
         items = gameModel.getItems();
+        portals = gameModel.getPortals();
         tileMap = gameModel.getTileMap();
         canvasRoot = ((GameView) view).getCanvasRoot();
         spriteManager = gameModel.getSpriteManager();
@@ -63,10 +66,6 @@ public class GameController extends AController {
         // Player
         if (code.equals("J")) {
             playerAttack();
-        }
-
-        if (code.equals("SPACE")) {
-            player.getHP().setHealth(player.getHP().getHealth() - 100);
         }
 
         // Main Menu
@@ -95,16 +94,24 @@ public class GameController extends AController {
 
     // Player Attack handler
     public void playerAttack() {
+        // Monsters
+        ArrayList<Monster> deadMonsters = new ArrayList<>();
+
         for (Monster monster : monsters) {
             if (player.intersectsAttackBox(monster)) {
                 player.attack(monster);
 
                 if (monster.isDead()) {
-                    monsters.remove(monster);
-                    spriteManager.removeSprite(monster);
+                    deadMonsters.add(monster);
                     break;
                 }
             }
+        }
+
+        // Remove dead monsters
+        for (Monster deadMonster : deadMonsters) {
+            monsters.remove(deadMonster);
+            spriteManager.removeSprite(deadMonster);
         }
     }
 
@@ -206,6 +213,33 @@ public class GameController extends AController {
         for (AItem item : takenItems) {
             spriteManager.removeSprite(item);
             items.remove(item);
+        }
+
+        // Monsters View
+        for (Monster monster : monsters) {
+            if (monster.intersectsRadiusViewBox(player)) {
+                monster.setAim(player);
+            }
+        }
+
+        // Portals
+        for (Portal portal : portals) {
+            if (portal.intersectsCollisionBox(player)) {
+                portal.activate();
+
+                for (Monster monster : monsters) {
+                    monster.offCombat();
+                }
+
+                // Reload Controller
+                wasInitialized = false;
+                init();
+
+                // Reset Current Game Scene
+                StateManager.resetScene();
+
+                return;
+            }
         }
     }
 

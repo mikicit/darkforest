@@ -22,12 +22,7 @@ public class GameView extends AView {
 
     public GameView(GameController controller) {
         this.controller = controller;
-//        init();
     }
-
-//    public void focus() {
-//        scene.setCursor(Cursor.NONE);
-//    }
 
     // Init
     public void init() {
