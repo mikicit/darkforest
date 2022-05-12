@@ -4,6 +4,9 @@ import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.view.GameOverView;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The type Game over controller.
+ */
 public class GameOverController extends AController {
     public void init() {
         if (wasInitialized) return;
@@ -12,6 +15,11 @@ public class GameOverController extends AController {
         view.init();
     }
 
+    /**
+     * Go to main menu button click handler.
+     *
+     * @param e the e
+     */
     public void goToMainMenuButtonClickHandler(MouseEvent e) {
         StateManager.goToMainMenu();
     }

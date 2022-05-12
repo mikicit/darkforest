@@ -15,10 +15,21 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The type Player config.
+ *
+ * Helper class for loading player configuration (standard or from save)
+ */
 public class PlayerConfig {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
 
+    /**
+     * Gets player config.
+     *
+     * @param fromSave the fromSave
+     * @return the player config
+     */
     public static JSONObject getPlayerConfig(boolean fromSave) {
         String path = fromSave ? "save/player.json" : "player.json";
 
@@ -34,11 +45,19 @@ public class PlayerConfig {
         return null;
     }
 
+    /**
+     * Is exist player save boolean.
+     *
+     * @return the boolean
+     */
     public static boolean isExistPlayerSave() {
         File f = new File("save/player.json");
         return f.isFile();
     }
 
+    /**
+     * Save player config.
+     */
     public static void savePlayerConfig() {
         JSONObject playerConfig = new JSONObject();
         GameModel gameModel = GameModel.getInstance();

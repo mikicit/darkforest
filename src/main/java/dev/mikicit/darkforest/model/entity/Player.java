@@ -2,27 +2,43 @@ package dev.mikicit.darkforest.model.entity;
 
 import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.core.sprite.ASprite;
+import dev.mikicit.darkforest.model.component.Equipment;
 import dev.mikicit.darkforest.model.component.HP;
 import dev.mikicit.darkforest.model.component.Inventory;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
-import dev.mikicit.darkforest.model.entity.Item.equipment.Armor;
-import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+/**
+ * The type Player.
+ * <p>
+ * The class represents the character and the methods to control it.
+ */
 public class Player extends ASprite {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
 
     private enum Direction {
+        /**
+         * Top direction.
+         */
         TOP,
+        /**
+         * Right direction.
+         */
         RIGHT,
+        /**
+         * Bottom direction.
+         */
         BOTTOM,
+        /**
+         * Left direction.
+         */
         LEFT
     }
 
@@ -46,9 +62,17 @@ public class Player extends ASprite {
     private final Inventory inventory;
 
     // Equipped Items
-    private Weapon currentWeapon = null;
-    private Armor currentArmor = null;
+    private final Equipment equipment;
 
+    /**
+     * Instantiates a new Player.
+     *
+     * @param name         the name
+     * @param health       the health
+     * @param damage       the damage
+     * @param armor        the armor
+     * @param damageRadius the damage radius
+     */
     public Player(String name, double health, double damage, double armor, double damageRadius) {
         super();
         this.name = name;
@@ -57,6 +81,7 @@ public class Player extends ASprite {
         this.basicArmor = armor;
         this.damageRadius = damageRadius;
         this.inventory = new Inventory();
+        this.equipment = new Equipment();
         this.isDead = false;
 
         // Setting Up Direction Images
@@ -72,6 +97,11 @@ public class Player extends ASprite {
         log.info("Player was created!");
     }
 
+    /**
+     * Attack.
+     *
+     * @param monster the monster
+     */
     public void attack(Monster monster) {
         if ((System.currentTimeMillis() - lastAttack) < attackSpeed) {
             return;
@@ -84,6 +114,11 @@ public class Player extends ASprite {
         }
     }
 
+    /**
+     * In attack.
+     *
+     * @param monster the monster
+     */
     public void inAttack(Monster monster) {
         double incomingDamage = monster.getDamage() * (100/(100 + getArmor())); // Given the character's armor.
 
@@ -97,6 +132,11 @@ public class Player extends ASprite {
         }
     }
 
+    /**
+     * In health.
+     *
+     * @param healthBottle the health bottle
+     */
     public void inHealth(HealthBottle healthBottle) {
         if (!inventory.isInInventory(healthBottle)) return;
         health.addHealth(healthBottle.getHealth());
@@ -105,122 +145,195 @@ public class Player extends ASprite {
         log.info("The potion \"" + healthBottle.getName() + "\" was used. " + healthBottle.getHealth() + " health has been added.");
     }
 
+    /**
+     * Sets equipment.
+     *
+     * @param item the item
+     */
     public void setEquipment(AEquipment item) {
-        inventory.removeItem(item);
-
-        if (item instanceof Weapon) {
-            if (currentWeapon != null) {
-                inventory.addItem(currentWeapon);
-            }
-
-            currentWeapon = (Weapon) item;
-            log.info("Weapon \"" + item.getName() + "\" was equipped.");
-        }
-
-        if (item instanceof Armor) {
-            if (currentArmor != null) {
-                inventory.addItem(currentArmor);
-            }
-
-            currentArmor = (Armor) item;
-            log.info("Armor \"" + item.getName() + "\" was equipped.");
-        }
+        equipment.setEquipment(item, inventory);
     }
 
+    /**
+     * Unset equipment.
+     *
+     * @param item the item
+     */
     public void unsetEquipment(AEquipment item) {
-        if (item instanceof Weapon) {
-            if (currentWeapon == null) return;
-            if (currentWeapon.equals(item)) {
-                if (inventory.addItem(item)) {
-                    currentWeapon = null;
-                    log.info("Weapon \"" + item.getName() + "\" was unequipped.");
-                }
-            }
-        }
-
-        if (item instanceof Armor) {
-            if (currentArmor == null) return;
-            if (currentArmor.equals(item)) {
-                if (inventory.addItem(item)) {
-                    currentArmor = null;
-                    log.info("Weapon \"" + item.getName() + "\" was unequipped.");
-                }
-            }
-        }
+        equipment.unsetEquipment(item, inventory);
     }
 
+    /**
+     * Gets inventory.
+     *
+     * @return the inventory
+     */
     public Inventory getInventory() {
         return inventory;
     }
 
-    public double getDamage() {
-        if (currentWeapon == null) return basicDamage;
-        return basicDamage + currentWeapon.getDamage();
+    /**
+     * Gets equipment.
+     *
+     * @return the equipment
+     */
+    public Equipment getEquipment() {
+        return equipment;
     }
 
+    /**
+     * Gets damage.
+     *
+     * @return the damage
+     */
+    public double getDamage() {
+        if (equipment.getWeapon() == null) return basicDamage;
+        return basicDamage + equipment.getWeapon().getDamage();
+    }
+
+    /**
+     * Gets basic damage.
+     *
+     * @return the basic damage
+     */
     public double getBasicDamage() {
         return basicDamage;
     }
 
+    /**
+     * Gets armor.
+     *
+     * @return the armor
+     */
     public double getArmor() {
-        if (currentArmor == null) return basicArmor;
-        return basicArmor + currentArmor.getArmor();
+        if (equipment.getArmor() == null) return basicArmor;
+        return basicArmor + equipment.getArmor().getArmor();
     }
 
+    /**
+     * Gets basic armor.
+     *
+     * @return the basic armor
+     */
     public double getBasicArmor() {
         return basicArmor;
     }
 
+    /**
+     * Gets damage radius.
+     *
+     * @return the damage radius
+     */
     public double getDamageRadius() {
-        if (currentWeapon == null) return basicDamage;
-        return damageRadius + currentWeapon.getRadius();
+        if (equipment.getWeapon() == null) return basicDamage;
+        return damageRadius + equipment.getWeapon().getRadius();
     }
 
+    /**
+     * Gets basic damage radius.
+     *
+     * @return the basic damage radius
+     */
     public double getBasicDamageRadius() {
         return damageRadius;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets health.
+     *
+     * @return the health
+     */
     public double getHealth() {
         return health.getHealth();
     }
 
+    /**
+     * Gets hp.
+     *
+     * @return the hp
+     */
     public HP getHP() {
         return health;
     }
 
+    /**
+     * Gets current weapon.
+     *
+     * @return the current weapon
+     */
     public AItem getCurrentWeapon() {
-        return currentWeapon;
+        return equipment.getWeapon();
     }
 
+    /**
+     * Gets current armor.
+     *
+     * @return the current armor
+     */
     public AItem getCurrentArmor() {
-        return currentArmor;
+        return equipment.getArmor();
     }
 
+    /**
+     * Gets speed.
+     *
+     * @return the speed
+     */
     public double getSpeed() {
         return speed;
     }
 
+    /**
+     * Is dead boolean.
+     *
+     * @return the boolean
+     */
     public boolean isDead() {
         return isDead;
     }
 
     // Intersections
 
-    // Checking the intersection with the attack area.
+    /**
+     * Intersects attack box boolean.
+     * <p>
+     * Checking the intersection with the attack area.
+     *
+     * @param s the s
+     * @return the boolean
+     */
     public boolean intersectsAttackBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getAttackCollisionBox());
     }
 
-    // Checking the intersection with the legs.
+    /**
+     * Intersects move box boolean.
+     * <p>
+     * Checking the intersection with the legs.
+     *
+     * @param s the s
+     * @return the boolean
+     */
     public boolean intersectsMoveBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getMoveBox());
     }
 
-    // Getting an attack area depending on the direction and damage radius of the character.
+    /**
+     * Gets attack collision box.
+     * <p>
+     * Getting an attack area depending on the direction and damage radius of the character.
+     *
+     * @return the attack collision box
+     */
     public Rectangle2D getAttackCollisionBox() {
         switch (currentDirection) {
             case TOP:
@@ -236,12 +349,22 @@ public class Player extends ASprite {
         return new Rectangle2D(positionX, positionY - getDamageRadius(), width, getDamageRadius());
     }
 
-    // Getting the leg area of the character.
+    /**
+     * Gets move box.
+     * <p>
+     * Getting the leg area of the character.
+     *
+     * @return the move box
+     */
     public Rectangle2D getMoveBox() {
         return new Rectangle2D(positionX, positionY + height - 16, width, 16);
     }
 
-    // Moving
+    /**
+     * Move up.
+     *
+     * @param path the path
+     */
     public void moveUp(int path) {
         if (currentDirection != Direction.TOP) {
             currentDirection = Direction.TOP;
@@ -250,6 +373,11 @@ public class Player extends ASprite {
         positionY -= path;
     }
 
+    /**
+     * Move right.
+     *
+     * @param path the path
+     */
     public void moveRight(int path) {
         if (currentDirection != Direction.RIGHT) {
             currentDirection = Direction.RIGHT;
@@ -258,6 +386,11 @@ public class Player extends ASprite {
         positionX += path;
     }
 
+    /**
+     * Move down.
+     *
+     * @param path the path
+     */
     public void moveDown(int path) {
         if (currentDirection != Direction.BOTTOM) {
             currentDirection = Direction.BOTTOM;
@@ -266,6 +399,11 @@ public class Player extends ASprite {
         positionY += path;
     }
 
+    /**
+     * Move left.
+     *
+     * @param path the path
+     */
     public void moveLeft(int path) {
         if (currentDirection != Direction.LEFT) {
             currentDirection = Direction.LEFT;

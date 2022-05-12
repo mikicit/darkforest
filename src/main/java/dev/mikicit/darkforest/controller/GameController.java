@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 /**
  * The type Game controller.
+ *
+ * Game world controller.
  */
 public class GameController extends AController {
     // Inputs
@@ -55,7 +57,12 @@ public class GameController extends AController {
         wasInitialized = true;
     }
 
-    // Event Handlers
+    /**
+     * Key pressed handler.
+     *
+     * @param e the e
+     */
+// Event Handlers
     public void keyPressedHandler(KeyEvent e) {
         String code = e.getCode().toString();
 
@@ -79,20 +86,21 @@ public class GameController extends AController {
             resetInput();
             StateManager.goToInventory();
         }
-
-        // Go to Character Info
-        if (code.equals("P")) {
-            resetInput();
-            StateManager.goToCharacterInfo();
-        }
     }
 
+    /**
+     * Key released handler.
+     *
+     * @param e the e
+     */
     public void keyReleasedHandler(KeyEvent e) {
         String code = e.getCode().toString();
         input.remove(code);
     }
 
-    // Player Attack handler
+    /**
+     * Player attack.
+     */
     public void playerAttack() {
         // Monsters
         ArrayList<Monster> deadMonsters = new ArrayList<>();
@@ -115,7 +123,14 @@ public class GameController extends AController {
         }
     }
 
-    // Updating Player Position with constraints
+    /**
+     * Update Player Position.
+     * <p>
+     * The method responsible for controlling the character's movement.
+     * Controls whether the character can move in a certain direction or not.
+     *
+     * @param delta the delta
+     */
     private void updatePlayerPosition(double delta) {
         Rectangle2D moveBox = player.getMoveBox();
         int path = (int) (player.getSpeed() * delta); // real distance traveled in time without reference to frame rate
@@ -165,6 +180,11 @@ public class GameController extends AController {
         }
     }
 
+    /**
+     * Set Camera Position On Load.
+     * <p>
+     * A method that sets the camera in the right place when the game is first loaded.
+     */
     private void setCameraPositionOnLoad() {
         double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
         double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
@@ -180,7 +200,11 @@ public class GameController extends AController {
         }
     }
 
-    // Updating Camera Position
+    /**
+     * Update Camera Position.
+     * <p>
+     * The method responsible for setting the current position for the camera.
+     */
     private void updateCameraPosition() {
         double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
         double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
@@ -196,7 +220,11 @@ public class GameController extends AController {
         }
     }
 
-    // Checking Intersections with Items
+    /**
+     * Check Intersections.
+     * <p>
+     * General method for checking sprite intersections.
+     */
     private void checkIntersections() {
         // Items
         ArrayList<AItem> takenItems = new ArrayList<>();
@@ -242,6 +270,9 @@ public class GameController extends AController {
         }
     }
 
+    /**
+     * Reset Input.
+     */
     private void resetInput() {
         input = new ArrayList<>();
     }

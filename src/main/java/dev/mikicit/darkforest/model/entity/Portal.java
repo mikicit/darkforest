@@ -6,6 +6,11 @@ import dev.mikicit.darkforest.model.GameModel;
 
 import java.util.logging.Logger;
 
+/**
+ * The type Portal.
+ * <p>
+ * A class that represents a specific portal and methods for managing it.
+ */
 public class Portal extends ASprite {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
@@ -15,6 +20,14 @@ public class Portal extends ASprite {
     private final int playerX;
     private final int playerY;
 
+    /**
+     * Instantiates a new Portal.
+     *
+     * @param portalId   the portal id
+     * @param locationId the location id
+     * @param playerX    the player x
+     * @param playerY    the player y
+     */
     public Portal(int portalId, int locationId, int playerX, int playerY) {
         this.portalId = portalId;
         this.locationId = locationId;
@@ -22,6 +35,11 @@ public class Portal extends ASprite {
         this.playerY = playerY;
     }
 
+    /**
+     * Activate.
+     * <p>
+     * The method that activates the portal. Changes location.
+     */
     public void activate() {
         GameModel gameModel = GameModel.getInstance();
         Player player = gameModel.getPlayer();
@@ -32,6 +50,11 @@ public class Portal extends ASprite {
         );
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public int getId() {
         return portalId;
     }

@@ -9,7 +9,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.logging.LogManager;
 
+/**
+ * The type Game.
+ * <p>
+ * Start point of the game.
+ */
 public class Game extends Application {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         // Logging Config
         try {
@@ -24,13 +34,16 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) {
+        // loading main config
         Config.init("config.json");
 
+        // setting up stage
         stage.setTitle(Config.getWindowName());
         stage.setResizable(false);
         stage.centerOnScreen();
         stage.getIcons().add(new Image("icon/icon_32.png"));
 
+        // init state manager
         StateManager.init(stage);
     }
 }

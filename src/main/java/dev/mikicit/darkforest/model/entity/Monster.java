@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
+/**
+ * The type Monster.
+ * <p>
+ * A class that represents a particular monster.
+ */
 public class Monster extends ASprite {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
@@ -37,6 +42,17 @@ public class Monster extends ASprite {
     private boolean isDead;
     private double lastAttack;
 
+    /**
+     * Instantiates a new Monster.
+     *
+     * @param name          the name
+     * @param health        the health
+     * @param damage        the damage
+     * @param damageRadius  the damage radius
+     * @param viewingRadius the viewing radius
+     * @param speed         the speed
+     * @param attackSpeed   the attack speed
+     */
     public Monster(String name, double health, double damage, double damageRadius, double viewingRadius, double speed, double attackSpeed) {
         this.name = name;
         this.health = health;
@@ -51,10 +67,15 @@ public class Monster extends ASprite {
         Collections.shuffle(intList);
         intList.toArray(directionSequence);
 
-        // setting random start animation
+        // setting random start moving time
         waitingTimer = random.nextDouble() * 3;
     }
 
+    /**
+     * Attack.
+     *
+     * @param player the player
+     */
     public void attack(Player player) {
         if ((System.currentTimeMillis() - lastAttack) < attackSpeed) {
             return;
@@ -67,6 +88,11 @@ public class Monster extends ASprite {
         }
     }
 
+    /**
+     * In attack.
+     *
+     * @param player the player
+     */
     public void inAttack(Player player) {
         double incomingDamage = player.getDamage();
         log.info("Monster \"" + getName() + "\" was attacked by player." + " Incoming damage is " + incomingDamage + ".");
@@ -81,35 +107,76 @@ public class Monster extends ASprite {
         attack(player);
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets damage.
+     *
+     * @return the damage
+     */
     public double getDamage() {
         return damage;
     }
 
+    /**
+     * Gets damage radius.
+     *
+     * @return the damage radius
+     */
     public double getDamageRadius() {
         return damageRadius;
     }
 
+    /**
+     * Gets viewing radius.
+     *
+     * @return the viewing radius
+     */
     public double getViewingRadius() {
         return viewingRadius;
     }
 
+    /**
+     * Is dead boolean.
+     *
+     * @return the boolean
+     */
     public boolean isDead() {
         return isDead;
     }
 
-    // Checking the intersection with the legs.
+    /**
+     * Intersects radius view box boolean.
+     *
+     * @param s the s
+     * @return the boolean
+     */
     public boolean intersectsRadiusViewBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getRadiusViewCollisionBox());
     }
 
+    /**
+     * Intersects damage box boolean.
+     *
+     * @param s the s
+     * @return the boolean
+     */
     public boolean intersectsDamageBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getDamageRadiusBox());
     }
 
+    /**
+     * Gets damage radius box.
+     *
+     * @return the damage radius box
+     */
     public Rectangle2D getDamageRadiusBox() {
         double damageRadius = getDamageRadius();
 
@@ -120,6 +187,11 @@ public class Monster extends ASprite {
                 height + (2 * damageRadius));
     }
 
+    /**
+     * Gets radius view collision box.
+     *
+     * @return the radius view collision box
+     */
     public Rectangle2D getRadiusViewCollisionBox() {
         double viewingRadius = getViewingRadius();
 
@@ -130,6 +202,13 @@ public class Monster extends ASprite {
                 height + (2 * viewingRadius));
     }
 
+    /**
+     * Sets aim.
+     * <p>
+     * Sets a target to pursue.
+     *
+     * @param player the player
+     */
     public void setAim(Player player) {
         if (aim == null) {
             aim = player;
@@ -137,6 +216,14 @@ public class Monster extends ASprite {
         inCombat = true;
     }
 
+    /**
+     * Move To Aim.
+     * <p>
+     * The method is responsible for moving towards the goal.
+     * Called every frame while the monster is chasing the target (in combat).
+     *
+     * @param delta the delta
+     */
     private void moveToAim(double delta) {
         int path = (int) (speed * delta);
 
@@ -165,6 +252,14 @@ public class Monster extends ASprite {
         }
     }
 
+    /**
+     * Random Moving.
+     * <p>
+     * This method is responsible for the random movement of the monster.
+     * Called every frame while the monster is not chasing anyone.
+     *
+     * @param delta the delta
+     */
     private void randomMoving(double delta) {
         int path = (int) (speed * delta);
 
@@ -193,6 +288,11 @@ public class Monster extends ASprite {
         }
     }
 
+    /**
+     * Off combat.
+     * <p>
+     * Remove the target and combat mode from the monster (required when changing locations).
+     */
     public void offCombat() {
         inCombat = false;
     }

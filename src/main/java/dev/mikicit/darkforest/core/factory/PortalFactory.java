@@ -9,7 +9,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * The type Portal factory.
+ * <p>
+ * Factory class for getting portals by their id.
+ */
 public class PortalFactory {
+    /**
+     * Gets portal.
+     *
+     * @param id the id
+     * @return the portal
+     */
     public static Portal getPortal(int id) {
         try {
             File file = new File("src/main/resources/portal/" + id + "/config.json");

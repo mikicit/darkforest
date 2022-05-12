@@ -1,6 +1,5 @@
 package dev.mikicit.darkforest.view;
 
-import dev.mikicit.darkforest.controller.GameMenuController;
 import dev.mikicit.darkforest.controller.MainMenuController;
 import dev.mikicit.darkforest.core.Config;
 import dev.mikicit.darkforest.core.PlayerConfig;
@@ -10,10 +9,18 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
+/**
+ * The type Main menu view.
+ *
+ * Presentation of the main menu.
+ */
 public class MainMenuView extends AView {
+    /**
+     * Instantiates a new Main menu view.
+     *
+     * @param controller the controller
+     */
     public MainMenuView(MainMenuController controller) {
         this.controller = controller;
     }

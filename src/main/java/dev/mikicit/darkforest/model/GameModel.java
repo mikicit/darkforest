@@ -16,6 +16,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+/**
+ * The type Game model.
+ * <p>
+ * The main class responsible for the state of the game (game objects).
+ */
 public class GameModel {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
@@ -25,6 +30,13 @@ public class GameModel {
     private Location currentLocation;
     private LocationManager locationManager;
 
+    /**
+     * Init.
+     * <p>
+     * Initialization of the game world. Loading locations, game objects, etc.
+     *
+     * @param fromSave the from save
+     */
     public void init(boolean fromSave) {
         // Loading Player Config
         JSONObject playerConfig = PlayerConfig.getPlayerConfig(fromSave);
@@ -64,6 +76,11 @@ public class GameModel {
         setLocation(playerConfig.getInt("locationId"));
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static GameModel getInstance() {
         if (instance == null) {
             instance = new GameModel();
@@ -71,6 +88,13 @@ public class GameModel {
         return instance;
     }
 
+    /**
+     * Sets location.
+     * <p>
+     * A method that allows you to change the location.
+     *
+     * @param locationId the location id
+     */
     public void setLocation(int locationId) {
         if (currentLocation != null) {
             currentLocation.unsetPlayer();
@@ -83,31 +107,65 @@ public class GameModel {
         log.info("The location \"" + currentLocation.getName() + "\" was set.");
     }
 
-    // Getters
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Gets current location.
+     *
+     * @return the current location
+     */
     public Location getCurrentLocation() {
         return currentLocation;
     }
 
+    /**
+     * Gets tile map.
+     *
+     * @return the tile map
+     */
     public TileMap getTileMap() {
         return currentLocation.getTileMap();
     }
 
+    /**
+     * Gets monsters.
+     *
+     * @return the monsters
+     */
     public ArrayList<Monster> getMonsters() {
         return currentLocation.getMonsters();
     }
 
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
     public ArrayList<AItem> getItems() {
         return currentLocation.getItems();
     }
 
+    /**
+     * Gets portals.
+     *
+     * @return the portals
+     */
     public ArrayList<Portal> getPortals() {
         return currentLocation.getPortals();
     }
 
+    /**
+     * Gets sprite manager.
+     *
+     * @return the sprite manager
+     */
     public SpriteManager getSpriteManager() {
         return currentLocation.getSpriteManager();
     }

@@ -1,15 +1,24 @@
 package dev.mikicit.darkforest.core.factory;
 
-import dev.mikicit.darkforest.core.sprite.Animation;
 import dev.mikicit.darkforest.model.entity.Monster;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * The type Monster factory.
+ * <p>
+ * Factory class for getting monsters by their id.
+ */
 public class MonsterFactory {
+    /**
+     * Gets monster.
+     *
+     * @param id the id
+     * @return the monster
+     */
     public static Monster getMonster(int id) {
         try {
             File file = new File("src/main/resources/monster/" + id + "/config.json");

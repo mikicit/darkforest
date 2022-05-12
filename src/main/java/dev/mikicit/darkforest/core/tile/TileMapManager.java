@@ -8,9 +8,21 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The type Tile map manager.
+ * <p>
+ * Manager for creating maps (tilemap).
+ */
 public class TileMapManager {
     private static final HashMap<String, Tile> cachedTiles = new HashMap<>();
 
+    /**
+     * Create tile map tile map.
+     *
+     * @param filename the filename
+     * @param tileSize the tile size
+     * @return the tile map
+     */
     public static TileMap createTileMap(String filename, int tileSize) {
         int mapWidth = 0;
         int mapHeight = 0;
@@ -49,6 +61,14 @@ public class TileMapManager {
         return tileMap;
     }
 
+    /**
+     * Get tile.
+     * <p>
+     * Method for creating a tile.
+     *
+     * @param id the id
+     * @return the tile
+     */
     private static Tile getTile(String id) {
         if (cachedTiles.containsKey(id)) {
             return cachedTiles.get(id);

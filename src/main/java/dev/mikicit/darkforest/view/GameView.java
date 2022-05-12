@@ -14,17 +14,26 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+/**
+ * The type Game view.
+ * <p>
+ * Game world representation class.
+ */
 public class GameView extends AView {
     private TileMap tileMap;
     private GraphicsContext gc;
     private Pane canvasRoot;
     private SpriteManager spriteManager;
 
+    /**
+     * Instantiates a new Game view.
+     *
+     * @param controller the controller
+     */
     public GameView(GameController controller) {
         this.controller = controller;
     }
 
-    // Init
     public void init() {
         GameModel gameModel = GameModel.getInstance();
         tileMap = gameModel.getTileMap();
@@ -60,7 +69,12 @@ public class GameView extends AView {
         scene.setOnKeyReleased(((GameController) controller)::keyReleasedHandler);
     }
 
-    // Getters
+    /**
+     * Gets canvas root.
+     *
+     * @return the canvas root
+     */
+// Getters
     public Pane getCanvasRoot() {
         return canvasRoot;
     }

@@ -19,6 +19,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+/**
+ * The type Location.
+ * <p>
+ * A class representing a specific location.
+ */
 public class Location {
     // Logger
     private static Logger log = Logger.getLogger(Player.class.getName());
@@ -39,6 +44,11 @@ public class Location {
     // State
     private boolean wasInitialized;
 
+    /**
+     * Instantiates a new Location.
+     *
+     * @param locationId the location id
+     */
     public Location(int locationId) {
         this.locationId = locationId;
 
@@ -55,6 +65,11 @@ public class Location {
         log.info("Location \"" + getName() + "\" was created.");
     }
 
+    /**
+     * Init.
+     * <p>
+     * Location initialization.
+     */
     public void init() {
         if (wasInitialized) return;
 
@@ -103,44 +118,92 @@ public class Location {
         log.info("Location \"" + getName() + "\" was initialized.");
     }
 
+    /**
+     * Sets player.
+     *
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
         spriteManager.addSprite(player);
     }
 
+    /**
+     * Unset player.
+     */
     public void unsetPlayer() {
         spriteManager.removeSprite(player);
         this.player = null;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public int getId() {
         return locationId;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Gets monsters.
+     *
+     * @return the monsters
+     */
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
     public ArrayList<AItem> getItems() {
         return items;
     }
 
+    /**
+     * Gets portals.
+     *
+     * @return the portals
+     */
     public ArrayList<Portal> getPortals() {
         return portals;
     }
 
+    /**
+     * Gets tile map.
+     *
+     * @return the tile map
+     */
     public TileMap getTileMap() {
         return tileMap;
     }
 
+    /**
+     * Gets sprite manager.
+     *
+     * @return the sprite manager
+     */
     public SpriteManager getSpriteManager() {
         return spriteManager;
     }

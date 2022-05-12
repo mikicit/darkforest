@@ -1,7 +1,7 @@
 {
   "name": "Mikita",
   "initialHealth": 500,
-  "health": 100,
+  "health": 500,
   "damage": 50,
   "armor": 0,
   "damageRadius": 10,

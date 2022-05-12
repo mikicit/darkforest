@@ -11,7 +11,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+/**
+ * The type Game over view.
+ * <p>
+ * The class for representing the end of the game (game over).
+ */
 public class GameOverView extends AView {
+    /**
+     * Instantiates a new Game over view.
+     *
+     * @param controller the controller
+     */
     public GameOverView(GameOverController controller) {
         this.controller = controller;
     }

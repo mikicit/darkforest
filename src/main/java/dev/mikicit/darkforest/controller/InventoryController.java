@@ -2,13 +2,20 @@ package dev.mikicit.darkforest.controller;
 
 import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.model.GameModel;
+import dev.mikicit.darkforest.model.component.Inventory;
 import dev.mikicit.darkforest.model.entity.Item.AItem;
 import dev.mikicit.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikicit.darkforest.model.entity.Item.equipment.AEquipment;
+import dev.mikicit.darkforest.model.entity.Player;
 import dev.mikicit.darkforest.view.InventoryView;
 import dev.mikicit.darkforest.view.component.inventory.ItemView;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The type Inventory controller.
+ *
+ * Game inventory controller.
+ */
 public class InventoryController extends AController {
     public void init() {
         if (wasInitialized) return;
@@ -17,8 +24,14 @@ public class InventoryController extends AController {
         view.init();
     }
 
-    // Event Handlers
+    /**
+     * Key pressed handler.
+     *
+     * @param e the e
+     */
     public void keyPressedHandler(KeyEvent e) {
+        Player player = GameModel.getInstance().getPlayer();
+        Inventory inventory = player.getInventory();
         String code = e.getCode().toString();
 
         if (code.equals("ESCAPE") || code.equals("I")) {
@@ -30,7 +43,11 @@ public class InventoryController extends AController {
                 AItem item = ((ItemView) e.getTarget()).getItem();
 
                 if (item instanceof AEquipment) {
-                    ((AEquipment) item).equip(GameModel.getInstance().getPlayer());
+                    if (inventory.isInInventory(item)) {
+                        ((AEquipment) item).equip(player);
+                    } else {
+                        ((AEquipment) item).unEquip(player);
+                    }
                 }
             }
         }
@@ -40,7 +57,7 @@ public class InventoryController extends AController {
                 AItem item = ((ItemView) e.getTarget()).getItem();
 
                 if (item instanceof HealthBottle) {
-                    ((HealthBottle) item).use(GameModel.getInstance().getPlayer());
+                    ((HealthBottle) item).use(player);
                 }
             }
         }
@@ -50,7 +67,7 @@ public class InventoryController extends AController {
                 AItem item = ((ItemView) e.getTarget()).getItem();
 
                 if (item != null) {
-                    item.drop(GameModel.getInstance().getPlayer());
+                    item.drop(player);
                 }
 
             }

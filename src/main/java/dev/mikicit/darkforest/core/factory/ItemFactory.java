@@ -11,7 +11,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * The type Item factory.
+ * <p>
+ * Factory class for getting items by their id.
+ */
 public class ItemFactory {
+    /**
+     * Gets item.
+     *
+     * @param id the id
+     * @return the item
+     */
     public static AItem getItem(int id) {
         try {
             File file = new File("src/main/resources/item/" + id + "/config.json");
@@ -36,6 +47,12 @@ public class ItemFactory {
         return null;
     }
 
+    /**
+     * Create bottle.
+     *
+     * @param config the config
+     * @return the item
+     */
     private static AItem createBottle(JSONObject config) {
         HealthBottle healthBottle = new HealthBottle(
                 config.getInt("id"),
@@ -46,6 +63,12 @@ public class ItemFactory {
         return healthBottle;
     }
 
+    /**
+     * Create weapon.
+     *
+     * @param config the config
+     * @return the item
+     */
     private static AItem createWeapon(JSONObject config) {
         Weapon weapon = new Weapon(
                 config.getInt("id"),
@@ -57,6 +80,12 @@ public class ItemFactory {
         return weapon;
     }
 
+    /**
+     * Create armor.
+     *
+     * @param config the config
+     * @return the item
+     */
     private static AItem createArmor(JSONObject config) {
         Armor armor = new Armor(
                 config.getInt("id"),

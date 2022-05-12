@@ -10,7 +10,17 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+/**
+ * The type Game menu view.
+ * <p>
+ * Game menu presentation class.
+ */
 public class GameMenuView extends AView{
+    /**
+     * Instantiates a new Game menu view.
+     *
+     * @param controller the controller
+     */
     public GameMenuView(GameMenuController controller) {
         this.controller = controller;
     }
