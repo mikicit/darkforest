@@ -224,7 +224,7 @@ public class GameController extends AController {
 
         // Portals
         for (Portal portal : portals) {
-            if (portal.intersectsCollisionBox(player)) {
+            if (player.intersectsMoveBox(portal)) {
                 portal.activate();
 
                 for (Monster monster : monsters) {
@@ -237,7 +237,6 @@ public class GameController extends AController {
 
                 // Reset Current Game Scene
                 StateManager.resetScene();
-
                 return;
             }
         }

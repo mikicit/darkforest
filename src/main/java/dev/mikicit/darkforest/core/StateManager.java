@@ -26,14 +26,12 @@ public class StateManager {
         states.put("GAME", new GameController());
         states.put("INVENTORY", new InventoryController());
         states.put("CHARACTER_INFO", new InventoryController());
-
-        // Set up current state
-        currentController = states.get("MENU");
+        states.put("GAME_OVER", new GameOverController());
 
         // Init Game Loop
         StateManager.gameLoop = new GameLoop();
 
-        // Init main Scene
+        // Initial State
         goToMainMenu();
 
         // Open and Start game
@@ -86,6 +84,12 @@ public class StateManager {
 
     public static void goToInventory() {
         currentController = states.get("INVENTORY");
+        currentController.init();
+        stage.setScene(currentController.getView().getScene());
+    }
+
+    public static void gameOver() {
+        currentController = states.get("GAME_OVER");
         currentController.init();
         stage.setScene(currentController.getView().getScene());
     }

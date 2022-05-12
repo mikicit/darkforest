@@ -1,10 +1,10 @@
 {
   "id": 3,
-  "name": "Dark Essence 3",
-  "health": 350,
-  "damage": 50,
+  "name": "Darkness Watcher",
+  "health": 400,
+  "damage": 25,
   "damageRadius": 20,
-  "viewingRadius": 64,
-  "speed": 100,
-  "attackSpeed": 700
+  "viewingRadius": 150,
+  "speed": 60,
+  "attackSpeed": 1200
 }

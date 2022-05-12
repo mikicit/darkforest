@@ -1,10 +1,10 @@
 {
   "id": 2,
-  "name": "Dark Essence 2",
-  "health": 350,
-  "damage": 50,
-  "damageRadius": 20,
+  "name": "Disease of darkness",
+  "health": 200,
+  "damage": 10,
+  "damageRadius": 30,
   "viewingRadius": 64,
-  "speed": 60,
-  "attackSpeed": 1000
+  "speed": 100,
+  "attackSpeed": 500
 }

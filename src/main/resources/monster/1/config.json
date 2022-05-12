@@ -1,10 +1,10 @@
 {
   "id": 1,
-  "name": "Dark Essence",
+  "name": "Life Eater",
   "health": 350,
-  "damage": 50,
+  "damage": 20,
   "damageRadius": 20,
   "viewingRadius": 64,
-  "speed": 60,
-  "attackSpeed": 700
+  "speed": 70,
+  "attackSpeed": 1000
 }

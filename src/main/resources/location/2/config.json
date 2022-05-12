@@ -4,12 +4,42 @@
   "portals": [
     {
       "id": 2,
-      "positionX": 6,
-      "positionY": 6
+      "positionX": 13,
+      "positionY": 4
     }
   ],
   "items": [
+    {
+      "id": 5,
+      "positionX": 6,
+      "positionY": 9
+    },
+    {
+      "id": 6,
+      "positionX": 25,
+      "positionY": 13
+    },
+    {
+      "id": 8,
+      "positionX": 11,
+      "positionY": 9
+    },
+    {
+      "id": 9,
+      "positionX": 10,
+      "positionY": 6
+    }
   ],
   "monsters": [
+    {
+      "id": 1,
+      "positionX": 24,
+      "positionY": 6
+    },
+    {
+      "id": 2,
+      "positionX": 35,
+      "positionY": 11
+    }
   ]
 }

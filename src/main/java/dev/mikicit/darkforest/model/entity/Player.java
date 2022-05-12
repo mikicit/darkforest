@@ -1,5 +1,6 @@
 package dev.mikicit.darkforest.model.entity;
 
+import dev.mikicit.darkforest.core.StateManager;
 import dev.mikicit.darkforest.core.sprite.ASprite;
 import dev.mikicit.darkforest.model.component.HP;
 import dev.mikicit.darkforest.model.component.Inventory;
@@ -91,6 +92,8 @@ public class Player extends ASprite {
         if (health.getHealth() == 0) {
             isDead = true;
             log.info("Player is dead!");
+
+            StateManager.gameOver();
         }
     }
 
