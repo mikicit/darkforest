@@ -12,5 +12,9 @@
 .DS_Store:;
 
 # Maven
-log/*.txt*
 target/
+dependency-reduced-pom.xml
+
+# Game
+save/
+log/
