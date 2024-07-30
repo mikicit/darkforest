@@ -3,8 +3,7 @@ package dev.mikita.darkforest.model.entity;
 import dev.mikita.darkforest.core.sprite.ASprite;
 import dev.mikita.darkforest.core.tile.TileMap;
 import dev.mikita.darkforest.model.GameModel;
-
-import java.util.logging.Logger;
+import lombok.Getter;
 
 /**
  * The type Portal.
@@ -12,21 +11,41 @@ import java.util.logging.Logger;
  * A class that represents a specific portal and methods for managing it.
  */
 public class Portal extends ASprite {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
+    /**
+     * The Portal id.
+     * -- GETTER --
+     * Gets portal id.
+     *
+     * @return The portal id.
+     */
+    @Getter private final int portalId;
 
-    private final int portalId;
-    private final int locationId;
+    /**
+     * The Location id.
+     * -- GETTER --
+     * Gets location id.
+     *
+     * @return The location id.
+     */
+    @Getter  private final int locationId;
+
+    /**
+     * The Player x.
+     */
     private final int playerX;
+
+    /**
+     * The Player y.
+     */
     private final int playerY;
 
     /**
      * Instantiates a new Portal.
      *
-     * @param portalId   the portal id
-     * @param locationId the location id
-     * @param playerX    the player x
-     * @param playerY    the player y
+     * @param portalId   The portal id.
+     * @param locationId The location id.
+     * @param playerX    The player x.
+     * @param playerY    The player y.
      */
     public Portal(int portalId, int locationId, int playerX, int playerY) {
         this.portalId = portalId;
@@ -48,14 +67,5 @@ public class Portal extends ASprite {
                 TileMap.convertTileToPixel(playerX),
                 TileMap.convertTileToPixel(playerY)
         );
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public int getId() {
-        return portalId;
     }
 }

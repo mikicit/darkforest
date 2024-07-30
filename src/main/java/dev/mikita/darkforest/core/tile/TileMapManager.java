@@ -1,10 +1,9 @@
 package dev.mikita.darkforest.core.tile;
 
 import org.json.JSONObject;
-
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,14 +13,17 @@ import java.util.HashMap;
  * Manager for creating maps (tilemap).
  */
 public class TileMapManager {
+    /**
+     * The cached tiles.
+     */
     private static final HashMap<String, Tile> cachedTiles = new HashMap<>();
 
     /**
      * Create tile map tile map.
      *
-     * @param filename the filename
-     * @param tileSize the tile size
-     * @return the tile map
+     * @param filename The filename of the map.
+     * @param tileSize The size of the tile.
+     * @return The tile map.
      */
     public static TileMap createTileMap(String filename, int tileSize) {
         int mapWidth = 0;
@@ -33,8 +35,7 @@ public class TileMapManager {
             Reader fileReader = new FileReader(filename);
             BufferedReader br = new BufferedReader(fileReader);
 
-            String fileLine = null;
-
+            String fileLine;
             while ((fileLine = br.readLine()) != null) {
                 if (fileLine.length() > mapWidth) mapWidth = fileLine.length();
                 lines.add(fileLine);
@@ -66,8 +67,8 @@ public class TileMapManager {
      * <p>
      * Method for creating a tile.
      *
-     * @param id the id
-     * @return the tile
+     * @param id The id of the tile.
+     * @return The tile.
      */
     private static Tile getTile(String id) {
         if (cachedTiles.containsKey(id)) {
@@ -75,19 +76,17 @@ public class TileMapManager {
         }
 
         try {
-            File file = new File("src/main/resources/tile/" + id + "/config.json");
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+            String content = new String(Files.readAllBytes(Path.of("config/tile/" + id + "/config.json")));
             JSONObject config = new JSONObject(content);
 
-            Tile tile = new Tile("tile/" + id + "/image.png", config.getBoolean("passable"));
+            Tile tile = new Tile(Path.of("config/tile/" + id + "/image.png").toUri().toString(),
+                    config.getBoolean("passable"));
             cachedTiles.put(id, tile);
 
             return tile;
 
         } catch(IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Tile not found: " + id);
         }
-
-        return null;
     }
 }

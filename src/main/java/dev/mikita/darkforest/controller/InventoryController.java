@@ -13,7 +13,7 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * The type Inventory controller.
- *
+ * <p>
  * Game inventory controller.
  */
 public class InventoryController extends AController {
@@ -27,7 +27,7 @@ public class InventoryController extends AController {
     /**
      * Key pressed handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void keyPressedHandler(KeyEvent e) {
         Player player = GameModel.getInstance().getPlayer();
@@ -75,7 +75,5 @@ public class InventoryController extends AController {
     }
 
     @Override
-    public void tick(double delta) {
-
-    }
+    public void tick(double delta) {}
 }

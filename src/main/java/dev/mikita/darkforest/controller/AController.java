@@ -1,6 +1,7 @@
 package dev.mikita.darkforest.controller;
 
 import dev.mikita.darkforest.view.AView;
+import lombok.Getter;
 
 /**
  * The type A controller.
@@ -9,27 +10,20 @@ import dev.mikita.darkforest.view.AView;
  */
 public abstract class AController {
     /**
-     * The View.
-     * <p>
+     * The view.
+     * -- GETTER --
      * A reference to the view associated with this controller.
+     *
+     * @return The current view.
      */
-    protected AView view;
+    @Getter protected AView view;
 
     /**
-     * The Was initialized.
+     * The controller was initialized.
      * <p>
      * Status indicating whether the given controller has already been initialized or not.
      */
     protected boolean wasInitialized;
-
-    /**
-     * Gets view.
-     *
-     * @return the view
-     */
-    public AView getView() {
-        return view;
-    }
 
     /**
      * Reset.
@@ -44,7 +38,7 @@ public abstract class AController {
     /**
      * Init.
      * <p>
-     * Controller initialization
+     * Controller initialization.
      */
     public abstract void init();
 
@@ -53,7 +47,7 @@ public abstract class AController {
      * <p>
      * This method is called by the main timer every frame.
      *
-     * @param delta the delta
+     * @param delta The delta.
      */
     public abstract void tick(double delta);
 }

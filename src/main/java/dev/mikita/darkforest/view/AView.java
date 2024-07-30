@@ -2,6 +2,7 @@ package dev.mikita.darkforest.view;
 
 import dev.mikita.darkforest.controller.AController;
 import javafx.scene.Scene;
+import lombok.Getter;
 
 /**
  * The type AView.
@@ -15,24 +16,15 @@ public abstract class AView {
     protected AController controller;
     /**
      * The Scene.
-     */
-    protected Scene scene;
-
-    /**
+     * -- GETTER --
      * Gets scene.
-     * <p>
-     * Returns the scene.
      *
-     * @return the scene
+     * @return The scene.
      */
-    public Scene getScene() {
-        return scene;
-    }
+    @Getter protected Scene scene;
 
     /**
-     * Init.
-     * <p>
-     * View initialization.
+     * Initializes the view.
      */
     abstract public void init();
 

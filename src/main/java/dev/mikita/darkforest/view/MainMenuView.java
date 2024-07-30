@@ -12,19 +12,20 @@ import java.util.ArrayList;
 
 /**
  * The type Main menu view.
- *
+ * <p>
  * Presentation of the main menu.
  */
 public class MainMenuView extends AView {
     /**
      * Instantiates a new Main menu view.
      *
-     * @param controller the controller
+     * @param controller The controller.
      */
     public MainMenuView(MainMenuController controller) {
         this.controller = controller;
     }
 
+    @Override
     public void init() {
         // JavaFX init
         VBox vBox = new VBox();
@@ -57,8 +58,7 @@ public class MainMenuView extends AView {
         for (Button button : buttons) {
             button.setPrefHeight(56);
             button.setPrefWidth(200);
-            button.setStyle("" +
-                    "-fx-background-color: #2b3542; " +
+            button.setStyle("-fx-background-color: #2b3542; " +
                     "-fx-text-fill: white; " +
                     "-fx-font-size: 16px; " +
                     "-fx-font-weight: bold; " +
@@ -77,7 +77,5 @@ public class MainMenuView extends AView {
     }
 
     @Override
-    public void render() {
-
-    }
+    public void render() {}
 }

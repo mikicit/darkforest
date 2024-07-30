@@ -5,11 +5,9 @@ import dev.mikita.darkforest.model.entity.Item.bottle.HealthBottle;
 import dev.mikita.darkforest.model.entity.Item.equipment.Armor;
 import dev.mikita.darkforest.model.entity.Item.equipment.Weapon;
 import org.json.JSONObject;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 /**
  * The type Item factory.
@@ -20,13 +18,12 @@ public class ItemFactory {
     /**
      * Gets item.
      *
-     * @param id the id
-     * @return the item
+     * @param id The item id.
+     * @return The item.
      */
     public static AItem getItem(int id) {
         try {
-            File file = new File("src/main/resources/item/" + id + "/config.json");
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+            String content = new String(Files.readAllBytes(Path.of("config/item/" + id + "/config.json")));
             JSONObject config = new JSONObject(content);
 
             String itemType = config.getString("type");
@@ -39,9 +36,8 @@ public class ItemFactory {
                 case "armor":
                     return createArmor(config);
             }
-
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while reading item config", e);
         }
 
         return null;
@@ -50,15 +46,15 @@ public class ItemFactory {
     /**
      * Create bottle.
      *
-     * @param config the config
-     * @return the item
+     * @param config The bottle config.
+     * @return The bottle.
      */
     private static AItem createBottle(JSONObject config) {
         HealthBottle healthBottle = new HealthBottle(
                 config.getInt("id"),
                 config.getString("name"),
                 config.getDouble("health"));
-        healthBottle.setImage("item/" + config.getInt("id") + "/image.png");
+        healthBottle.setImage(Path.of("config/item/" + config.getInt("id") + "/image.png").toUri().toString());
 
         return healthBottle;
     }
@@ -66,8 +62,8 @@ public class ItemFactory {
     /**
      * Create weapon.
      *
-     * @param config the config
-     * @return the item
+     * @param config The weapon config.
+     * @return The weapon.
      */
     private static AItem createWeapon(JSONObject config) {
         Weapon weapon = new Weapon(
@@ -75,7 +71,7 @@ public class ItemFactory {
                 config.getString("name"),
                 config.getDouble("damage"),
                 config.getDouble("radius"));
-        weapon.setImage("item/" + config.getInt("id") + "/image.png");
+        weapon.setImage(Path.of("config/item/" + config.getInt("id") + "/image.png").toUri().toString());
 
         return weapon;
     }
@@ -83,15 +79,15 @@ public class ItemFactory {
     /**
      * Create armor.
      *
-     * @param config the config
-     * @return the item
+     * @param config The armor config.
+     * @return The armor.
      */
     private static AItem createArmor(JSONObject config) {
         Armor armor = new Armor(
                 config.getInt("id"),
                 config.getString("name"),
                 config.getDouble("armor"));
-        armor.setImage("item/" + config.getInt("id") + "/image.png");
+        armor.setImage(Path.of("config/item/" + config.getInt("id") + "/image.png").toUri().toString());
 
         return armor;
     }

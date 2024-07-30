@@ -11,12 +11,15 @@ import javafx.scene.image.ImageView;
  * A GUI element representing an item in the inventory GUI.
  */
 public class ItemView extends Button {
+    /**
+     * The Item reference.
+     */
     private AItem itemRef;
 
     /**
      * Instantiates a new Item view.
      *
-     * @param inventoryView the inventory view
+     * @param inventoryView The inventory view.
      */
     public ItemView(InventoryView inventoryView) {
         super();
@@ -65,7 +68,7 @@ public class ItemView extends Button {
     /**
      * Sets item.
      *
-     * @param item the item
+     * @param item The item.
      */
     public void setItem(AItem item) {
         itemRef = item;
@@ -75,7 +78,7 @@ public class ItemView extends Button {
     /**
      * Gets item.
      *
-     * @return the item
+     * @return The item.
      */
     public AItem getItem() {
         return itemRef;

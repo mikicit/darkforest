@@ -1,31 +1,38 @@
 package dev.mikita.darkforest.model.component;
 
 import dev.mikita.darkforest.model.entity.Item.AItem;
-import dev.mikita.darkforest.model.entity.Player;
-
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.logging.Logger;
 
 /**
  * The type Inventory.
  * <p>
  * A class representing a character's inventory and managing it.
  */
+@Slf4j
+@Getter
+@SuppressWarnings("deprecation")
 public class Inventory extends Observable {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
+    /**
+     * The capacity.
+     *
+     * @return The capacity.
+     */
+    private final int capacity;
 
-    private int capacity;
     /**
      * The Items.
+     *
+     * @return The items.
      */
-    ArrayList<AItem> items = new ArrayList<>();
+    private final ArrayList<AItem> items = new ArrayList<>();
 
     /**
      * Instantiates a new Inventory.
      *
-     * @param capacity the capacity
+     * @param capacity The capacity.
      */
     public Inventory(int capacity) {
         this.capacity = capacity;
@@ -34,8 +41,8 @@ public class Inventory extends Observable {
     /**
      * Add item boolean.
      *
-     * @param item the item
-     * @return the boolean
+     * @param item The item.
+     * @return The boolean whether the item was added.
      */
     public boolean addItem(AItem item) {
         if (!isFull()) {
@@ -44,10 +51,10 @@ public class Inventory extends Observable {
                 setChanged();
                 notifyObservers();
 
-                log.info("Item \"" + item.getName() + "\" was added to inventory!");
+                log.info("Item \"{}\" was added to inventory!", item.getName());
                 return true;
             } else {
-                log.info("Item \"" + item.getName() + "\" is already in inventory!");
+                log.info("Item \"{}\" is already in inventory!", item.getName());
                 return false;
             }
         } else {
@@ -59,14 +66,14 @@ public class Inventory extends Observable {
     /**
      * Remove item boolean.
      *
-     * @param item the item
-     * @return the boolean
+     * @param item The item.
+     * @return The boolean whether the item was removed.
      */
     public boolean removeItem(AItem item) {
         if (items.remove(item)) {
             setChanged();
             notifyObservers();
-            log.info("Item \"" + item.getName() + "\" was deleted from inventory!");
+            log.info("Item \"{}\" was deleted from inventory!", item.getName());
             return true;
         };
 
@@ -76,8 +83,8 @@ public class Inventory extends Observable {
     /**
      * Is in inventory boolean.
      *
-     * @param item the item
-     * @return the boolean
+     * @param item The item.
+     * @return The boolean whether the item is in inventory.
      */
     public boolean isInInventory(AItem item) {
         return items.contains(item);
@@ -86,7 +93,7 @@ public class Inventory extends Observable {
     /**
      * Is full boolean.
      *
-     * @return the boolean
+     * @return The boolean whether the inventory is full.
      */
     public boolean isFull() {
         return capacity == items.size();
@@ -95,27 +102,9 @@ public class Inventory extends Observable {
     /**
      * Gets quantity.
      *
-     * @return the quantity
+     * @return The quantity of items in inventory.
      */
     public int getQuantity() {
         return items.size();
-    }
-
-    /**
-     * Gets capacity.
-     *
-     * @return the capacity
-     */
-    public int getCapacity() {
-        return capacity;
-    }
-
-    /**
-     * Gets items.
-     *
-     * @return the items
-     */
-    public ArrayList<AItem> getItems() {
-        return items;
     }
 }

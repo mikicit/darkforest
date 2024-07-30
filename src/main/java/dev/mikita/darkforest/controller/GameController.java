@@ -17,22 +17,51 @@ import java.util.ArrayList;
 
 /**
  * The type Game controller.
- *
+ * <p>
  * Game world controller.
  */
 public class GameController extends AController {
-    // Inputs
+    /**
+     * The Input.
+     */
     private ArrayList<String> input = new ArrayList<>();
 
-    // Links
+    /**
+     * The Player.
+     */
     private Player player;
+
+    /**
+     * The Tile map.
+     */
     private TileMap tileMap;
+
+    /**
+     * The Monsters.
+     */
     private ArrayList<Monster> monsters;
+
+    /**
+     * The Items.
+     */
     private ArrayList<AItem> items;
+
+    /**
+     * The Portals.
+     */
     private ArrayList<Portal> portals;
+
+    /**
+     * The Sprite manager.
+     */
     private SpriteManager spriteManager;
+
+    /**
+     * The Canvas root.
+     */
     private Pane canvasRoot;
 
+    @Override
     public void init() {
         if (wasInitialized) return;
 
@@ -60,9 +89,8 @@ public class GameController extends AController {
     /**
      * Key pressed handler.
      *
-     * @param e the e
+     * @param e The event.
      */
-// Event Handlers
     public void keyPressedHandler(KeyEvent e) {
         String code = e.getCode().toString();
 
@@ -91,7 +119,7 @@ public class GameController extends AController {
     /**
      * Key released handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void keyReleasedHandler(KeyEvent e) {
         String code = e.getCode().toString();
@@ -129,13 +157,13 @@ public class GameController extends AController {
      * The method responsible for controlling the character's movement.
      * Controls whether the character can move in a certain direction or not.
      *
-     * @param delta the delta
+     * @param delta The delta.
      */
     private void updatePlayerPosition(double delta) {
         Rectangle2D moveBox = player.getMoveBox();
         int path = (int) (player.getSpeed() * delta); // real distance traveled in time without reference to frame rate
 
-        if (input.contains("A") && player.getX() - path > 0) {
+        if (input.contains("A") && player.getPositionX() - path > 0) {
             int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX() - path);
             int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY());
             int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY());
@@ -146,7 +174,7 @@ public class GameController extends AController {
             }
         }
 
-        if (input.contains("D") && player.getX() + player.getWidth() + path < tileMap.getMapWidth()) {
+        if (input.contains("D") && player.getPositionX() + player.getWidth() + path < tileMap.getMapWidth()) {
             int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY());
             int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY());
             int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX() + path);
@@ -157,7 +185,7 @@ public class GameController extends AController {
             }
         }
 
-        if (input.contains("W") && player.getY() - path > 0) {
+        if (input.contains("W") && player.getPositionY() - path > 0) {
             int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX());
             int tileMinY = TileMap.convertPixelToTile(moveBox.getMinY() - path);
             int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX());
@@ -168,7 +196,7 @@ public class GameController extends AController {
             }
         }
 
-        if (input.contains("S") && player.getY() + player.getHeight() + path < tileMap.getMapHeight()) {
+        if (input.contains("S") && player.getPositionY() + player.getHeight() + path < tileMap.getMapHeight()) {
             int tileMinX = TileMap.convertPixelToTile(moveBox.getMinX());
             int tileMaxY = TileMap.convertPixelToTile(moveBox.getMaxY() + path);
             int tileMaxX = TileMap.convertPixelToTile(moveBox.getMaxX());
@@ -186,8 +214,8 @@ public class GameController extends AController {
      * A method that sets the camera in the right place when the game is first loaded.
      */
     private void setCameraPositionOnLoad() {
-        double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
-        double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
+        double offsetX = ((player.getPositionX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
+        double offsetY = ((player.getPositionY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
 
         // X camera
         if (offsetX > 0 && offsetX > tileMap.getMapWidth() - Config.getWindowWidth()) {
@@ -206,8 +234,8 @@ public class GameController extends AController {
      * The method responsible for setting the current position for the camera.
      */
     private void updateCameraPosition() {
-        double offsetX = ((player.getX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
-        double offsetY = ((player.getY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
+        double offsetX = ((player.getPositionX() - (double) (Config.getWindowWidth() / 2)) + player.getWidth() / 2);
+        double offsetY = ((player.getPositionY() - (double) (Config.getWindowHeight() / 2)) + player.getHeight() / 2);
 
         // X camera
         if (offsetX > 0 && offsetX < tileMap.getMapWidth() - Config.getWindowWidth()) {

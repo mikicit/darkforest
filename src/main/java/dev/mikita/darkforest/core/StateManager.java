@@ -2,44 +2,67 @@ package dev.mikita.darkforest.core;
 
 import dev.mikita.darkforest.controller.*;
 import dev.mikita.darkforest.model.GameModel;
-import dev.mikita.darkforest.model.entity.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 /**
  * The type State manager.
  * <p>
  * The main class for managing the state of the game
- * (switching between screens, managing a timer, etc.)
+ * (switching between screens, managing a timer, etc.).
  */
+@Slf4j
 public class StateManager {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
+    /**
+     * The enum game state.
+     */
+    private enum GameState {
+        MENU,
+        GAME_MENU,
+        GAME,
+        INVENTORY,
+        GAME_OVER
+    }
 
-    private static HashMap<String, AController> states = new HashMap<>();
+    /**
+     * The states.
+     */
+    private static final HashMap<GameState, AController> states = new HashMap<>();
+
+    /**
+     * The current controller.
+     */
     private static AController currentController;
+
+    /**
+     * The stage.
+     */
     private static Stage stage;
+
+    /**
+     * The game loop.
+     */
     private static GameLoop gameLoop;
 
     /**
      * Init.
      * <p>
-     * Initialization method
+     * Initialization method.
      *
-     * @param stage the stage
+     * @param stage The stage.
      */
     public static void init(Stage stage) {
         StateManager.stage = stage;
 
         // Init States
-        states.put("MENU", new MainMenuController());
-        states.put("GAME_MENU", new GameMenuController());
-        states.put("GAME", new GameController());
-        states.put("INVENTORY", new InventoryController());
-        states.put("GAME_OVER", new GameOverController());
+        states.put(GameState.MENU, new MainMenuController());
+        states.put(GameState.GAME_MENU, new GameMenuController());
+        states.put(GameState.GAME, new GameController());
+        states.put(GameState.INVENTORY, new InventoryController());
+        states.put(GameState.GAME_OVER, new GameOverController());
 
         // Init Game Loop
         StateManager.gameLoop = new GameLoop();
@@ -57,10 +80,10 @@ public class StateManager {
      * <p>
      * A method that starts a new game or a game from a save.
      *
-     * @param fromSave the fromSave
+     * @param fromSave The boolean value that indicates whether to start the game from the save.
      */
     public static void startGame(boolean fromSave) {
-        currentController = states.get("GAME");
+        currentController = states.get(GameState.GAME);
 
         // Reset All Controllers and Views (in case we start a new game after the game has already been played)
         states.forEach((key, value) -> {
@@ -84,7 +107,7 @@ public class StateManager {
      * Method to return back to the game.
      */
     public static void continueGame() {
-        currentController = states.get("GAME");
+        currentController = states.get(GameState.GAME);
         currentController.init();
         stage.setScene(currentController.getView().getScene());
 
@@ -97,7 +120,7 @@ public class StateManager {
      * The method to go to the main menu.
      */
     public static void goToMainMenu() {
-        currentController = states.get("MENU");
+        currentController = states.get(GameState.MENU);
         currentController.init();
         stage.setScene(currentController.getView().getScene());
 
@@ -110,7 +133,7 @@ public class StateManager {
      * The method to go to the game menu.
      */
     public static void goToGameMenu() {
-        currentController = states.get("GAME_MENU");
+        currentController = states.get(GameState.GAME_MENU);
         currentController.init();
         stage.setScene(currentController.getView().getScene());
 
@@ -124,7 +147,7 @@ public class StateManager {
      * The method of going to the inventory.
      */
     public static void goToInventory() {
-        currentController = states.get("INVENTORY");
+        currentController = states.get(GameState.INVENTORY);
         currentController.init();
         stage.setScene(currentController.getView().getScene());
 
@@ -137,7 +160,7 @@ public class StateManager {
      * Method that calls the "GameOver" window after the death of the character.
      */
     public static void gameOver() {
-        currentController = states.get("GAME_OVER");
+        currentController = states.get(GameState.GAME_OVER);
         currentController.init();
         stage.setScene(currentController.getView().getScene());
 
@@ -148,7 +171,7 @@ public class StateManager {
      * Reset scene.
      * <p>
      * A helper method for updating the scene
-     * (required, for example, when moving between portals)
+     * (required, for example, when moving between portals).
      */
     public static void resetScene() {
         stage.setScene(currentController.getView().getScene());
@@ -183,7 +206,7 @@ public class StateManager {
     /**
      * Gets current state.
      *
-     * @return the current state
+     * @return The current controller.
      */
     public static AController getCurrentState() {
         return currentController;
@@ -196,6 +219,9 @@ public class StateManager {
  * This class represents the control of the main timer.
  */
 class GameLoop extends AnimationTimer {
+    /**
+     * The last nano time.
+     */
     private long lastNanoTime = System.nanoTime();
 
     @Override

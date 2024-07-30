@@ -18,7 +18,7 @@ public class MainMenuController extends AController {
     /**
      * Game load button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void gameLoadButtonClickHandler(MouseEvent e) {
         StateManager.startGame(true);
@@ -27,7 +27,7 @@ public class MainMenuController extends AController {
     /**
      * Game start button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void gameStartButtonClickHandler(MouseEvent e) {
         StateManager.startGame(false);
@@ -36,7 +36,7 @@ public class MainMenuController extends AController {
     /**
      * Exit game button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void exitGameButtonClickHandler(MouseEvent e) {
         StateManager.exitGame();

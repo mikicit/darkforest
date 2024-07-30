@@ -2,6 +2,7 @@ package dev.mikita.darkforest.core.tile;
 
 import dev.mikita.darkforest.core.Config;
 import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
 
 /**
  * The type Tile map.
@@ -9,17 +10,40 @@ import javafx.scene.canvas.GraphicsContext;
  * A class representing a specific map (tilemap) as well as auxiliary methods for working with it.
  */
 public class TileMap {
-    private Tile[][] tiles;
-    private int tileSize;
-    private int mapWidth;
-    private int mapHeight;
+    /**
+     * The tiles.
+     */
+    private final Tile[][] tiles;
+
+    /**
+     * The tile size.
+     */
+    private final int tileSize;
+
+    /**
+     * The map width.
+     * -- GETTER --
+     * Gets the map width.
+     *
+     * @return The map width.
+     */
+    @Getter private final int mapWidth;
+
+    /**
+     * The map height.
+     * -- GETTER --
+     * Gets the map height.
+     *
+     * @return The map height.
+     */
+    @Getter  private final int mapHeight;
 
     /**
      * Instantiates a new Tile map.
      *
-     * @param width    the width
-     * @param height   the height
-     * @param tileSize the tile size
+     * @param width    The width.
+     * @param height   The height.
+     * @param tileSize The tile size.
      */
     public TileMap(int width, int height, int tileSize) {
         this.tiles = new Tile[width][height];
@@ -31,7 +55,7 @@ public class TileMap {
     /**
      * Gets width.
      *
-     * @return the width
+     * @return The width.
      */
     public int getWidth() {
         return tiles.length;
@@ -40,7 +64,7 @@ public class TileMap {
     /**
      * Gets height.
      *
-     * @return the height
+     * @return The height.
      */
     public int getHeight() {
         return tiles[0].length;
@@ -51,9 +75,9 @@ public class TileMap {
      * <p>
      * Returns a specific tile by coordinates.
      *
-     * @param x the x
-     * @param y the y
-     * @return the tile
+     * @param x The x.
+     * @param y The y.
+     * @return The tile.
      */
     public Tile getTile(int x, int y) {
         if (x < 0 || x >= getWidth() ||
@@ -70,9 +94,9 @@ public class TileMap {
      * <p>
      * Sets the tile by coordinates.
      *
-     * @param x    the x
-     * @param y    the y
-     * @param tile the tile
+     * @param x    The x.
+     * @param y    The y.
+     * @param tile The tile.
      */
     public void setTile(int x, int y, Tile tile) {
         tiles[x][y] = tile;
@@ -81,7 +105,7 @@ public class TileMap {
     /**
      * Render.
      *
-     * @param gc the gc
+     * @param gc The graphics context.
      */
     public void render(GraphicsContext gc) {
         for (int i = 0; i < getHeight(); i++) {
@@ -99,8 +123,8 @@ public class TileMap {
      * <p>
      * Convert tile coordinates to pixel coordinates.
      *
-     * @param coord the coord
-     * @return the int
+     * @param coord The coordinates.
+     * @return The int.
      */
     public static int convertTileToPixel(int coord) {
         return coord * Config.getTileSize();
@@ -111,28 +135,10 @@ public class TileMap {
      * <p>
      * Convert pixel coordinates to tile coordinates.
      *
-     * @param coord the coord
-     * @return the int
+     * @param coord The coordinates.
+     * @return The int.
      */
     public static int convertPixelToTile(double coord) {
         return (int) (coord / Config.getTileSize());
-    }
-
-    /**
-     * Gets map width.
-     *
-     * @return the map width
-     */
-    public int getMapWidth() {
-        return mapWidth;
-    }
-
-    /**
-     * Gets map height.
-     *
-     * @return the map height
-     */
-    public int getMapHeight() {
-        return mapHeight;
     }
 }

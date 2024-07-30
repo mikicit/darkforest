@@ -1,5 +1,5 @@
-import dev.mikicit.darkforest.model.component.Inventory;
-import dev.mikicit.darkforest.model.entity.Item.AItem;
+import dev.mikita.darkforest.model.component.Inventory;
+import dev.mikita.darkforest.model.entity.Item.AItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

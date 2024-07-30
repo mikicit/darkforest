@@ -10,13 +10,17 @@ import java.util.Observer;
  * <p>
  * A GUI element that displays the character's actual lives.
  */
+@SuppressWarnings("deprecation")
 public class HPBox implements Observer {
+    /**
+     * The Health.
+     */
     private final Text health;
 
     /**
      * Instantiates a new Hp box.
      *
-     * @param health the health
+     * @param health The health.
      */
     public HPBox(double health) {
         this.health = new Text(50, 50, "HP: " + health);
@@ -27,7 +31,7 @@ public class HPBox implements Observer {
     /**
      * Gets text.
      *
-     * @return the text
+     * @return The text.
      */
     public Text getText() {
         return health;

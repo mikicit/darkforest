@@ -10,10 +10,10 @@ import dev.mikita.darkforest.model.entity.Player;
  */
 public abstract class AEquipment extends AItem {
     /**
-     * Instantiates a new A equipment.
+     * Instantiates a new AEquipment.
      *
-     * @param id   the id
-     * @param name the name
+     * @param id   The equipment id.
+     * @param name The equipment name.
      */
     public AEquipment(int id, String name) {
         super(id, name);
@@ -24,7 +24,7 @@ public abstract class AEquipment extends AItem {
      * <p>
      * A method that allows you to equip an item.
      *
-     * @param player the player
+     * @param player The player who will equip the item.
      */
     public void equip(Player player) {
         player.setEquipment(this);
@@ -35,7 +35,7 @@ public abstract class AEquipment extends AItem {
      * <p>
      * A method that allows you to unequip an item.
      *
-     * @param player the player
+     * @param player The player who will unequip the item.
      */
     public void unEquip(Player player) {
         player.unsetEquipment(this);

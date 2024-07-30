@@ -18,7 +18,7 @@ public class GameOverController extends AController {
     /**
      * Go to main menu button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void goToMainMenuButtonClickHandler(MouseEvent e) {
         StateManager.goToMainMenu();

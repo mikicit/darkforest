@@ -1,5 +1,7 @@
 package dev.mikita.darkforest.model.component;
 
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Observable;
 
 /**
@@ -7,14 +9,25 @@ import java.util.Observable;
  * <p>
  * A class representing a character's lives and their management.
  */
+@SuppressWarnings("deprecation")
 public class HP extends Observable {
-    private double initialHealth;
+    /**
+     * The Initial health.
+     *
+     * @param initialHealth The initial health.
+     * @return The initial health.
+     */
+    @Getter @Setter private double initialHealth;
+
+    /**
+     * The current health.
+     */
     private double currentHealth;
 
     /**
      * Instantiates a new Hp.
      *
-     * @param health the health
+     * @param health The health.
      */
     public HP(double health) {
         this.initialHealth = health;
@@ -24,7 +37,7 @@ public class HP extends Observable {
     /**
      * Add health.
      *
-     * @param health the health
+     * @param health The health.
      */
     public void addHealth(double health) {
         currentHealth = Math.min(currentHealth + health, initialHealth);
@@ -35,7 +48,7 @@ public class HP extends Observable {
     /**
      * Reduce health.
      *
-     * @param health the health
+     * @param health The health.
      */
     public void reduceHealth(double health) {
         currentHealth = Math.max(currentHealth - health, 0);
@@ -44,29 +57,11 @@ public class HP extends Observable {
     }
 
     /**
-     * Sets initial health health.
-     *
-     * @param health the health
-     */
-    public void setInitialHealthHealth(double health) {
-        this.initialHealth = health;
-    }
-
-    /**
-     * Gets initial health.
-     *
-     * @return the initial health
-     */
-    public double getInitialHealth() {
-        return initialHealth;
-    }
-
-    /**
      * Gets health.
      * <p>
      * Returns the current lives of the character.
      *
-     * @return the health
+     * @return The health.
      */
     public double getHealth() {
         return Math.round(currentHealth);

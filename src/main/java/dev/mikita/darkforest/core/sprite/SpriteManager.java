@@ -10,6 +10,9 @@ import java.util.Comparator;
  * Class for managing all sprites in the location.
  */
 public class SpriteManager {
+    /**
+     * The sprites.
+     */
     private final ArrayList<ASprite> sprites;
 
     /**
@@ -24,11 +27,11 @@ public class SpriteManager {
      * <p>
      * Calling the update method on all sprites.
      *
-     * @param delta the delta
+     * @param delta The time between the last frame and the current one.
      */
     public void update(double delta) {
         // Sorting to display some sprites on top of others depending on the coordinates.
-        sprites.sort(Comparator.comparing(ASprite::getY));
+        sprites.sort(Comparator.comparing(ASprite::getPositionY));
 
         for (ASprite sprite : sprites) {
             sprite.update(delta);
@@ -38,7 +41,7 @@ public class SpriteManager {
     /**
      * Render.
      *
-     * @param gc the gc
+     * @param gc The graphics context.
      */
     public void render(GraphicsContext gc) {
         for (ASprite sprite : sprites) {
@@ -49,7 +52,7 @@ public class SpriteManager {
     /**
      * Add sprite.
      *
-     * @param sprite the sprite
+     * @param sprite The sprite.
      */
     public void addSprite(ASprite sprite) {
         sprites.add(sprite);
@@ -58,7 +61,7 @@ public class SpriteManager {
     /**
      * Remove sprite.
      *
-     * @param sprite the sprite
+     * @param sprite The sprite.
      */
     public void removeSprite(ASprite sprite) {
         sprites.remove(sprite);

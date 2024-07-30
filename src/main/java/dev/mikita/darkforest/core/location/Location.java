@@ -10,59 +10,105 @@ import dev.mikita.darkforest.model.entity.Item.AItem;
 import dev.mikita.darkforest.model.entity.Monster;
 import dev.mikita.darkforest.model.entity.Player;
 import dev.mikita.darkforest.model.entity.Portal;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * The type Location.
  * <p>
  * A class representing a specific location.
  */
+@Slf4j
 public class Location {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
+    /**
+     * The config.
+     */
+    private final JSONObject config;
 
-    // Data
-    private JSONObject config;
-    private final int locationId;
-    private final String name;
+    /**
+     * The location id.
+     *
+     * @return The current location id.
+     */
+    @Getter private final int locationId;
 
-    // Links
-    private Player player;
-    private ArrayList<Monster> monsters = new ArrayList<>();
-    private ArrayList<AItem> items = new ArrayList<>();
-    private ArrayList<Portal> portals = new ArrayList<>();
-    private TileMap tileMap;
-    private SpriteManager spriteManager;
+    /**
+     * The name.
+     *
+     * @return The current location name.
+     */
+    @Getter private final String name;
 
-    // State
+    /**
+     * The player.
+     *
+     * @return The current player.
+     */
+    @Getter private Player player;
+
+    /**
+     * The monsters.
+     *
+     * @return The current monsters in the location.
+     */
+    @Getter private final ArrayList<Monster> monsters = new ArrayList<>();
+
+    /**
+     * The items.
+     *
+     * @return The current items in the location.
+     */
+    @Getter private final ArrayList<AItem> items = new ArrayList<>();
+
+    /**
+     * The portals.
+     *
+     * @return The current portals in the location.
+     */
+    @Getter private final ArrayList<Portal> portals = new ArrayList<>();
+
+    /**
+     * The tile map.
+     *
+     * @return The current tile map.
+     */
+    @Getter private TileMap tileMap;
+
+    /**
+     * The sprite manager.
+     *
+     * @return The current sprite manager.
+     */
+    @Getter private SpriteManager spriteManager;
+
+    /**
+     * The location was initialized.
+     */
     private boolean wasInitialized;
 
     /**
-     * Instantiates a new Location.
+     * Instantiates a new location.
      *
-     * @param locationId the location id
+     * @param locationId The location id.
      */
     public Location(int locationId) {
         this.locationId = locationId;
 
         try {
-            File file = new File("src/main/resources/location/" + locationId + "/config.json");
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+            String content = new String(Files.readAllBytes(Path.of("config/location/" + locationId + "/config.json")));
             config = new JSONObject(content);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while reading location config", e);
         }
 
         this.name = config.getString("name");
 
-        log.info("Location \"" + getName() + "\" was created.");
+        log.info("Location \"{}\" was created.", name);
     }
 
     /**
@@ -77,7 +123,7 @@ public class Location {
         spriteManager = new SpriteManager();
 
         // Tile Map Init
-        tileMap = TileMapManager.createTileMap("src/main/resources/location/" + locationId + "/map.txt", 64);
+        tileMap = TileMapManager.createTileMap("config/location/" + locationId + "/map.txt", 64);
 
         // Monsters Init
         for (Object monsterConfig : config.getJSONArray("monsters")) {
@@ -115,7 +161,7 @@ public class Location {
 
         wasInitialized = true;
 
-        log.info("Location \"" + getName() + "\" was initialized.");
+        log.info("Location \"{}\" was initialized.", name);
     }
 
     /**
@@ -134,77 +180,5 @@ public class Location {
     public void unsetPlayer() {
         spriteManager.removeSprite(player);
         this.player = null;
-    }
-
-    /**
-     * Gets id.
-     *
-     * @return the id
-     */
-    public int getId() {
-        return locationId;
-    }
-
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Gets player.
-     *
-     * @return the player
-     */
-    public Player getPlayer() {
-        return player;
-    }
-
-    /**
-     * Gets monsters.
-     *
-     * @return the monsters
-     */
-    public ArrayList<Monster> getMonsters() {
-        return monsters;
-    }
-
-    /**
-     * Gets items.
-     *
-     * @return the items
-     */
-    public ArrayList<AItem> getItems() {
-        return items;
-    }
-
-    /**
-     * Gets portals.
-     *
-     * @return the portals
-     */
-    public ArrayList<Portal> getPortals() {
-        return portals;
-    }
-
-    /**
-     * Gets tile map.
-     *
-     * @return the tile map
-     */
-    public TileMap getTileMap() {
-        return tileMap;
-    }
-
-    /**
-     * Gets sprite manager.
-     *
-     * @return the sprite manager
-     */
-    public SpriteManager getSpriteManager() {
-        return spriteManager;
     }
 }

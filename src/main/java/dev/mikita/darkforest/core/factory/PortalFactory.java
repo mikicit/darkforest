@@ -1,13 +1,10 @@
 package dev.mikita.darkforest.core.factory;
 
-import dev.mikita.darkforest.model.entity.Monster;
 import dev.mikita.darkforest.model.entity.Portal;
 import org.json.JSONObject;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 /**
  * The type Portal factory.
@@ -18,13 +15,12 @@ public class PortalFactory {
     /**
      * Gets portal.
      *
-     * @param id the id
-     * @return the portal
+     * @param id The portal id.
+     * @return The portal.
      */
     public static Portal getPortal(int id) {
         try {
-            File file = new File("src/main/resources/portal/" + id + "/config.json");
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+            String content = new String(Files.readAllBytes(Path.of("config/portal/" + id + "/config.json")));
             JSONObject config = new JSONObject(content);
 
             // Creating Portal
@@ -34,13 +30,11 @@ public class PortalFactory {
                     config.getInt("playerX"),
                     config.getInt("playerY")
             );
-            portal.setImage("portal/" + id + "/image.png");
+            portal.setImage(Path.of("config/portal/" + id + "/image.png").toUri().toString());
 
             return portal;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while reading portal config", e);
         }
-
-        return null;
     }
 }

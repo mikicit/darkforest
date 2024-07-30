@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import lombok.Getter;
 
 /**
  * The type Game view.
@@ -20,20 +21,40 @@ import javafx.scene.paint.Color;
  * Game world representation class.
  */
 public class GameView extends AView {
+    /**
+     * The tileMap.
+     */
     private TileMap tileMap;
+
+    /**
+     * The graphics context.
+     */
     private GraphicsContext gc;
-    private Pane canvasRoot;
+
+    /**
+     * The Canvas root.
+     * -- Getter --
+     * Gets canvas root.
+     *
+     * @return The canvas root.
+     */
+    @Getter private Pane canvasRoot;
+
+    /**
+     * The spriteManager.
+     */
     private SpriteManager spriteManager;
 
     /**
      * Instantiates a new Game view.
      *
-     * @param controller the controller
+     * @param controller The controller.
      */
     public GameView(GameController controller) {
         this.controller = controller;
     }
 
+    @Override
     public void init() {
         GameModel gameModel = GameModel.getInstance();
         tileMap = gameModel.getTileMap();
@@ -67,16 +88,6 @@ public class GameView extends AView {
         // Attaching Event Listeners
         scene.setOnKeyPressed(((GameController) controller)::keyPressedHandler);
         scene.setOnKeyReleased(((GameController) controller)::keyReleasedHandler);
-    }
-
-    /**
-     * Gets canvas root.
-     *
-     * @return the canvas root
-     */
-// Getters
-    public Pane getCanvasRoot() {
-        return canvasRoot;
     }
 
     @Override

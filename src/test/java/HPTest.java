@@ -1,4 +1,4 @@
-import dev.mikicit.darkforest.model.component.HP;
+import dev.mikita.darkforest.model.component.HP;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

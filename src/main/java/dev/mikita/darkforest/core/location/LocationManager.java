@@ -1,9 +1,6 @@
 package dev.mikita.darkforest.core.location;
 
-import dev.mikita.darkforest.model.entity.Player;
-
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 /**
  * The type Location manager.
@@ -11,17 +8,16 @@ import java.util.logging.Logger;
  * Class for managing and creating locations. It also caches already created locations.
  */
 public class LocationManager {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
-
-    // Cached Locations
+    /**
+     * The locations in the game.
+     */
     private final HashMap<Integer, Location> locations = new HashMap<>();
 
     /**
      * Gets location.
      *
-     * @param locationId the location id
-     * @return the location
+     * @param locationId The location id.
+     * @return The location.
      */
     public Location getLocation(int locationId) {
         if (locations.containsKey(locationId)) {

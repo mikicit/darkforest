@@ -1,5 +1,5 @@
-import dev.mikicit.darkforest.model.entity.Monster;
-import dev.mikicit.darkforest.model.entity.Player;
+import dev.mikita.darkforest.model.entity.Monster;
+import dev.mikita.darkforest.model.entity.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

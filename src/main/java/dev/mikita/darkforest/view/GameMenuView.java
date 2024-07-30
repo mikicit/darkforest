@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 
 /**
@@ -19,12 +18,13 @@ public class GameMenuView extends AView{
     /**
      * Instantiates a new Game menu view.
      *
-     * @param controller the controller
+     * @param controller The controller.
      */
     public GameMenuView(GameMenuController controller) {
         this.controller = controller;
     }
 
+    @Override
     public void init() {
         // JavaFX init
         VBox vBox = new VBox();
@@ -53,8 +53,7 @@ public class GameMenuView extends AView{
         for (Button button : buttons) {
             button.setPrefHeight(56);
             button.setPrefWidth(200);
-            button.setStyle("" +
-                    "-fx-background-color: #2b3542; " +
+            button.setStyle("-fx-background-color: #2b3542; " +
                     "-fx-text-fill: white; " +
                     "-fx-font-size: 16px; " +
                     "-fx-font-weight: bold; " +
@@ -75,7 +74,5 @@ public class GameMenuView extends AView{
     }
 
     @Override
-    public void render() {
-
-    }
+    public void render() {}
 }

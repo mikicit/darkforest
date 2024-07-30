@@ -3,31 +3,43 @@ package dev.mikita.darkforest.core.sprite;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import lombok.Getter;
 
 /**
  * The type ASprite.
  * <p>
  * The base abstract class for representing sprites.
  */
+@Getter
 public abstract class ASprite {
     /**
-     * The Position x.
+     * The position x.
+     *
+     * @return The position x.
      */
     protected double positionX;
     /**
-     * The Position y.
+     * The position y.
+     *
+     * @return The position y.
      */
     protected double positionY;
     /**
-     * The Width.
+     * The width.
+     *
+     * @return The width.
      */
     protected double width;
     /**
-     * The Height.
+     * The weight.
+     *
+     * @return The weight.
      */
     protected double height;
     /**
-     * The Image.
+     * The image.
+     *
+     * @return The image.
      */
     protected Image image;
 
@@ -42,7 +54,7 @@ public abstract class ASprite {
     /**
      * Sets image.
      *
-     * @param image the image
+     * @param image The image.
      */
     public void setImage(Image image) {
         this.image = image;
@@ -53,7 +65,7 @@ public abstract class ASprite {
     /**
      * Sets image.
      *
-     * @param filename the filename
+     * @param filename The filename.
      */
     public void setImage(String filename) {
         Image image = new Image(filename);
@@ -63,8 +75,8 @@ public abstract class ASprite {
     /**
      * Sets position.
      *
-     * @param x the x
-     * @param y the y
+     * @param x The x.
+     * @param y The y.
      */
     public void setPosition(double x, double y) {
         positionX = x;
@@ -77,18 +89,16 @@ public abstract class ASprite {
      * This method is called every frame of the main timer.
      * Used to update the state of the sprite.
      *
-     * @param delta the delta
+     * @param delta The delta time between frames.
      */
-    public void update(double delta) {
-
-    };
+    public void update(double delta) {};
 
     /**
      * Render.
      * <p>
      * The render method is called every frame. Serves for drawing sprites.
      *
-     * @param gc the gc
+     * @param gc The graphics context of the canvas.
      */
     public void render(GraphicsContext gc) {
         gc.drawImage(image, positionX, positionY);
@@ -97,8 +107,8 @@ public abstract class ASprite {
     /**
      * Intersects collision box boolean.
      *
-     * @param s the s
-     * @return the boolean
+     * @param s The sprite.
+     * @return The boolean. Whether the sprite intersects with the collision box of the current sprite.
      */
     public boolean intersectsCollisionBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getCollisionBox());
@@ -107,55 +117,9 @@ public abstract class ASprite {
     /**
      * Gets collision box.
      *
-     * @return the collision box
+     * @return The collision box.
      */
     public Rectangle2D getCollisionBox() {
         return new Rectangle2D(positionX, positionY, width, height);
     }
-
-    /**
-     * Gets width.
-     *
-     * @return the width
-     */
-    public double getWidth() {
-        return width;
-    }
-
-    /**
-     * Gets height.
-     *
-     * @return the height
-     */
-    public double getHeight() {
-        return height;
-    }
-
-    /**
-     * Gets x.
-     *
-     * @return the x
-     */
-    public double getX() {
-        return positionX;
-    }
-
-    /**
-     * Gets y.
-     *
-     * @return the y
-     */
-    public double getY() {
-        return positionY;
-    }
-
-    /**
-     * Gets image.
-     *
-     * @return the image
-     */
-    public Image getImage() {
-        return image;
-    }
 }
-

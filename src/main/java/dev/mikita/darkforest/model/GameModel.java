@@ -11,23 +11,44 @@ import dev.mikita.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikita.darkforest.model.entity.Monster;
 import dev.mikita.darkforest.model.entity.Player;
 import dev.mikita.darkforest.model.entity.Portal;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * The type Game model.
  * <p>
  * The main class responsible for the state of the game (game objects).
  */
+@Slf4j
 public class GameModel {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
-
+    /**
+     * The GameModel instance.
+     */
     private static GameModel instance;
-    private Player player;
-    private Location currentLocation;
+
+    /**
+     * The Player.
+     * -- GETTER --
+     * Gets player.
+     *
+     * @return The player.
+     */
+    @Getter private Player player;
+
+    /**
+     * The Current location.
+     * -- GETTER --
+     * Gets current location.
+     *
+     * @return The current location.
+     */
+    @Getter private Location currentLocation;
+
+    /**
+     * The Location manager.
+     */
     private LocationManager locationManager;
 
     /**
@@ -50,7 +71,7 @@ public class GameModel {
                 playerConfig.getDouble("armor"),
                 playerConfig.getDouble("damageRadius"));
 
-        player.getHP().setInitialHealthHealth(playerConfig.getDouble("initialHealth"));
+        player.getHP().setInitialHealth(playerConfig.getDouble("initialHealth"));
 
         // Setting Equipped Items
         int equippedWeaponId = playerConfig.getInt("equippedWeaponId");
@@ -104,31 +125,13 @@ public class GameModel {
         currentLocation.init();
         currentLocation.setPlayer(player);
 
-        log.info("The location \"" + currentLocation.getName() + "\" was set.");
-    }
-
-    /**
-     * Gets player.
-     *
-     * @return the player
-     */
-    public Player getPlayer() {
-        return player;
-    }
-
-    /**
-     * Gets current location.
-     *
-     * @return the current location
-     */
-    public Location getCurrentLocation() {
-        return currentLocation;
+        log.info("The location \"{}\" was set.", currentLocation.getName());
     }
 
     /**
      * Gets tile map.
      *
-     * @return the tile map
+     * @return The tile map.
      */
     public TileMap getTileMap() {
         return currentLocation.getTileMap();
@@ -137,7 +140,7 @@ public class GameModel {
     /**
      * Gets monsters.
      *
-     * @return the monsters
+     * @return The monsters.
      */
     public ArrayList<Monster> getMonsters() {
         return currentLocation.getMonsters();
@@ -146,7 +149,7 @@ public class GameModel {
     /**
      * Gets items.
      *
-     * @return the items
+     * @return The items.
      */
     public ArrayList<AItem> getItems() {
         return currentLocation.getItems();
@@ -155,7 +158,7 @@ public class GameModel {
     /**
      * Gets portals.
      *
-     * @return the portals
+     * @return The portals.
      */
     public ArrayList<Portal> getPortals() {
         return currentLocation.getPortals();
@@ -164,7 +167,7 @@ public class GameModel {
     /**
      * Gets sprite manager.
      *
-     * @return the sprite manager
+     * @return The sprite manager.
      */
     public SpriteManager getSpriteManager() {
         return currentLocation.getSpriteManager();

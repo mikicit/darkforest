@@ -2,10 +2,9 @@ package dev.mikita.darkforest.core.factory;
 
 import dev.mikita.darkforest.model.entity.Monster;
 import org.json.JSONObject;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 /**
  * The type Monster factory.
@@ -16,13 +15,12 @@ public class MonsterFactory {
     /**
      * Gets monster.
      *
-     * @param id the id
-     * @return the monster
+     * @param id The monster id.
+     * @return The monster.
      */
     public static Monster getMonster(int id) {
         try {
-            File file = new File("src/main/resources/monster/" + id + "/config.json");
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+            String content = new String(Files.readAllBytes(Path.of("config/monster/" + id + "/config.json")));
             JSONObject config = new JSONObject(content);
 
             // Characteristics
@@ -36,13 +34,11 @@ public class MonsterFactory {
 
             // Creating Monster
             Monster monster = new Monster(name, health, damage, damageRadius, viewingRadius, speed, attackSpeed);
-            monster.setImage("monster/" + id + "/image.png");
+            monster.setImage(Path.of("config/monster/" + id + "/image.png").toUri().toString());
 
             return monster;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while reading monster config", e);
         }
-
-        return null;
     }
 }

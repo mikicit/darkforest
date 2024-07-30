@@ -2,18 +2,20 @@ package dev.mikita.darkforest.model.entity.Item.bottle;
 
 import dev.mikita.darkforest.model.entity.Item.AItem;
 import dev.mikita.darkforest.model.entity.Player;
-
-import java.util.logging.Logger;
+import lombok.Getter;
 
 /**
  * The type Health bottle.
  * <p>
  * A class representing health bottles.
  */
+@Getter
 public class HealthBottle extends AItem {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
-
+    /**
+     * The health.
+     *
+     * @return The amount of health that the bottle restores.
+     */
     private final double health;
 
     /**
@@ -33,18 +35,9 @@ public class HealthBottle extends AItem {
      * <p>
      * A method that allows a character to use a bottle.
      *
-     * @param player the player
+     * @param player The player who uses the bottle.
      */
     public void use(Player player) {
         player.inHealth(this);
-    }
-
-    /**
-     * Gets health.
-     *
-     * @return the health
-     */
-    public double getHealth() {
-        return health;
     }
 }

@@ -1,8 +1,8 @@
-import dev.mikicit.darkforest.model.component.Equipment;
-import dev.mikicit.darkforest.model.component.Inventory;
-import dev.mikicit.darkforest.model.entity.Item.AItem;
-import dev.mikicit.darkforest.model.entity.Item.equipment.Armor;
-import dev.mikicit.darkforest.model.entity.Item.equipment.Weapon;
+import dev.mikita.darkforest.model.component.Equipment;
+import dev.mikita.darkforest.model.component.Inventory;
+import dev.mikita.darkforest.model.entity.Item.AItem;
+import dev.mikita.darkforest.model.entity.Item.equipment.Armor;
+import dev.mikita.darkforest.model.entity.Item.equipment.Weapon;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -12,20 +12,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
- * The type Game over view.
+ * The type GameOver view.
  * <p>
  * The class for representing the end of the game (game over).
  */
 public class GameOverView extends AView {
     /**
-     * Instantiates a new Game over view.
+     * Instantiates a new GameOver view.
      *
-     * @param controller the controller
+     * @param controller The controller.
      */
     public GameOverView(GameOverController controller) {
         this.controller = controller;
     }
 
+    @Override
     public void init() {
         // JavaFX init
         VBox vBox = new VBox();
@@ -52,8 +53,7 @@ public class GameOverView extends AView {
 
         mainMenu.setPrefHeight(56);
         mainMenu.setPrefWidth(200);
-        mainMenu.setStyle("" +
-                "-fx-background-color: #2b3542; " +
+        mainMenu.setStyle("-fx-background-color: #2b3542; " +
                 "-fx-text-fill: white; " +
                 "-fx-font-size: 16px; " +
                 "-fx-font-weight: bold; " +

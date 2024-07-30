@@ -2,56 +2,146 @@ package dev.mikita.darkforest.model.entity;
 
 import dev.mikita.darkforest.core.sprite.ASprite;
 import javafx.geometry.Rectangle2D;
-
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Logger;
 
 /**
  * The type Monster.
  * <p>
  * A class that represents a particular monster.
  */
+@Slf4j
 public class Monster extends ASprite {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
+    /**
+     * The random.
+     */
+    private final Random random = new Random();
 
-    // Links
-    private Random random = new Random();
+    /**
+     * The aim (target).
+     * <p>
+     * The target that the monster is currently chasing.
+     */
     private Player aim;
 
-    // Characteristics
-    private final String name;
-    private final double damage;
-    private final double damageRadius;
-    private final double viewingRadius;
-    private double health;
-    private double speed = 64; // px per second
-    private double attackSpeed = 300; // in ms
+    /**
+     * The name.
+     * -- GETTER --
+     * Gets the name of the monster.
+     *
+     * @return The name of the monster.
+     */
+    @Getter private final String name;
 
-    // Timers
+    /**
+     * The damage.
+     * -- GETTER --
+     * Gets the damage that the monster can inflict.
+     *
+     * @return The damage that the monster can inflict.
+     */
+    @Getter private final double damage;
+
+    /**
+     * The damage radius.
+     * -- GETTER --
+     * Gets the radius of the damage that the monster can inflict.
+     *
+     * @return The radius of the damage that the monster can inflict.
+     */
+    @Getter private final double damageRadius;
+
+    /**
+     * The viewing radius.
+     * -- GETTER --
+     * Gets the radius of the monster's view.
+     *
+     * @return The radius of the monster's view.
+     */
+    @Getter private final double viewingRadius;
+
+    /**
+     * The health.
+     * -- GETTER --
+     * Gets the health of the monster.
+     *
+     * @return The health of the monster.
+     */
+    @Getter private double health;
+
+    /**
+     * The speed.
+     */
+    private final double speed; // px per second
+
+    /**
+     * The attack speed.
+     */
+    private final double attackSpeed; // in ms
+
+    /**
+     * The moving timer.
+     * <p>
+     * The time during which the monster moves in one direction.
+     */
     private double movingTimer = 2; // in sec
+
+    /**
+     * The waiting timer.
+     * <p>
+     * The time during which the monster waits before changing direction.
+     */
     private double waitingTimer; // in sec
+
+    /**
+     * The current direction index.
+     * <p>
+     * The index of the current direction in the direction sequence.
+     */
     private int currentDirectionIndex = 0;
 
-    // State
-    private Integer[] directionSequence = {1, 2, 3, 4};
+    /**
+     * The direction sequence.
+     * <p>
+     * The sequence of directions in which the monster moves.
+     */
+    private final Integer[] directionSequence = {1, 2, 3, 4};
+
+    /**
+     * The monster is in combat mode.
+     * <p>
+     * A flag that indicates whether the monster is in combat mode.
+     */
     private boolean inCombat = false;
+
+    /**
+     * The monster is dead.
+     * <p>
+     * A flag that indicates whether the monster is dead.
+     */
     private boolean isDead;
+
+    /**
+     * The last attack.
+     * <p>
+     * The time of the last attack.
+     */
     private double lastAttack;
 
     /**
      * Instantiates a new Monster.
      *
-     * @param name          the name
-     * @param health        the health
-     * @param damage        the damage
-     * @param damageRadius  the damage radius
-     * @param viewingRadius the viewing radius
-     * @param speed         the speed
-     * @param attackSpeed   the attack speed
+     * @param name          The name.
+     * @param health        The health.
+     * @param damage        The damage.
+     * @param damageRadius  The damage radius.
+     * @param viewingRadius The viewing radius.
+     * @param speed         The speed.
+     * @param attackSpeed   The attack speed.
      */
     public Monster(String name, double health, double damage, double damageRadius, double viewingRadius, double speed, double attackSpeed) {
         this.name = name;
@@ -73,8 +163,10 @@ public class Monster extends ASprite {
 
     /**
      * Attack.
+     * <p>
+     * The method is responsible for attacking the player.
      *
-     * @param player the player
+     * @param player The player.
      */
     public void attack(Player player) {
         if ((System.currentTimeMillis() - lastAttack) < attackSpeed) {
@@ -90,17 +182,19 @@ public class Monster extends ASprite {
 
     /**
      * In attack.
+     * <p>
+     * The method is responsible for the monster being attacked by the player.
      *
-     * @param player the player
+     * @param player The player.
      */
     public void inAttack(Player player) {
         double incomingDamage = player.getDamage();
-        log.info("Monster \"" + getName() + "\" was attacked by player." + " Incoming damage is " + incomingDamage + ".");
+        log.info("Monster \"{}\" was attacked by player. Incoming damage is {}.", getName(), incomingDamage);
         health = Math.max(health - incomingDamage, 0);
 
         if (health == 0) {
             isDead = true;
-            log.info("Monster \"" + name + "\" is dead!");
+            log.info("Monster \"{}\" is dead!", name);
         }
 
         // Counterattack
@@ -108,54 +202,9 @@ public class Monster extends ASprite {
     }
 
     /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Gets damage.
-     *
-     * @return the damage
-     */
-    public double getDamage() {
-        return damage;
-    }
-
-    /**
-     * Gets health.
-     *
-     * @return the health
-     */
-    public double getHealth() {
-        return health;
-    }
-
-    /**
-     * Gets damage radius.
-     *
-     * @return the damage radius
-     */
-    public double getDamageRadius() {
-        return damageRadius;
-    }
-
-    /**
-     * Gets viewing radius.
-     *
-     * @return the viewing radius
-     */
-    public double getViewingRadius() {
-        return viewingRadius;
-    }
-
-    /**
      * Is dead boolean.
      *
-     * @return the boolean
+     * @return The boolean that indicates whether the monster is dead.
      */
     public boolean isDead() {
         return isDead;
@@ -164,8 +213,8 @@ public class Monster extends ASprite {
     /**
      * Intersects radius view box boolean.
      *
-     * @param s the s
-     * @return the boolean
+     * @param s The sprite.
+     * @return The boolean that indicates whether the monster's view radius intersects with the sprite.
      */
     public boolean intersectsRadiusViewBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getRadiusViewCollisionBox());
@@ -174,8 +223,8 @@ public class Monster extends ASprite {
     /**
      * Intersects damage box boolean.
      *
-     * @param s the s
-     * @return the boolean
+     * @param s The sprite.
+     * @return The boolean that indicates whether the monster's damage radius intersects with the sprite.
      */
     public boolean intersectsDamageBox(ASprite s) {
         return s.getCollisionBox().intersects(this.getDamageRadiusBox());
@@ -184,7 +233,7 @@ public class Monster extends ASprite {
     /**
      * Gets damage radius box.
      *
-     * @return the damage radius box
+     * @return The damage radius box.
      */
     public Rectangle2D getDamageRadiusBox() {
         double damageRadius = getDamageRadius();
@@ -199,7 +248,7 @@ public class Monster extends ASprite {
     /**
      * Gets radius view collision box.
      *
-     * @return the radius view collision box
+     * @return The radius view collision box.
      */
     public Rectangle2D getRadiusViewCollisionBox() {
         double viewingRadius = getViewingRadius();
@@ -216,7 +265,7 @@ public class Monster extends ASprite {
      * <p>
      * Sets a target to pursue.
      *
-     * @param player the player
+     * @param player The player.
      */
     public void setAim(Player player) {
         if (aim == null) {
@@ -231,7 +280,7 @@ public class Monster extends ASprite {
      * The method is responsible for moving towards the goal.
      * Called every frame while the monster is chasing the target (in combat).
      *
-     * @param delta the delta
+     * @param delta The delta.
      */
     private void moveToAim(double delta) {
         int path = (int) (speed * delta);
@@ -241,11 +290,11 @@ public class Monster extends ASprite {
             return;
         }
 
-        double aimX = aim.getX();
-        double aimY = aim.getY();
+        double aimX = aim.getPositionX();
+        double aimY = aim.getPositionY();
 
         if (Math.abs(aimX - positionX) > 10) {
-            if (aim.getX() > positionX) {
+            if (aim.getPositionX() > positionX) {
                 positionX += path;
             } else {
                 positionX -= path;
@@ -253,7 +302,7 @@ public class Monster extends ASprite {
         }
 
         if (Math.abs(aimY - positionY) > 10) {
-            if (aim.getY() > positionY) {
+            if (aim.getPositionY() > positionY) {
                 positionY += path;
             } else {
                 positionY -= path;
@@ -267,7 +316,7 @@ public class Monster extends ASprite {
      * This method is responsible for the random movement of the monster.
      * Called every frame while the monster is not chasing anyone.
      *
-     * @param delta the delta
+     * @param delta The delta.
      */
     private void randomMoving(double delta) {
         int path = (int) (speed * delta);

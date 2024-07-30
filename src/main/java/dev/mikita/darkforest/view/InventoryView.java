@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,6 +25,7 @@ import java.util.Observer;
  * <p>
  * Inventory view class.
  */
+@SuppressWarnings("deprecation")
 public class InventoryView extends AView implements Observer {
     private VBox itemInfoView;
     private Pane itemInfoContainer;
@@ -40,12 +40,13 @@ public class InventoryView extends AView implements Observer {
     /**
      * Instantiates a new Inventory view.
      *
-     * @param controller the controller
+     * @param controller The controller.
      */
     public InventoryView(InventoryController controller) {
         this.controller = controller;
     }
 
+    @Override
     public void init() {
         GameModel gameModel = GameModel.getInstance();
         player = gameModel.getPlayer();
@@ -185,7 +186,7 @@ public class InventoryView extends AView implements Observer {
 
     /**
      * Render equipped items.
-     *
+     * <p>
      * Displays currently equipped items.
      */
     private void renderEquippedItems() {
@@ -210,7 +211,7 @@ public class InventoryView extends AView implements Observer {
 
     /**
      * Render items.
-     *
+     * <p>
      * Displays actual items in the inventory.
      */
     private void renderItems() {
@@ -229,10 +230,10 @@ public class InventoryView extends AView implements Observer {
 
     /**
      * Sets item info.
-     *
+     * <p>
      * Shows the characteristics of the subject when the focus changes.
      *
-     * @param item the item
+     * @param item The item.
      */
     public void setItemInfo(AItem item) {
         itemInfoContainer.getChildren().clear();
@@ -254,10 +255,7 @@ public class InventoryView extends AView implements Observer {
         itemInfo.getChildren().add(name);
 
         // Weapon
-        if (item instanceof Weapon) {
-            Weapon weapon = (Weapon) item;
-
-            // Damage
+        if (item instanceof Weapon weapon) {
             Text damageTitle = new Text("Damage:");
             damageTitle.setFont(Font.font("Arial", FontWeight.BOLD, 16));
             damageTitle.setFill(Color.WHITE);
@@ -282,10 +280,7 @@ public class InventoryView extends AView implements Observer {
         }
 
         // Armor
-        if (item instanceof Armor) {
-            Armor armor = (Armor) item;
-
-            // Armor
+        if (item instanceof Armor armor) {
             Text armorTitle = new Text("Armor:");
             armorTitle.setFont(Font.font("Arial", FontWeight.BOLD, 16));
             armorTitle.setFill(Color.WHITE);
@@ -299,10 +294,7 @@ public class InventoryView extends AView implements Observer {
         }
 
         // Bottle
-        if (item instanceof HealthBottle) {
-            HealthBottle bottle = (HealthBottle) item;
-
-            // Armor
+        if (item instanceof HealthBottle bottle) {
             Text bottleTitle = new Text("Health:");
             bottleTitle.setFont(Font.font("Arial", FontWeight.BOLD, 16));
             bottleTitle.setFill(Color.WHITE);
@@ -319,9 +311,7 @@ public class InventoryView extends AView implements Observer {
     }
 
     @Override
-    public void render() {
-
-    }
+    public void render() {}
 
     @Override
     public void update(Observable o, Object arg) {

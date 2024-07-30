@@ -3,28 +3,34 @@ package dev.mikita.darkforest.model.component;
 import dev.mikita.darkforest.model.entity.Item.equipment.AEquipment;
 import dev.mikita.darkforest.model.entity.Item.equipment.Armor;
 import dev.mikita.darkforest.model.entity.Item.equipment.Weapon;
-import dev.mikita.darkforest.model.entity.Player;
-
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import java.util.Observable;
-import java.util.logging.Logger;
 
 /**
  * The type Equipment.
  * <p>
  * A class that represents a character's equipment (equipped items) and their management.
  */
+@Slf4j
+@Getter
+@SuppressWarnings("deprecation")
 public class Equipment extends Observable {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
-
+    /**
+     * The Weapon.
+     */
     private Weapon weapon;
+
+    /**
+     * The Armor.
+     */
     private Armor armor;
 
     /**
      * Sets equipment.
      *
-     * @param item      the item
-     * @param inventory the inventory
+     * @param item      The item.
+     * @param inventory The inventory.
      */
     public void setEquipment(AEquipment item, Inventory inventory) {
         inventory.removeItem(item);
@@ -35,7 +41,7 @@ public class Equipment extends Observable {
             }
 
             weapon = (Weapon) item;
-            log.info("Weapon \"" + item.getName() + "\" was equipped.");
+            log.info("Weapon \"{}\" was equipped.", item.getName());
         }
 
         if (item instanceof Armor) {
@@ -44,7 +50,7 @@ public class Equipment extends Observable {
             }
 
             armor = (Armor) item;
-            log.info("Armor \"" + item.getName() + "\" was equipped.");
+            log.info("Armor \"{}\" was equipped.", item.getName());
         }
 
         setChanged();
@@ -54,8 +60,8 @@ public class Equipment extends Observable {
     /**
      * Unset equipment.
      *
-     * @param item      the item
-     * @param inventory the inventory
+     * @param item      The item.
+     * @param inventory The inventory.
      */
     public void unsetEquipment(AEquipment item, Inventory inventory) {
         if (item instanceof Weapon) {
@@ -63,7 +69,7 @@ public class Equipment extends Observable {
             if (weapon.equals(item)) {
                 if (inventory.addItem(item)) {
                     weapon = null;
-                    log.info("Weapon \"" + item.getName() + "\" was unequipped.");
+                    log.info("Weapon \"{}\" was unequipped.", item.getName());
                 }
             }
         }
@@ -73,30 +79,12 @@ public class Equipment extends Observable {
             if (armor.equals(item)) {
                 if (inventory.addItem(item)) {
                     armor = null;
-                    log.info("Weapon \"" + item.getName() + "\" was unequipped.");
+                    log.info("Armor \"{}\" was unequipped.", item.getName());
                 }
             }
         }
 
         setChanged();
         notifyObservers();
-    }
-
-    /**
-     * Gets weapon.
-     *
-     * @return the weapon
-     */
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    /**
-     * Gets armor.
-     *
-     * @return the armor
-     */
-    public Armor getArmor() {
-        return armor;
     }
 }

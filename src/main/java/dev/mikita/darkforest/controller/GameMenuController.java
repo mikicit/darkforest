@@ -20,7 +20,7 @@ public class GameMenuController extends AController {
     /**
      * Key pressed handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void keyPressedHandler(KeyEvent e) {
         String code = e.getCode().toString();
@@ -33,7 +33,7 @@ public class GameMenuController extends AController {
     /**
      * Game continue button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void gameContinueButtonClickHandler(MouseEvent e) {
         StateManager.continueGame();
@@ -42,7 +42,7 @@ public class GameMenuController extends AController {
     /**
      * Game save button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void gameSaveButtonClickHandler(MouseEvent e) {
         PlayerConfig.savePlayerConfig();
@@ -51,7 +51,7 @@ public class GameMenuController extends AController {
     /**
      * To main menu button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void toMainMenuButtonClickHandler(MouseEvent e) {
         StateManager.goToMainMenu();
@@ -60,14 +60,12 @@ public class GameMenuController extends AController {
     /**
      * Exit game button click handler.
      *
-     * @param e the e
+     * @param e The event.
      */
     public void exitGameButtonClickHandler(MouseEvent e) {
         StateManager.exitGame();
     }
 
     @Override
-    public void tick(double delta) {
-
-    }
+    public void tick(double delta) {}
 }

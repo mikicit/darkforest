@@ -4,55 +4,44 @@ import dev.mikita.darkforest.core.tile.TileMap;
 import dev.mikita.darkforest.model.GameModel;
 import dev.mikita.darkforest.model.entity.Item.AItem;
 import dev.mikita.darkforest.model.entity.Player;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.nio.file.Path;
 
 /**
  * The type Player config.
- *
- * Helper class for loading player configuration (standard or from save)
+ * <p>
+ * Helper class for loading player configuration (standard or from save).
  */
+@Slf4j
 public class PlayerConfig {
-    // Logger
-    private static Logger log = Logger.getLogger(Player.class.getName());
-
     /**
      * Gets player config.
      *
-     * @param fromSave the fromSave
-     * @return the player config
+     * @param fromSave The boolean value that indicates whether to load player config from save or not.
+     * @return The player configuration.
      */
     public static JSONObject getPlayerConfig(boolean fromSave) {
-        String path = fromSave ? "save/player.json" : "player.json";
+        String path = fromSave ? "save/player.json" : "config/player.json";
 
         try {
-            File file = new File(path);
-            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
-
+            String content = new String(Files.readAllBytes(Path.of(path)));
             return new JSONObject(content);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while reading player config", e);
         }
-
-        return null;
     }
 
     /**
      * Is exist player save boolean.
      *
-     * @return the boolean
+     * @return The boolean value that indicates whether player save exists or not.
      */
     public static boolean isExistPlayerSave() {
-        File f = new File("save/player.json");
-        return f.isFile();
+        return Path.of("save/player.json").toFile().exists();
     }
 
     /**
@@ -69,9 +58,9 @@ public class PlayerConfig {
         playerConfig.put("damage", player.getBasicDamage());
         playerConfig.put("armor", player.getBasicArmor());
         playerConfig.put("damageRadius", player.getBasicDamageRadius());
-        playerConfig.put("locationId", gameModel.getCurrentLocation().getId());
-        playerConfig.put("positionX", TileMap.convertPixelToTile(player.getX()));
-        playerConfig.put("positionY", TileMap.convertPixelToTile(player.getY()));
+        playerConfig.put("locationId", gameModel.getCurrentLocation().getLocationId());
+        playerConfig.put("positionX", TileMap.convertPixelToTile(player.getPositionX()));
+        playerConfig.put("positionY", TileMap.convertPixelToTile(player.getPositionY()));
 
         AItem currentWeapon = player.getCurrentWeapon();
         if (currentWeapon != null) {
@@ -88,19 +77,21 @@ public class PlayerConfig {
         }
 
         JSONArray inventory = new JSONArray();
-
         playerConfig.put("inventory", inventory);
-
         for (AItem item : player.getInventory().getItems()) {
             inventory.put(item.getId());
         }
 
-        try (
-                BufferedWriter writer = new BufferedWriter(new FileWriter("save/player.json"));
-        ) {
-            writer.write(playerConfig.toString());
+        Path path = Path.of("save/player.json");
+        try {
+            if (!Files.exists(path)) {
+                Files.createDirectories(path.getParent());
+                Files.createFile(path);
+            }
+            Files.write(path, playerConfig.toString().getBytes());
         } catch (IOException e) {
-            log.log(Level.WARNING, e.getMessage(), e);
+            log.error("Error while saving player config", e);
+            throw new RuntimeException("Error while saving player config", e);
         }
     }
 }

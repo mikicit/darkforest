@@ -2,6 +2,7 @@ package dev.mikita.darkforest.core.tile;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import lombok.Getter;
 
 /**
  * The type Tile.
@@ -9,14 +10,25 @@ import javafx.scene.image.Image;
  * A class representing a specific tile.
  */
 public class Tile {
-    private final Image image;
+    /**
+     * The tile image.
+     * -- GETTER --
+     * Gets the image.
+     *
+     * @return The image.
+     */
+    @Getter private final Image image;
+
+    /**
+     * The passable.
+     */
     private final boolean passable;
 
     /**
-     * Instantiates a new Tile.
+     * Instantiates a new tile.
      *
-     * @param imagePath the image path
-     * @param passable  the passable
+     * @param imagePath The image path.
+     * @param passable  The passable.
      */
     public Tile(String imagePath, boolean passable) {
         this.passable = passable;
@@ -24,20 +36,13 @@ public class Tile {
     }
 
     /**
-     * Gets image.
-     *
-     * @return the image
-     */
-    public Image getImage() {
-        return image;
-    }
-
-    /**
      * Render.
+     * <p>
+     * Renders the tile.
      *
-     * @param gc the gc
-     * @param x  the x
-     * @param y  the y
+     * @param gc The graphics context.
+     * @param x  The x.
+     * @param y  The y.
      */
     public void render(GraphicsContext gc, double x, double y) {
         gc.drawImage(image, x, y);
@@ -46,7 +51,7 @@ public class Tile {
     /**
      * Is passable boolean.
      *
-     * @return the boolean
+     * @return The boolean. Whether the tile is passable.
      */
     public boolean isPassable() {
         return passable;

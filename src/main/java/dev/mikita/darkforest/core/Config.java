@@ -1,5 +1,6 @@
 package dev.mikita.darkforest.core;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
@@ -8,17 +9,21 @@ import java.nio.file.Paths;
 
 /**
  * The type Config.
- *
+ * <p>
  * Helper class for loading the main application configuration.
  * Provides access to settings anywhere in the application.
  */
+@Slf4j
 public class Config {
+    /**
+     * The json object.
+     */
     private static JSONObject jo;
 
     /**
      * Init.
      *
-     * @param path the path
+     * @param path The path to the configuration file.
      */
     public static void init(String path) {
         File file = new File(path);
@@ -26,14 +31,15 @@ public class Config {
             String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
             jo = new JSONObject(content);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to load configuration file: {}", path);
+            throw new RuntimeException("Failed to load configuration file: " + path);
         }
     }
 
     /**
      * Gets window width.
      *
-     * @return the window width
+     * @return The window width.
      */
     public static int getWindowWidth() {
         return jo.getInt("windowWidth");
@@ -42,7 +48,7 @@ public class Config {
     /**
      * Gets window height.
      *
-     * @return the window height
+     * @return The window height.
      */
     public static int getWindowHeight() {
         return jo.getInt("windowHeight");
@@ -51,7 +57,7 @@ public class Config {
     /**
      * Gets tile size.
      *
-     * @return the tile size
+     * @return The tile size.
      */
     public static int getTileSize() {
         return jo.getInt("tileSize");
@@ -60,7 +66,7 @@ public class Config {
     /**
      * Gets window name.
      *
-     * @return the window name
+     * @return The window name.
      */
     public static String getWindowName() {
         return jo.getString("windowName");
