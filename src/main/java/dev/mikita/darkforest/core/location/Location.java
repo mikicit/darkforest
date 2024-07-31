@@ -32,13 +32,17 @@ public class Location {
 
     /**
      * The location id.
+     * -- GETTER --
+     * Gets location id.
      *
      * @return The current location id.
      */
     @Getter private final int locationId;
 
     /**
-     * The name.
+     * The location name.
+     * -- GETTER --
+     * Gets location name.
      *
      * @return The current location name.
      */
@@ -46,6 +50,8 @@ public class Location {
 
     /**
      * The player.
+     * -- GETTER --
+     * Gets player.
      *
      * @return The current player.
      */
@@ -53,6 +59,8 @@ public class Location {
 
     /**
      * The monsters.
+     * -- GETTER --
+     * Gets monsters.
      *
      * @return The current monsters in the location.
      */
@@ -60,6 +68,8 @@ public class Location {
 
     /**
      * The items.
+     * -- GETTER --
+     * Gets items.
      *
      * @return The current items in the location.
      */
@@ -67,6 +77,8 @@ public class Location {
 
     /**
      * The portals.
+     * -- GETTER --
+     * Gets portals.
      *
      * @return The current portals in the location.
      */
@@ -74,6 +86,8 @@ public class Location {
 
     /**
      * The tile map.
+     * -- GETTER --
+     * Gets tile map.
      *
      * @return The current tile map.
      */
@@ -81,6 +95,8 @@ public class Location {
 
     /**
      * The sprite manager.
+     * -- GETTER --
+     * Gets sprite manager.
      *
      * @return The current sprite manager.
      */

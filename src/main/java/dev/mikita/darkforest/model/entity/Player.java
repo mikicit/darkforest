@@ -92,6 +92,10 @@ public class Player extends ASprite {
      * @return The basic armor.
      */
     @Getter private final double basicArmor;
+
+    /**
+     * The Damage radius.
+     */
     private final double damageRadius;
 
     /**
@@ -108,10 +112,22 @@ public class Player extends ASprite {
      */
     private final double attackSpeed = 300; // in ms
 
-    // Inventory
+    /**
+     * The Inventory.
+     * -- GETTER --
+     * Gets the inventory.
+     *
+     * @return The inventory.
+     */
     @Getter private final Inventory inventory;
 
-    // Equipped Items
+    /**
+     * The Equipment.
+     * -- GETTER --
+     * Gets the equipment.
+     *
+     * @return The equipment.
+     */
     @Getter private final Equipment equipment;
 
     /**

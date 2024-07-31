@@ -14,30 +14,44 @@ import lombok.Getter;
 public abstract class ASprite {
     /**
      * The position x.
+     * -- GETTER --
+     * Gets position x.
      *
      * @return The position x.
      */
     protected double positionX;
+
     /**
      * The position y.
+     * -- GETTER --
+     * Gets position y.
      *
      * @return The position y.
      */
     protected double positionY;
+
     /**
      * The width.
+     * -- GETTER --
+     * Gets width.
      *
      * @return The width.
      */
+
     protected double width;
     /**
      * The weight.
+     * -- GETTER --
+     * Gets weight.
      *
      * @return The weight.
      */
     protected double height;
+
     /**
      * The image.
+     * -- GETTER --
+     * Gets image.
      *
      * @return The image.
      */
