@@ -8,6 +8,7 @@
 - [Usage](#usage)
 - [Architecture and Technologies](#architecture-and-technologies)
 - [Features](#features)
+- [Testing](#testing)
 - [Authors](#authors)
 - [License](#license)
 
@@ -271,6 +272,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 - **Element Configuration**: Easily configure various game elements including characters, locations, items, and portals without altering the source code.
 - **Add New Elements**: Ability to add new locations, items, portals, and other game elements.
 - **Behavior Algorithms for Monsters**: Monsters are controlled by simple behavior algorithms.
+
+## Testing
+
+In the context of the semester project, unit tests were written for some components of the game engine. The primary goal of these tests is to familiarize with the testing process rather than achieving comprehensive code coverage. The tests are located in the `src/test/java` directory.
 
 ## Authors
 
