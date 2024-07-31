@@ -23,30 +23,30 @@ Documentation for the project can be found [here](https://mikicit.github.io/dark
 
 ## Technical Requirements
 
-Для сборки и запуска проекта вам необходима JDK 21 и maven 3.9.8.  
+To build and run the project, you need JDK 21 and Maven 3.9.8.
 
 ## Installation and Setup
 
-Чтобы запустить проект, выполните следующие шаги:
+To run the project, follow these steps:
 
 1. Clone the repository to your computer.
 2. Navigate to the project folder.
-3. Запустите приложение с помощью плагина javafx
-```shell
-mvn javafx:run
-```
+3. Run the application using the JavaFX plugin:
+    ```sh
+    mvn javafx:run
+    ```
 
-Вы также можете собрать проект в jar архив, шаги 1 и 2 остаются прежними, а затем выполните следующую команду:
+You can also build the project into a jar file. Steps 1 and 2 remain the same, then execute the following command:
 ```sh
 mvn clean package
 ```
 
-После этого в директории target появится jar архив, который можно запустить с помощью команды:
+After that, a jar file will appear in the target directory, which can be run with the following command:
 ```sh
 java -jar darkforest-1.0-SNAPSHOT.jar
 ```
 
-Для сборки jar архива со всеми зависимостями используется плагин maven-shade-plugin. Следовательно, вы можете перемещать jar архив в любое место на вашем компьютере и запускать его без необходимости установки дополнительных библиотек. Главное не забудьте поместить вместе с jar архивом директорию config с конфигурационными файлами.
+The maven-shade-plugin is used to build the jar file with all dependencies. Therefore, you can move the jar file anywhere on your computer and run it without needing to install additional libraries. Just make sure to include the config directory with the configuration files alongside the jar file.
 
 ## Usage
 
@@ -104,7 +104,7 @@ Almost everything in the game can be set up with configuration files, without th
 
 ### Configuration
 
-Все конфигурационные файлы расположены в директории config.
+All configuration files are located in the config directory. The game uses JSON and txt files to configure the game elements.
 
 #### Player
 
