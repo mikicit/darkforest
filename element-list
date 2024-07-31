@@ -1,0 +1,16 @@
+dev.mikita.darkforest
+dev.mikita.darkforest.controller
+dev.mikita.darkforest.core
+dev.mikita.darkforest.core.factory
+dev.mikita.darkforest.core.location
+dev.mikita.darkforest.core.sprite
+dev.mikita.darkforest.core.tile
+dev.mikita.darkforest.model
+dev.mikita.darkforest.model.component
+dev.mikita.darkforest.model.entity
+dev.mikita.darkforest.model.entity.Item
+dev.mikita.darkforest.model.entity.Item.bottle
+dev.mikita.darkforest.model.entity.Item.equipment
+dev.mikita.darkforest.view
+dev.mikita.darkforest.view.component.game
+dev.mikita.darkforest.view.component.inventory
