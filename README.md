@@ -54,31 +54,31 @@ The maven-shade-plugin is used to build the jar file with all dependencies. Ther
 
 Once the user launches the application, the main menu is displayed.
 
-![image](https://user-images.githubusercontent.com/30042943/178839527-e3eb28e6-36f2-47a0-ba43-5e2a5c6ad6e0.png)
+![Main Menu](https://github.com/mikicit/darkforest/raw/images/main_menu.png)
 
 ### Game World
 
 Next, the user presses the "Start Game" button to begin the game. The player will find himself in an open world. The player can navigate the map using the **W**, **A**, **S**, **D** keys.
 
-![image](https://user-images.githubusercontent.com/30042943/178840949-e41a7db9-089f-410d-95a7-fe5a5c28336a.png)
+![Game World](https://github.com/mikicit/darkforest/raw/images/game_world.png)
 
-### Combat system
+### Combat System
 
 Using the "**J**" key, the player can attack the enemy. Each monster has its own speed, visibility and attack radius. If a monster notices you, it will move after you until it dies, until you kill it or change location (through a portal).
 
-![image](https://user-images.githubusercontent.com/30042943/178839964-4586c665-929f-4f9a-b706-54bf11d18c83.png)
+![Combat System](https://github.com/mikicit/darkforest/raw/images/combat_system.png)
 
 ### Game Menu
 
 During the game the player can open the game menu by pressing a key **Escape**. During this time the game will be paused. In the game menu the player can exit to the main menu, save the game, load the game or exit the game.
 
-![image](https://user-images.githubusercontent.com/30042943/178841445-ccfc4c17-7c9c-46c1-984a-56e0c09b6c9b.png)
+![Game Menu](https://github.com/mikicit/darkforest/raw/images/game_menu.png)
 
 ### Inventory
 
 The player can collect various items on the map, which he can then see in his inventory, which he can go to by pressing **I**. There will only be three types of items in the game (**weapons**, **armor** and **healing potions**). The player will be able to equip weapons and armor and use potions.
 
-![image](https://user-images.githubusercontent.com/30042943/178840251-7eb2c81a-1539-4bc5-b78e-1d6297944a67.png)
+![Inventory](https://github.com/mikicit/darkforest/raw/images/inventory.png)
 
 The player can also select items in the inventory using the **W**, **A**, **S**, **D** keys, put on or take off an item using the **J** key, use an item using the **K** key, and delete an item using the **L** key. The currently selected item and items that are already equipped will stand out with different colors. To return back to the game, the player can use the "Escape" key.
 
@@ -86,13 +86,13 @@ The player can also select items in the inventory using the **W**, **A**, **S**,
 
 There are portals in the game that allow you to move between locations.
 
-![image](https://user-images.githubusercontent.com/30042943/178841855-1531919b-43cd-49ee-a9ea-18f4449cd6d5.png)
+![Portals](https://github.com/mikicit/darkforest/raw/images/portals.png)
 
-### End game
+### End Game
 
 If the player dies, the game will start again.
 
-![image](https://user-images.githubusercontent.com/30042943/178840701-35adb011-6bca-4081-8498-1b8e45bdfed4.png)
+![End Game](https://github.com/mikicit/darkforest/raw/images/game_over.png)
 
 ## Architecture and Technologies
 
